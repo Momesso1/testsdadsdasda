@@ -10,3 +10,5 @@ O pacote ``manipulation`` coordena tudo relacionado ao braço robótico.
    SimpleManipulation/index
    IsGripperHolding/index
    AddCollision/index
+   ProjectedReachabilityAnalysis/index
+   IKValidator/index

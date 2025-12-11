@@ -1,0 +1,285 @@
+Documentação do Server Node (Atual v1.1)
+========================================
+
+O ``ServerNode`` v1.1 representa uma evolução significativa na inteligência do robô.
+Além de orquestrar a navegação e manipulação via **Behavior Trees**, esta versão integra verificação cinemática avançada e monitoramento de caminho em tempo real através de acesso direto à memória (Shared Pointers).
+
+.. note::
+   **Arquitetura Híbrida:** O nó continua sendo **Multi-Threaded**, mas agora atua como um *Container* para vários outros componentes (`Reachability`, `ObstacleGraph`, `IKValidator`), instanciados via composição para eliminar a latência de comunicação ROS.
+
+---
+
+1. Novidades da Versão 1.1
+--------------------------
+
+A principal mudança nesta versão é a transição de uma abordagem puramente "reativa" para uma abordagem "deliberativa com verificação contínua".
+
+* **Validação Cinemática (IsReachable):** Antes de navegar, o robô verifica se a posição de destino permite fisicamente que o braço alcance o objeto (IK Check).
+* **Monitoramento de Caminho (IsPathClear):** Enquanto o robô pensa ou executa tarefas, o nó verifica se o caminho calculado anteriormente foi obstruído por novos obstáculos dinâmicos.
+* **Grafo de Obstáculos Compartilhado:** O mapa de obstáculos não é mais recebido apenas por tópicos, mas acessado via ponteiro compartilhado do nó :doc:`Obstacle Graph v1.0 <../../navigation/SharedObstacleGraph/shared_obstacle_graph_v1.0>` para consultas de complexidade O(1).
+* **Análise de Alcançabilidade Projetada:** Essa análise agora é feita via ponteiro compartilhado pelo nó :doc:`Projected Reachability Analysis v1.0 <../../manipulation/ProjectedReachabilityAnalysis/projected_reachability_analysis_v1.0>`.
+
+---
+
+2. Estrutura e Inicialização
+----------------------------
+
+A classe principal agora recebe uma lista expandida de dependências injetadas. Isso permite que os nós de lógica acessem os dados de percepção e mapeamento diretamente.
+
+**Construtor:**
+Inicializa os clientes de ação e subscreve aos tópicos essenciais. Note a injeção de `ik_validator_node` e `obstacle_graph_node`.
+
+.. literalinclude:: ../../../../../docs_central/legacy_src/task_planning/server_node_v1.1.cpp
+   :language: cpp
+   :start-after: // DOC-START: ServerNode
+   :end-before: // DOC-END: ServerNode
+
+**Composição de Nós (Main):**
+O arquivo `main` demonstra a arquitetura de **Componentes**. Em vez de iniciar processos separados, os nós auxiliares são criados na mesma heap de memória e passados para o `ServerNode`.
+
+.. literalinclude:: ../../../../../docs_central/legacy_src/task_planning/server_node_v1.1.cpp
+   :language: cpp
+   :start-after: // DOC-START: main
+   :end-before: // DOC-END: main
+
+---
+
+3. Detalhamento dos Nós da Behavior Tree
+----------------------------------------
+
+Abaixo descrevemos a implementação lógica de cada nó registrado na fábrica da BT.
+
+Condições de Verificação (Guards)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**IsPathClear (Novo na v1.1)**
+Esta condição é crucial para a segurança dinâmica. Ela verifica se o caminho de navegação atual (`last_no_filter_calculated_path_`) colide com algum obstáculo recém-detectado.
+
+* **Funcionamento:**
+  1. Obtém um *snapshot* (cópia leitura) do mapa atual via `obstacle_graph_node`.
+  2. Itera sobre todos os pontos do caminho planejado.
+  3. Se algum ponto do caminho coincidir com um obstáculo no mapa, retorna **FAILURE**.
+  4. Em caso de falha, aciona imediatamente `cancel_controller_goal()` para parar o robô.
+
+.. literalinclude:: ../../../../../docs_central/legacy_src/task_planning/server_node_v1.1.cpp
+   :language: cpp
+   :start-after: // DOC-START: BT_IsPathClear
+   :end-before: // DOC-END: BT_IsPathClear
+
+**IsReachable (Novo na v1.1)**
+
+Verifica se o alvo é alcançável pelo braço robótico a partir da posição atual considerando as colisões do Moveit.
+
+* **Lógica:**
+  1. Consulta o `reachability_node` para obter um anel de posições 2D viáveis ao redor do objeto.
+  2. Utiliza o `ik_validator_node` para testar soluções de Cinemática Inversa (IK) nessas posições, considerando os obstáculos 3D atuais.
+  3. Se a posição atual do robô for válida, retorna **SUCCESS**.
+  4. Se a posição atual for ruim, mas existir uma posição válida próxima, calcula a pose de ajuste e retorna **FAILURE** (forçando a árvore a executar uma ação de navegação para o `adjustment_pose`).
+
+.. literalinclude:: ../../../../../docs_central/legacy_src/task_planning/server_node_v1.1.cpp
+   :language: cpp
+   :start-after: // DOC-START: BT_IsReachable
+   :end-before: // DOC-END: BT_IsReachable
+
+**IsGripperHoldingObject**
+Verifica fisicamente se o objeto está seguro na garra através de sensores de força/contato.
+
+.. literalinclude:: ../../../../../docs_central/legacy_src/task_planning/server_node_v1.1.cpp
+   :language: cpp
+   :start-after: // DOC-START: BT_IsGripperHoldingObject
+   :end-before: // DOC-END: BT_IsGripperHoldingObject
+
+Ações de Navegação
+^^^^^^^^^^^^^^^^^^
+
+**ComputePath**
+Solicita o cálculo de rota ao planejador global (A* ou D*). O nó é assíncrono para não bloquear a árvore.
+
+.. literalinclude:: ../../../../../docs_central/legacy_src/task_planning/server_node_v1.1.cpp
+   :language: cpp
+   :start-after: // DOC-START: BT_ComputePath
+   :end-before: // DOC-END: BT_ComputePath
+
+**FollowPath (Antigo NavigateTo)**
+Envia o caminho calculado para o controlador de base (`RobotController`). Monitora o sucesso da execução.
+
+.. literalinclude:: ../../../../../docs_central/legacy_src/task_planning/server_node_v1.1.cpp
+   :language: cpp
+   :start-after: // DOC-START: BT_FollowPath
+   :end-before: // DOC-END: BT_FollowPath
+
+Ações de Percepção e Contexto
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**DetectObject**
+Gerencia a fila de detecções da visão computacional. Funciona como um *latch*: uma vez que um objeto válido é detectado, ele é travado como alvo até que `ClearTarget` seja chamado.
+
+.. literalinclude:: ../../../../../docs_central/legacy_src/task_planning/server_node_v1.1.cpp
+   :language: cpp
+   :start-after: // DOC-START: BT_DetectObject
+   :end-before: // DOC-END: BT_DetectObject
+
+**ClearTarget**
+Limpa o alvo atual, permitindo que o robô busque novos objetos.
+
+.. literalinclude:: ../../../../../docs_central/legacy_src/task_planning/server_node_v1.1.cpp
+   :language: cpp
+   :start-after: // DOC-START: BT_ClearTarget
+   :end-before: // DOC-END: BT_ClearTarget
+
+Ações de Manipulação e Estoque
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**PickObject & PlaceObject**
+Interfaces assíncronas para o `MoveIt 2`. Enviam a pose alvo e monitoram o estado da execução do braço.
+
+.. literalinclude:: ../../../../../docs_central/legacy_src/task_planning/server_node_v1.1.cpp
+   :language: cpp
+   :start-after: // DOC-START: BT_PickObject
+   :end-before: // DOC-END: BT_PickObject
+
+.. literalinclude:: ../../../../../docs_central/legacy_src/task_planning/server_node_v1.1.cpp
+   :language: cpp
+   :start-after: // DOC-START: BT_PlaceObject
+   :end-before: // DOC-END: BT_PlaceObject
+
+**GetStorageInfo**
+Consulta o banco de dados para encontrar uma caixa vazia compatível com o objeto.
+
+.. literalinclude:: ../../../../../docs_central/legacy_src/task_planning/server_node_v1.1.cpp
+   :language: cpp
+   :start-after: // DOC-START: BT_GetStorageInfo
+   :end-before: // DOC-END: BT_GetStorageInfo
+
+**ComputePoseToOrganize**
+Calcula a posição exata dentro da caixa (Bin Packing).
+
+.. literalinclude:: ../../../../../docs_central/legacy_src/task_planning/server_node_v1.1.cpp
+   :language: cpp
+   :start-after: // DOC-START: BT_ComputePoseToOrganize
+   :end-before: // DOC-END: BT_ComputePoseToOrganize
+
+---
+
+4. Callbacks de Percepção
+-------------------------
+
+Callbacks essenciais para o funcionamento reativo do sistema.
+
+**Callback de Odometria:**
+Mantém a posição global do robô atualizada para uso nas verificações de distância.
+
+.. literalinclude:: ../../../../../docs_central/legacy_src/task_planning/server_node_v1.1.cpp
+   :language: cpp
+   :start-after: // DOC-START: odom_callback
+   :end-before: // DOC-END: odom_callback
+
+**Callback de Detecção:**
+Filtra objetos permitidos e gerencia a flag `has_new_object_` para acordar a thread da BT.
+
+.. literalinclude:: ../../../../../docs_central/legacy_src/task_planning/server_node_v1.1.cpp
+   :language: cpp
+   :start-after: // DOC-START: detection_callback
+   :end-before: // DOC-END: detection_callback
+
+---
+
+5. Implementação das Actions e Comparativo (v1.0 vs v1.1)
+---------------------------------------------------------
+
+A comunicação assíncrona com os servidores de ação (Path Planner, Controller e Manipulação) sofreu refatorações importantes para garantir a integridade dos dados em um ambiente *multithreaded*.
+
+Action de Planejamento de Caminho (Path Planning)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+A principal diferença arquitetural na v1.1 é a **remoção do Callback de Feedback**.
+Na v1.0, o nó dependia do feedback do servidor para saber se um recálculo estava ocorrendo. Na v1.1, a verificação de obstrução foi movida para a Behavior Tree (nó `IsPathClear`), tornando a chamada de ação mais limpa e atômica.
+
+**v1.1 (Atual): Thread-Safe e Sem Feedback**
+
+Observe o uso intensivo de ``std::lock_guard`` para proteger os ponteiros dos Goals e os vetores de caminho. Isso previne "race conditions" quando a BT cancela e reinicia tarefas rapidamente.
+
+.. literalinclude:: ../../../../../docs_central/legacy_src/task_planning/server_node_v1.1.cpp
+   :language: cpp
+   :start-after: // DOC-START: send_path_goal
+   :end-before: // DOC-END: send_path_goal
+
+.. note::
+   **Diferença Crítica v1.0 vs v1.1:**
+   Na **v1.0**, o código configurava ``send_goal_options.feedback_callback``. Isso criava uma dependência complexa onde o servidor de planejamento podia cancelar o controlador de base remotamente.
+   Na **v1.1**, essa lógica foi removida. O ``ServerNode`` agora apenas recebe o caminho final. A responsabilidade de verificar colissões dinâmicas passa para o nó ``IsPathClear``, desacoplando o planejamento da execução.
+
+**Callbacks de Resposta (v1.1)**
+
+O tratamento do resultado na v1.1 agora armazena duas versões do caminho: com e sem filtro de inflação, permitindo validações mais precisas de *Reachability*.
+
+.. literalinclude:: ../../../../../docs_central/legacy_src/task_planning/server_node_v1.1.cpp
+   :language: cpp
+   :start-after: // DOC-START: path_goal_response_callback
+   :end-before: // DOC-END: path_goal_response_callback
+
+.. literalinclude:: ../../../../../docs_central/legacy_src/task_planning/server_node_v1.1.cpp
+   :language: cpp
+   :start-after: // DOC-START: path_result_callback
+   :end-before: // DOC-END: path_result_callback
+
+Action de Controle de Base (Controller)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+A v1.1 introduz uma limpeza proativa da memória de caminho ao finalizar o movimento.
+
+**v1.1 (Atual): Gestão de Estado**
+
+.. literalinclude:: ../../../../../docs_central/legacy_src/task_planning/server_node_v1.1.cpp
+   :language: cpp
+   :start-after: // DOC-START: send_controller_goal
+   :end-before: // DOC-END: send_controller_goal
+
+**Callbacks de Execução (v1.1)**
+
+Observe a lógica no ``controller_result_callback``.
+
+.. literalinclude:: ../../../../../docs_central/legacy_src/task_planning/server_node_v1.1.cpp
+   :language: cpp
+   :start-after: // DOC-START: controller_result_callback
+   :end-before: // DOC-END: controller_result_callback
+
+
+Action de Manipulação (Pick/Place)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+A estrutura de envio de metas de manipulação manteve-se similar à v1.0, mas a robustez no tratamento de timeouts (espera do servidor) foi aumentada.
+
+.. literalinclude:: ../../../../../docs_central/legacy_src/task_planning/server_node_v1.1.cpp
+   :language: cpp
+   :start-after: // DOC-START: send_goal
+   :end-before: // DOC-END: send_goal
+
+.. literalinclude:: ../../../../../docs_central/legacy_src/task_planning/server_node_v1.1.cpp
+   :language: cpp
+   :start-after: // DOC-START: goal_response_callback
+   :end-before: // DOC-END: goal_response_callback
+
+.. literalinclude:: ../../../../../docs_central/legacy_src/task_planning/server_node_v1.1.cpp
+   :language: cpp
+   :start-after: // DOC-START: result_callback
+   :end-before: // DOC-END: result_callback
+
+Utilitários e Cancelamento
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**Cancelamento de Metas (Novo na v1.1)**
+
+Função auxiliar vital para a segurança, utilizada quando a BT detecta uma falha (ex: obstáculo novo) e precisa interromper o robô imediatamente.
+
+.. literalinclude:: ../../../../../docs_central/legacy_src/task_planning/server_node_v1.1.cpp
+   :language: cpp
+   :start-after: // DOC-START: cancel_controller_goal
+   :end-before: // DOC-END: cancel_controller_goal
+
+**Debug de Posição**
+
+.. literalinclude:: ../../../../../docs_central/legacy_src/task_planning/server_node_v1.1.cpp
+   :language: cpp
+   :start-after: // DOC-START: publish_pose
+   :end-before: // DOC-END: publish_pose

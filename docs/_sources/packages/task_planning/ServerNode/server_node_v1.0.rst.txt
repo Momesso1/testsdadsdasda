@@ -1,10 +1,13 @@
-server_node.cpp (Atual v1.0)
+server_node.cpp (Legado v1.0)
 ========================================
 
 O ``ServerNode`` atua como o **cérebro central** do robô.
 Este nó utiliza **Behavior Trees (Árvores de Comportamento)**, permitindo que o sistema seja reativo: novos objetos são percebidos dinamicamente e falhas na navegação acionam rotinas de recuperação.
 
 O nó funciona como um coordenador, gerenciando os pacotes de **Navegação** (Navigation2), **Manipulação** (MoveIt 2) e **Visão** (YOLO).
+
+.. warning::
+   Este código é legado. A versão seguinte (v1.1) lida com validação de IK e se comunica de forma mais simples com os nós que fazem o caminho.
 
 .. note::
    A arquitetura deste nó é **Multi-Threaded**. O ROS 2 opera em uma thread (para recepção de callbacks de sensores) e a Behavior Tree executa em outra (para a tomada de decisões). Tal arquitetura exige o uso cuidadoso de `std::mutex` para evitar conflitos de dados.

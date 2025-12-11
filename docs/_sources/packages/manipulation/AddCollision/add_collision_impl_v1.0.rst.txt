@@ -50,7 +50,7 @@ Permite que o obstáculo se mova na cena virtual conforme ele se move no mundo r
    :end-before: // DOC-END: move_collision_box
 
 **Filtro de Ruído (Histerese):**
-Para evitar que o objeto fique "vibrando" na cena devido a pequenos ruídos do sensor, aplicamos um limiar mínimo de movimento.
+Para evitar que o objeto fique "vibrando" na cena devido a pequenos ruídos do sensor, foi aplicado um limiar mínimo de movimento.
 
 .. literalinclude:: ../../../../../docs_central/legacy_src/manipulation/AddCollision/add_collision_impl_v1.0.cpp
    :language: cpp

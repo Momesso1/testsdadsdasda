@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Referência dos Nós da Behavior Tree (v1.1) &mdash; Mobile Robot Documentation 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=86f27845" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=8f9e6779" />
+
+  
+  
+        <script src="../../../_static/jquery.js?v=8dae8fb0"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../../_static/clipboard.min.js?v=66b4909c"></script>
+        <script src="../../../_static/copybutton.js?v=71494f10"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Manipulation" href="../../manipulation/index.html" />
+    <link rel="prev" title="Referência dos Nós da Behavior Tree (Legado v1.0)" href="bt_v1.0.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Mobile Robot Documentation
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Pacotes do Sistema:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Task Planning</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../ServerNode/index.html">ServerNode</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../ServerNode/server_node_v1.0.html">server_node.cpp (Legado v1.0)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../ServerNode/server_node_v1.0.html#adaptacao-para-behaviortree-cpp">1. Adaptação para BehaviorTree.CPP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../ServerNode/server_node_v1.0.html#classe-principal-servernode">2. Classe Principal: ServerNode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../ServerNode/server_node_v1.0.html#estruturas-de-dados-e-variaveis-internas">3. Estruturas de Dados e Variáveis Internas</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../ServerNode/server_node_v1.0.html#callbacks-de-percepcao-inputs">4. Callbacks de Percepção (Inputs)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../ServerNode/server_node_v1.0.html#integracao-com-navegacao">5. Integração com Navegação</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../ServerNode/server_node_v1.0.html#integracao-com-manipulacao">6. Integração com Manipulação</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../ServerNode/server_node_v1.0.html#analise-de-alcancabilidade-projetada">7. Análise de Alcançabilidade Projetada</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../ServerNode/server_node_v1.0.html#utilitarios-e-main">8. Utilitários e Main</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../ServerNode/server_node_v1.1.html">Documentação do Server Node (Atual v1.1)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../ServerNode/server_node_v1.1.html#novidades-da-versao-1-1">1. Novidades da Versão 1.1</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../ServerNode/server_node_v1.1.html#estrutura-e-inicializacao">2. Estrutura e Inicialização</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../ServerNode/server_node_v1.1.html#detalhamento-dos-nos-da-behavior-tree">3. Detalhamento dos Nós da Behavior Tree</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../ServerNode/server_node_v1.1.html#callbacks-de-percepcao">4. Callbacks de Percepção</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../ServerNode/server_node_v1.1.html#implementacao-das-actions-e-comparativo-v1-0-vs-v1-1">5. Implementação das Actions e Comparativo (v1.0 vs v1.1)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">BT</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="bt_v1.0.html">Referência dos Nós da Behavior Tree (Legado v1.0)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="bt_v1.0.html#indice-rapido">Índice Rápido</a></li>
+<li class="toctree-l4"><a class="reference internal" href="bt_v1.0.html#controle-customizado">Controle Customizado</a></li>
+<li class="toctree-l4"><a class="reference internal" href="bt_v1.0.html#condicoes-conditions">Condições (Conditions)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="bt_v1.0.html#percepcao-e-contexto">Percepção e Contexto</a></li>
+<li class="toctree-l4"><a class="reference internal" href="bt_v1.0.html#navegacao-navigation-stack">Navegação (Navigation Stack)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="bt_v1.0.html#manipulacao-moveit-integration">Manipulação (MoveIt Integration)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="bt_v1.0.html#gerenciamento-de-estoque-storage">Gerenciamento de Estoque (Storage)</a></li>
+</ul>
+</li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Referência dos Nós da Behavior Tree (v1.1)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#indice-rapido">Índice Rápido</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#controle-customizado">Controle Customizado</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#condicoes-conditions">Condições (Conditions)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#percepcao-e-contexto">Percepção e Contexto</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#navegacao-navigation-stack">Navegação (Navigation Stack)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#manipulacao-moveit-integration">Manipulação (MoveIt Integration)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gerenciamento-de-estoque-storage">Gerenciamento de Estoque (Storage)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../manipulation/index.html">Manipulation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../manipulation/SimpleManipulation/index.html">SimpleManipulation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html">manipulation_impl.cpp (Legado v1.0)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#demonstracao">Demonstração</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#construtor-e-inicializacao">1. Construtor e Inicialização</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#destrutor-cleanup">2. Destrutor (Cleanup)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#carregamento-de-parametros-yaml">3. Carregamento de Parâmetros (YAML)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#inicializacao-do-movegroup">4. Inicialização do MoveGroup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#posicao-de-seguranca-ready">5. Posição de Segurança (Ready)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#controle-da-garra-end-effector">6. Controle da Garra (End-Effector)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#planejamento-cartesiano-linha-reta">7. Planejamento Cartesiano (Linha Reta)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#planejamento-livre-rrtconnect">8. Planejamento Livre (RRTConnect)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#logica-central-pick-place">9. Lógica Central: Pick &amp; Place</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#gerenciamento-de-colisoes-acm">10. Gerenciamento de Colisões (ACM)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#requisicao-de-servicos-externos">11. Requisição de Serviços Externos</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#callbacks-do-action-server">12. Callbacks do Action Server</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#callback-do-sensor">13. Callback do Sensor</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html">manipulation_impl.cpp (Atual v1.1 - Tentativa de recuperação)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#demonstracao">Demonstração</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#construtor-e-configuracao">1. Construtor e Configuração</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#destrutor-limpeza">2. Destrutor (Limpeza)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#carregamento-de-parametros-yaml">3. Carregamento de Parâmetros (YAML)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#inicializacao-tardia-movegroup">4. Inicialização Tardia (MoveGroup)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#posicao-de-seguranca-ready">5. Posição de Segurança (Ready)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#controle-da-garra">6. Controle da Garra</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#planejamento-de-movimento">7. Planejamento de Movimento</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#logica-central-pick-place-e-retry">8. Lógica Central: Pick, Place e Retry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#gerenciamento-de-colisoes">9. Gerenciamento de Colisões</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#servicos-externos">10. Serviços Externos</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#atualizacao-de-pose-novo">11. Atualização de Pose (Novo)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#action-callbacks">12. Action Callbacks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#callback-do-sensor">13. Callback do Sensor</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../manipulation/IsGripperHolding/index.html">IsGripperHolding</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../manipulation/IsGripperHolding/is_gripper_holding_impl_v1.0.html">is_gripper_holding_impl.cpp (Atual v1.0 - Composable Node)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/IsGripperHolding/is_gripper_holding_impl_v1.0.html#integracao-com-servernode-composicao">Integração com ServerNode (Composição)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/IsGripperHolding/is_gripper_holding_impl_v1.0.html#implementacao">Implementação</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../manipulation/AddCollision/index.html">AddCollision</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../manipulation/AddCollision/add_collision_impl_v1.0.html">add_collision_impl.cpp (Atual v1.0)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/AddCollision/add_collision_impl_v1.0.html#inicializacao-e-configuracao">Inicialização e Configuração</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/AddCollision/add_collision_impl_v1.0.html#filtragem-de-objetos-yaml">Filtragem de Objetos (YAML)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/AddCollision/add_collision_impl_v1.0.html#atualizacao-da-cena-moveit-interface">Atualização da Cena (MoveIt Interface)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/AddCollision/add_collision_impl_v1.0.html#logica-de-congelamento-service">Lógica de Congelamento (Service)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/AddCollision/add_collision_impl_v1.0.html#processamento-de-deteccoes">Processamento de Detecções</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../manipulation/ProjectedReachabilityAnalysis/index.html">ProjectedReachabilityAnalysis</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../manipulation/ProjectedReachabilityAnalysis/projected_reachability_analysis_v1.0.html">projected_reachability_analysis.cpp (Atual v1.0)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/ProjectedReachabilityAnalysis/projected_reachability_analysis_v1.0.html#matematica-da-projecao-3d-2d">1. Matemática da Projeção 3D -&gt; 2D</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/ProjectedReachabilityAnalysis/projected_reachability_analysis_v1.0.html#parametros-e-inicializacao">2. Parâmetros e Inicialização</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/ProjectedReachabilityAnalysis/projected_reachability_analysis_v1.0.html#algoritmo-de-expansao-bfs">3. Algoritmo de Expansão (BFS)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../manipulation/IKValidator/index.html">IKValidator</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../manipulation/IKValidator/ik_validator_v1.0.html">ik_validator.cpp (Atual v1.0)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/IKValidator/ik_validator_v1.0.html#inicializacao-assincrona-e-monitoramento-de-cena">1. Inicialização Assíncrona e Monitoramento de Cena</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/IKValidator/ik_validator_v1.0.html#o-algoritmo-de-validacao-find-best-base">2. O Algoritmo de Validação (Find Best Base)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/IKValidator/ik_validator_v1.0.html#demonstracao-visual">3. Demonstração visual</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../storage_manager/index.html">Storage Manager</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../storage_manager/Organize/index.html">Organize</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../storage_manager/Organize/organize_v1.0.html">organize.cpp (Atual v1.0 - Composable Node)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../storage_manager/Organize/organize_v1.0.html#arquitetura-de-composicao">Arquitetura de Composição</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../storage_manager/Organize/organize_v1.0.html#logica-de-empacotamento-bin-packing">Lógica de Empacotamento (Bin Packing)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../storage_manager/GetStorageInfo/index.html">GetStorageInfo</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../storage_manager/GetStorageInfo/get_storage_info_v1.0.html">get_storage_info.cpp (Atual v1.0 - Composable Node)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../storage_manager/GetStorageInfo/get_storage_info_v1.0.html#arquitetura-de-composicao">Arquitetura de Composição</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../storage_manager/GetStorageInfo/get_storage_info_v1.0.html#logica-de-selecao-best-storage">Lógica de Seleção (Best Storage)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../storage_manager/GetStorageInfo/get_storage_info_v1.0.html#gerenciamento-de-estado">Gerenciamento de Estado</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../storage_manager/GetStorageInfo/get_storage_info_v1.0.html#carregamento-de-dados-yaml">Carregamento de Dados (YAML)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../storage_manager/GetStorageInfo/get_storage_info_v1.0.html#calculo-de-limites">Cálculo de Limites</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../navigation/index.html">Navigation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../navigation/AStar/index.html">AStar</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../navigation/AStar/a_star_v1.0.html">a_star.cpp (Legado v1.0)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.0.html#inicializacao-e-parametros">Inicialização e Parâmetros</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.0.html#estruturas-de-dados">Estruturas de Dados</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.0.html#mapeamento-e-grid">Mapeamento e Grid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.0.html#recuperacao-de-alvo-bfs">Recuperação de Alvo (BFS)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.0.html#execucao-do-a-core">Execução do A* (Core)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.0.html#poda-de-seguranca-stop-distance">Poda de Segurança (Stop Distance)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.0.html#pos-processamento-e-suavizacao">Pós-Processamento e Suavização</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.0.html#execucao-e-recalculo-dinamico">Execução e Recálculo Dinâmico</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../navigation/AStar/a_star_v1.1.html">a_star.cpp (Atual v1.1)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.1.html#mudancas-criticas-v1-0-vs-v1-1">1. Mudanças Críticas: v1.0 vs v1.1</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.1.html#parametros-e-inicializacao">2. Parâmetros e Inicialização</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.1.html#core-do-algoritmo-a-com-otimizacao-de-raio">3. Core do Algoritmo: A* com Otimização de Raio</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.1.html#pos-processamento-filtro-e-orientacao">4. Pós-Processamento: Filtro e Orientação</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.1.html#implementacao-da-action-execute">5. Implementação da Action (Execute)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../navigation/AStarSplicing/index.html">AStarSplicing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../navigation/AStarSplicing/a_star_splicing_v1.0.html">a_star_splicing.cpp (Legado v1.0 - Planejador Dinâmico)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStarSplicing/a_star_splicing_v1.0.html#inicializacao-e-parametros">Inicialização e Parâmetros</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStarSplicing/a_star_splicing_v1.0.html#estruturas-de-dados">Estruturas de Dados</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStarSplicing/a_star_splicing_v1.0.html#mapeamento-e-grid">Mapeamento e Grid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStarSplicing/a_star_splicing_v1.0.html#recuperacao-de-alvo-bfs">Recuperação de Alvo (BFS)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStarSplicing/a_star_splicing_v1.0.html#motor-de-busca-a">Motor de Busca (A*)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStarSplicing/a_star_splicing_v1.0.html#poda-de-seguranca-stop-distance">Poda de Segurança (Stop Distance)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStarSplicing/a_star_splicing_v1.0.html#pos-processamento-e-suavizacao">Pós-Processamento e Suavização</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStarSplicing/a_star_splicing_v1.0.html#execucao-dinamica-path-splicing">Execução Dinâmica: Path Splicing</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../navigation/ObstacleGraph/index.html">OccupancyGridLoader</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../navigation/ObstacleGraph/obstacle_graph_with_occupancy_grid_v1.0.html">obstacle_graph_with_occupancy_grid.cpp (Atual v1.0)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/ObstacleGraph/obstacle_graph_with_occupancy_grid_v1.0.html#inicializacao-e-parametros">Inicialização e Parâmetros</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/ObstacleGraph/obstacle_graph_with_occupancy_grid_v1.0.html#estruturas-de-dados-hash-otimizado">Estruturas de Dados (Hash Otimizado)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/ObstacleGraph/obstacle_graph_with_occupancy_grid_v1.0.html#funcoes-auxiliares-discretizacao">Funções Auxiliares (Discretização)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/ObstacleGraph/obstacle_graph_with_occupancy_grid_v1.0.html#leitura-do-mapa-opencv-yaml">Leitura do Mapa (OpenCV + YAML)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/ObstacleGraph/obstacle_graph_with_occupancy_grid_v1.0.html#inflacao-de-obstaculos-safety-padding">Inflação de Obstáculos (Safety Padding)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/ObstacleGraph/obstacle_graph_with_occupancy_grid_v1.0.html#publicacao-pointcloud2">Publicação (PointCloud2)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../navigation/RobotController/index.html">RobotController</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../navigation/RobotController/controller_v1.0.html">controller.cpp (Atual v1.0)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/RobotController/controller_v1.0.html#inicializacao">Inicialização</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/RobotController/controller_v1.0.html#odometria-e-utilitarios">Odometria e Utilitários</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/RobotController/controller_v1.0.html#loop-de-controle-execute">Loop de Controle (Execute)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../navigation/SharedObstacleGraph/index.html">SharedObstacleGraph</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../navigation/SharedObstacleGraph/shared_obstacle_graph_v1.0.html">Shared Obstacle Graph</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/SharedObstacleGraph/shared_obstacle_graph_v1.0.html#estrategia-de-concorrencia-double-buffering">1. Estratégia de Concorrência (Double Buffering)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/SharedObstacleGraph/shared_obstacle_graph_v1.0.html#acesso-aos-dados">2. Acesso aos Dados</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/SharedObstacleGraph/shared_obstacle_graph_v1.0.html#discretizacao-e-hashing">3. Discretização e Hashing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/SharedObstacleGraph/shared_obstacle_graph_v1.0.html#inicializacao-e-parametros">4. Inicialização e Parâmetros</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../mobile_bringup/index.html">Mobile Bringup</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../mobile_bringup/mobile_manipulation.html">Launch File Inteligente (Bringup)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../mobile_bringup/mobile_manipulation.html#funcionamento-da-analise-xml">Funcionamento da Análise XML</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../mobile_bringup/mobile_manipulation.html#configuracao-de-nos-componiveis-servernode">Configuração de Nós Componíveis (ServerNode)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../mobile_bringup/mobile_manipulation.html#carregamento-dinamico-de-processos">Carregamento Dinâmico de Processos</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../mobile_manipulation_interfaces/index.html">Mobile Manipulation Interfaces</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../mobile_manipulation_interfaces/index.html#actions-acoes-assincronas">Actions (Ações Assíncronas)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../mobile_manipulation_interfaces/index.html#pickobject">PickObject</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../mobile_manipulation_interfaces/index.html#path">Path</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../mobile_manipulation_interfaces/index.html#controller">Controller</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../mobile_manipulation_interfaces/index.html#services-servicos-sincronos">Services (Serviços Síncronos)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../mobile_manipulation_interfaces/index.html#mobileobjectcollision">MobileObjectCollision</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Mobile Robot Documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Task Planning</a></li>
+          <li class="breadcrumb-item"><a href="index.html">BT</a></li>
+      <li class="breadcrumb-item active">Referência dos Nós da Behavior Tree (v1.1)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/packages/task_planning/BT/bt_v1.1.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="referencia-dos-nos-da-behavior-tree-v1-1">
+<h1>Referência dos Nós da Behavior Tree (v1.1)<a class="headerlink" href="#referencia-dos-nos-da-behavior-tree-v1-1" title="Link to this heading"></a></h1>
+<p>Esta seção documenta a biblioteca de nós (Nodes) desenvolvidos para a composição das árvores de comportamento do projeto (Versão 1.1).</p>
+<ol class="arabic simple">
+<li><p>Demonstração da BT na simulação</p></li>
+</ol>
+<div style="text-align: center; margin-bottom: 20px; border: 1px solid #ccc; padding: 10px;">
+    <p><em>Visualização do comportamento da BT.</em></p>
+
+    <video width="100%" height="auto" controls autoplay loop muted>
+        <source src="../../../_static/task_planning/BT e simulação.webm" type="video/webm">
+        Seu navegador não suporta a tag de vídeo.
+    </video>
+
+</div><section id="indice-rapido">
+<h2>Índice Rápido<a class="headerlink" href="#indice-rapido" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 15.0%" />
+<col style="width: 55.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Nome do Nó</p></th>
+<th class="head"><p>Tipo</p></th>
+<th class="head"><p>Descrição Resumida</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>ParallelAny</strong></p></td>
+<td><p>Control</p></td>
+<td><p>Executa filhos em paralelo com lógica OR (Short-circuit).</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>IsReachable</strong></p></td>
+<td><p>Condition</p></td>
+<td><p>Verifica alcance cinemático e calcula pose de navegação.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>IsGripperHoldingObject</strong></p></td>
+<td><p>Condition</p></td>
+<td><p>Verifica sensor de contato da garra.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>IsPathClear</strong></p></td>
+<td><p>Condition</p></td>
+<td><p>Verifica colisão no caminho atual a cada tick.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>DetectObject</strong></p></td>
+<td><p>Action</p></td>
+<td><p>Processa visão computacional e seleciona alvos.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>ClearTarget</strong></p></td>
+<td><p>Action</p></td>
+<td><p>Reseta o alvo atual para permitir nova busca.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>ComputePath</strong></p></td>
+<td><p>Action</p></td>
+<td><p>Solicita planejamento global de rota (A*).</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>FollowPath</strong></p></td>
+<td><p>Action</p></td>
+<td><p>Executa a trajetória (Controlador) em malha fechada.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>PickObject</strong></p></td>
+<td><p>Action</p></td>
+<td><p>Executa sequência de manipulação para pegar.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>PlaceObject</strong></p></td>
+<td><p>Action</p></td>
+<td><p>Executa sequência de manipulação para largar.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>GetStorageInfo</strong></p></td>
+<td><p>Action</p></td>
+<td><p>Consulta banco de dados de armazenamento.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>ComputePoseToOrganize</strong></p></td>
+<td><p>Action</p></td>
+<td><p>Calcula pose de <em>Place</em> usando Bin Packing.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>ComputePoseToStore</strong></p></td>
+<td><p>Action</p></td>
+<td><p>Calcula pose de <em>Place</em> simples (pilha).</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>IncrementOrganizedStorageIndexes</strong></p></td>
+<td><p>Action</p></td>
+<td><p>Confirma ocupação de espaço (Commit).</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>DecrementStorageCount</strong></p></td>
+<td><p>Action</p></td>
+<td><p>Libera espaço em caso de falha (Rollback).</p></td>
+</tr>
+</tbody>
+</table>
+<p>—</p>
+</section>
+<section id="controle-customizado">
+<h2>Controle Customizado<a class="headerlink" href="#controle-customizado" title="Link to this heading"></a></h2>
+<section id="parallelany">
+<h3>ParallelAny<a class="headerlink" href="#parallelany" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Tipo:</strong> Control Node</p></li>
+<li><p><strong>Natureza:</strong> Síncrono</p></li>
+</ul>
+<p>Diferente do nó <cite>Parallel</cite> padrão (que aguarda N sucessos ou N falhas), este nó implementa uma lógica de “curto-circuito” (OR lógico em paralelo).</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt><strong>Comportamento:</strong></dt><dd><ol class="arabic simple">
+<li><p>Executa <strong>todos</strong> os nós filhos simultaneamente a cada <em>tick</em>.</p></li>
+<li><p>Retorna <strong>SUCCESS</strong> imediatamente se <em>qualquer</em> filho retornar <cite>SUCCESS</cite>.</p></li>
+<li><p>Retorna <strong>FAILURE</strong> imediatamente se <em>qualquer</em> filho retornar <cite>FAILURE</cite>.</p></li>
+<li><p>Retorna <strong>RUNNING</strong> caso contrário.</p></li>
+</ol>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>Aplicação Principal:</strong></dt><dd><p>Implementação de <strong>condições de guarda</strong> em paralelo.
+<em>Exemplo:</em> “Seguir Caminho” EM PARALELO COM “Monitorar Sensor de Queda”. Se o sensor indicar queda (FAILURE), a navegação é abortada imediatamente.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p><strong>Implementação:</strong></p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Registra o nó customizado</span>
+<span class="n">factory</span><span class="p">.</span><span class="n">registerNodeType</span><span class="o">&lt;</span><span class="n">ParallelAny</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;ParallelAny&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>—</p>
+</section>
+</section>
+<section id="condicoes-conditions">
+<h2>Condições (Conditions)<a class="headerlink" href="#condicoes-conditions" title="Link to this heading"></a></h2>
+<section id="isreachable">
+<h3>IsReachable<a class="headerlink" href="#isreachable" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Tipo:</strong> Condition Node</p></li>
+<li><p><strong>Natureza:</strong> Síncrono (Cálculo Geométrico / Cinemática)</p></li>
+</ul>
+<p>Substitui o antigo <em>IsRobotNear</em>. Verifica se a pose de manipulação (Pick ou Place) é alcançável pelo robô na posição atual. Se não for, calcula uma posição de base válida para navegação.</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt><strong>Portas de Entrada (Input):</strong></dt><dd><ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">target</span></code> (Pose): A pose 3D do objeto ou local de deposição desejado.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">object_id</span></code> (string): Identificador do objeto (usado para contexto de colisão ou logs).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">robot_base_z</span></code> (double): Altura da base do robô (offset Z) em relação ao solo.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">max_reach_3d</span></code> (double): Raio máximo absoluto de alcance do braço (esfera de alcance) para pré-filtro.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>Portas de Saída (Output):</strong></dt><dd><ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">adjustment_pose</span></code> (Pose): Chave da Blackboard onde a nova pose de navegação será escrita caso o alvo não esteja alcançável.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>Lógica:</strong></dt><dd><ol class="arabic simple">
+<li><p><strong>Pré-filtro:</strong> Verifica se a distância euclidiana até o <code class="docutils literal notranslate"><span class="pre">target</span></code> é menor que <code class="docutils literal notranslate"><span class="pre">max_reach_3d</span></code>.</p></li>
+<li><p><strong>Validação IK:</strong> Se estiver no raio, tenta resolver a Cinemática Inversa para garantir que o braço alcança a pose sem colisão.</p></li>
+<li><dl class="simple">
+<dt><strong>Resultado:</strong></dt><dd><ul>
+<li><p><strong>SUCCESS:</strong> O alvo é alcançável da posição atual (a árvore pode prosseguir para o <em>Pick/Place</em>).</p></li>
+<li><p><strong>FAILURE:</strong> O alvo não é alcançável. O nó calcula uma nova posição de base (projetada no plano XY ao redor do alvo) e escreve na porta <code class="docutils literal notranslate"><span class="pre">adjustment_pose</span></code> para que a árvore acione a navegação (via <em>FollowPath</em>).</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ol>
+</dd>
+</dl>
+</li>
+</ul>
+<p><strong>Implementação:</strong></p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// --- Condition: IsReachable ---</span>
+<span class="c1">// Verifica se a distância euclidiana entre o robô e o alvo está dentro de um limite.</span>
+<span class="n">factory</span><span class="p">.</span><span class="n">registerSimpleCondition</span><span class="p">(</span><span class="s">&quot;IsReachable&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="o">&amp;</span><span class="p">](</span><span class="n">BT</span><span class="o">::</span><span class="n">TreeNode</span><span class="w"> </span><span class="o">&amp;</span><span class="n">self</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">target_pose_opt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="p">.</span><span class="n">getInput</span><span class="o">&lt;</span><span class="n">geometry_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Pose</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;target&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">authorized_id_opt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="p">.</span><span class="n">getInput</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;object_id&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">robot_base_z_opt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="p">.</span><span class="n">getInput</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;robot_base_z&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">max_reach_3d_opt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="p">.</span><span class="n">getInput</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;max_reach_3d&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">target_pose_opt</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">NodeStatus</span><span class="o">::</span><span class="n">FAILURE</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">authorized_id_opt</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">NodeStatus</span><span class="o">::</span><span class="n">FAILURE</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">robot_base_z_opt</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">NodeStatus</span><span class="o">::</span><span class="n">FAILURE</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">max_reach_3d_opt</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">NodeStatus</span><span class="o">::</span><span class="n">FAILURE</span><span class="p">;</span>
+
+
+<span class="w">    </span><span class="n">geometry_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Pose</span><span class="w"> </span><span class="n">target</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">target_pose_opt</span><span class="p">.</span><span class="n">value</span><span class="p">();</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">authorized_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">authorized_id_opt</span><span class="p">.</span><span class="n">value</span><span class="p">();</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">robot_base_z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">robot_base_z_opt</span><span class="p">.</span><span class="n">value</span><span class="p">();</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">max_reach_3d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">max_reach_3d_opt</span><span class="p">.</span><span class="n">value</span><span class="p">();</span>
+<span class="w">    </span>
+<span class="w"> </span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">float</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">viable_points</span><span class="p">;</span>
+<span class="w">  </span>
+<span class="w">    </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">reachability_node_</span><span class="o">-&gt;</span><span class="n">get_reachable_points</span><span class="p">(</span><span class="n">target</span><span class="p">,</span><span class="w"> </span><span class="n">robot_base_z</span><span class="p">,</span><span class="w"> </span><span class="n">max_reach_3d</span><span class="p">,</span><span class="w"> </span><span class="n">viable_points</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">viable_points</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span><span class="w"> </span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">RCLCPP_WARN</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;O alvo é inalcançável.&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">NodeStatus</span><span class="o">::</span><span class="n">FAILURE</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">optional</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">tuple</span><span class="o">&lt;</span><span class="kt">float</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">best_base_opt</span><span class="p">;</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">tuple</span><span class="o">&lt;</span><span class="kt">float</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">viable_points_3d</span><span class="p">;</span>
+<span class="w">    </span><span class="n">viable_points_3d</span><span class="p">.</span><span class="n">reserve</span><span class="p">(</span><span class="n">viable_points</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">viable_points</span><span class="p">)</span><span class="w"> </span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">viable_points_3d</span><span class="p">.</span><span class="n">emplace_back</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">first</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">second</span><span class="p">,</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="n">robot_base_z</span><span class="p">));</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span>
+<span class="w">    </span><span class="n">best_base_opt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">ik_validator_node_</span><span class="o">-&gt;</span><span class="n">find_best_base_position</span><span class="p">(</span>
+<span class="w">        </span><span class="n">viable_points_3d</span><span class="p">,</span><span class="w"> </span>
+<span class="w">        </span><span class="n">target</span><span class="p">,</span><span class="w"> </span>
+<span class="w">        </span><span class="nb">true</span><span class="p">,</span><span class="w"> </span>
+<span class="w">        </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">obstacle_graph_node_</span><span class="p">,</span>
+<span class="w">        </span><span class="n">authorized_id</span>
+<span class="w">    </span><span class="p">);</span>
+
+
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">best_base_opt</span><span class="p">.</span><span class="n">has_value</span><span class="p">())</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="k">auto</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">best_base_opt</span><span class="p">.</span><span class="n">value</span><span class="p">();</span><span class="w"> </span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">get</span><span class="o">&lt;</span><span class="mi">2</span><span class="o">&gt;</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0</span><span class="p">;</span>
+
+<span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">px</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">get</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="n">p</span><span class="p">);</span><span class="w"> </span>
+<span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">py</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">get</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">p</span><span class="p">);</span><span class="w"> </span>
+<span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">pz</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">get</span><span class="o">&lt;</span><span class="mi">2</span><span class="o">&gt;</span><span class="p">(</span><span class="n">p</span><span class="p">);</span><span class="w"> </span>
+
+<span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">dx_curr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">px</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">pose_x</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">dy_curr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">py</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">pose_y</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">dist_sq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">dx_curr</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">dx_curr</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">dy_curr</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">dy_curr</span><span class="p">);</span>
+
+<span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">threshold_sq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.075f</span><span class="p">;</span><span class="w"> </span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">dist_sq</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">threshold_sq</span><span class="p">)</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="n">RCLCPP_INFO</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;O robô JÁ ESTÁ na posição ideal (Dist: %.4f).&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">sqrt</span><span class="p">(</span><span class="n">dist_sq</span><span class="p">));</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">NodeStatus</span><span class="o">::</span><span class="n">SUCCESS</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">else</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span>
+<span class="w">            </span><span class="n">geometry_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Pose</span><span class="w"> </span><span class="n">final_pose</span><span class="p">;</span>
+<span class="w">            </span><span class="n">final_pose</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">px</span><span class="p">;</span>
+<span class="w">            </span><span class="n">final_pose</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">py</span><span class="p">;</span>
+<span class="w">            </span><span class="n">final_pose</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0</span><span class="p">;</span><span class="w"> </span>
+
+
+<span class="w">            </span><span class="kt">double</span><span class="w"> </span><span class="n">target_dx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">target</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">px</span><span class="p">;</span>
+<span class="w">            </span><span class="kt">double</span><span class="w"> </span><span class="n">target_dy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">target</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">y</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">py</span><span class="p">;</span>
+
+
+<span class="w">            </span><span class="kt">double</span><span class="w"> </span><span class="n">yaw</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">atan2</span><span class="p">(</span><span class="n">target_dy</span><span class="p">,</span><span class="w"> </span><span class="n">target_dx</span><span class="p">);</span>
+
+<span class="w">            </span><span class="n">tf2</span><span class="o">::</span><span class="n">Quaternion</span><span class="w"> </span><span class="n">q</span><span class="p">;</span>
+<span class="w">            </span><span class="n">q</span><span class="p">.</span><span class="n">setRPY</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="n">yaw</span><span class="p">);</span><span class="w"> </span>
+
+<span class="w">            </span><span class="n">final_pose</span><span class="p">.</span><span class="n">orientation</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">q</span><span class="p">.</span><span class="n">x</span><span class="p">();</span>
+<span class="w">            </span><span class="n">final_pose</span><span class="p">.</span><span class="n">orientation</span><span class="p">.</span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">q</span><span class="p">.</span><span class="n">y</span><span class="p">();</span>
+<span class="w">            </span><span class="n">final_pose</span><span class="p">.</span><span class="n">orientation</span><span class="p">.</span><span class="n">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">q</span><span class="p">.</span><span class="n">z</span><span class="p">();</span>
+<span class="w">            </span><span class="n">final_pose</span><span class="p">.</span><span class="n">orientation</span><span class="p">.</span><span class="n">w</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">q</span><span class="p">.</span><span class="n">w</span><span class="p">();</span>
+<span class="w">            </span>
+<span class="w">           </span>
+<span class="w">            </span><span class="n">self</span><span class="p">.</span><span class="n">setOutput</span><span class="p">(</span><span class="s">&quot;adjustment_pose&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">final_pose</span><span class="p">);</span>
+
+<span class="w">            </span><span class="n">RCLCPP_INFO</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Ajuste necessário. Indo para (%.2f, %.2f) virado para o objeto.&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">px</span><span class="p">,</span><span class="w"> </span><span class="n">py</span><span class="p">);</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">NodeStatus</span><span class="o">::</span><span class="n">FAILURE</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">RCLCPP_WARN</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;IsReachable: Sucesso, o robô consegue pegar o objeto.&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">NodeStatus</span><span class="o">::</span><span class="n">SUCCESS</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">},</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">BT</span><span class="o">::</span><span class="n">InputPort</span><span class="o">&lt;</span><span class="n">geometry_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Pose</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;target&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="n">BT</span><span class="o">::</span><span class="n">InputPort</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;object_id&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="n">BT</span><span class="o">::</span><span class="n">InputPort</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;robot_base_z&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="n">BT</span><span class="o">::</span><span class="n">InputPort</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;max_reach_3d&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="n">BT</span><span class="o">::</span><span class="n">OutputPort</span><span class="o">&lt;</span><span class="n">geometry_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Pose</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;adjustment_pose&quot;</span><span class="p">)</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+</section>
+<section id="isgripperholdingobject">
+<h3>IsGripperHoldingObject<a class="headerlink" href="#isgripperholdingobject" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Tipo:</strong> Condition Node</p></li>
+<li><p><strong>Natureza:</strong> Síncrono (Leitura de Memória)</p></li>
+</ul>
+<p>Verifica o estado físico do efetuador final (garra) para garantir que o objeto ainda está seguro.</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt><strong>Lógica:</strong></dt><dd><p>Consulta o nó de monitoramento da garra via ponteiro compartilhado.
+* <strong>SUCCESS:</strong> Se o sensor indicar pressão/contato.
+* <strong>FAILURE:</strong> Se a garra estiver vazia.
+* <strong>Efeito Colateral:</strong> Pode acionar paradas de emergência se o objeto cair durante o transporte.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p><strong>Implementação:</strong></p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// --- Condition: IsGripperHoldingObject ---</span>
+<span class="c1">// Verifica sensor físico da garra (carga/contato).</span>
+<span class="n">factory</span><span class="p">.</span><span class="n">registerSimpleCondition</span><span class="p">(</span><span class="s">&quot;IsGripperHoldingObject&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="p">[</span><span class="k">this</span><span class="p">](</span><span class="n">BT</span><span class="o">::</span><span class="n">TreeNode</span><span class="o">&amp;</span><span class="w"> </span><span class="n">self</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">NodeStatus</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">lock_guard</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span><span class="w"> </span><span class="n">lock</span><span class="p">(</span><span class="n">bt_mutex_</span><span class="p">);</span><span class="w"> </span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">gripper_monitor_node_</span><span class="o">-&gt;</span><span class="n">checkIsHolding</span><span class="p">())</span><span class="w"> </span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">NodeStatus</span><span class="o">::</span><span class="n">SUCCESS</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span><span class="w">    </span>
+<span class="w">        </span><span class="k">else</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="c1">// Se perdeu o objeto, para o robô imediatamente!</span>
+<span class="w">            </span><span class="n">cancel_controller_goal</span><span class="p">();</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">NodeStatus</span><span class="o">::</span><span class="n">FAILURE</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="ispathclear">
+<h3>IsPathClear<a class="headerlink" href="#ispathclear" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Tipo:</strong> Condition Node</p></li>
+<li><p><strong>Natureza:</strong> Síncrono (Tick-based Check)</p></li>
+</ul>
+<p>Verifica continuamente se o caminho planejado permanece livre de obstáculos dinâmicos (ex: pessoas ou objetos que entraram na cena após o planejamento inicial).</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt><strong>Portas de Entrada (Input):</strong></dt><dd><ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">path</span></code> (Path): O caminho global gerado anteriormente pelo <code class="docutils literal notranslate"><span class="pre">ComputePath</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>Lógica:</strong></dt><dd><p>Itera sobre os pontos da trajetória futura e verifica sua validade contra o <em>Costmap</em> local ou global atualizado.
+* <strong>SUCCESS:</strong> O caminho está livre.
+* <strong>FAILURE:</strong> Um obstáculo foi detectado na rota (deve acionar replanejamento).</p>
+</dd>
+</dl>
+</li>
+<li><p><strong>Uso:</strong> Normalmente inserido em uma <cite>ReactiveSequence</cite> junto com o nó <cite>FollowPath</cite>.</p></li>
+</ul>
+<p><strong>Implementação:</strong></p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">factory</span><span class="p">.</span><span class="n">registerSimpleCondition</span><span class="p">(</span><span class="s">&quot;IsPathClear&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="o">&amp;</span><span class="p">](</span><span class="n">BT</span><span class="o">::</span><span class="n">TreeNode</span><span class="o">&amp;</span><span class="w"> </span><span class="n">self</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">map_snapshot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">obstacle_graph_node_</span><span class="o">-&gt;</span><span class="n">get_current_map</span><span class="p">();</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">float</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="o">&gt;</span><span class="w"> </span><span class="n">pair_point</span><span class="p">;</span>
+
+
+<span class="w">    </span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">lock_guard</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span><span class="w"> </span><span class="n">lock</span><span class="p">(</span><span class="n">path_mutex_</span><span class="p">);</span>
+<span class="w">        </span>
+
+<span class="w">        </span><span class="k">for</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">point</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">last_no_filter_calculated_path_</span><span class="p">.</span><span class="n">poses</span><span class="p">)</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="n">pair_point</span><span class="p">.</span><span class="n">first</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="n">point</span><span class="p">.</span><span class="n">pose</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">x</span><span class="p">);</span>
+<span class="w">            </span><span class="n">pair_point</span><span class="p">.</span><span class="n">second</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="n">point</span><span class="p">.</span><span class="n">pose</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">y</span><span class="p">);</span>
+
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">map_snapshot</span><span class="o">-&gt;</span><span class="n">find</span><span class="p">(</span><span class="n">pair_point</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">map_snapshot</span><span class="o">-&gt;</span><span class="n">end</span><span class="p">())</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span><span class="n">cancel_controller_goal</span><span class="p">();</span>
+<span class="w">                </span><span class="k">return</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">NodeStatus</span><span class="o">::</span><span class="n">FAILURE</span><span class="p">;</span><span class="w"> </span>
+<span class="w">            </span><span class="p">}</span><span class="w"> </span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+
+<span class="w">  </span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">NodeStatus</span><span class="o">::</span><span class="n">SUCCESS</span><span class="p">;</span>
+<span class="w">    </span>
+<span class="p">});</span>
+</pre></div>
+</div>
+<p>—</p>
+</section>
+</section>
+<section id="percepcao-e-contexto">
+<h2>Percepção e Contexto<a class="headerlink" href="#percepcao-e-contexto" title="Link to this heading"></a></h2>
+<section id="detectobject">
+<h3>DetectObject<a class="headerlink" href="#detectobject" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Tipo:</strong> Action Node (Simple)</p></li>
+<li><p><strong>Natureza:</strong> Síncrono</p></li>
+</ul>
+<p>Gerencia a triagem e seleção de alvos a partir do fluxo de dados do sistema de visão computacional.</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt><strong>Portas de Saída (Output):</strong></dt><dd><ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">output_pose</span></code> (Pose): Posição espacial do objeto selecionado.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">output_id</span></code> (string): Identificador único do objeto.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">object_size</span></code> (Vector3): Dimensões da Bounding Box.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>Lógica (Latch):</strong></dt><dd><ol class="arabic simple">
+<li><p><strong>Modo Rastreamento:</strong> Se já existe um alvo ativo, retorna seus dados atuais (<strong>SUCCESS</strong>).</p></li>
+<li><p><strong>Modo Busca:</strong> Se não há alvo, verifica a fila de novas detecções aplicando filtros.</p></li>
+<li><p>Se um novo objeto válido for encontrado, ele é promovido a alvo atual.</p></li>
+</ol>
+</dd>
+</dl>
+</li>
+</ul>
+<p><strong>Implementação:</strong></p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// --- Action: DetectObject ---</span>
+<span class="c1">// Verifica se há um objeto novo detectado pelo callback de visão.</span>
+<span class="n">factory</span><span class="p">.</span><span class="n">registerSimpleAction</span><span class="p">(</span><span class="s">&quot;DetectObject&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="o">&amp;</span><span class="p">](</span><span class="n">BT</span><span class="o">::</span><span class="n">TreeNode</span><span class="w"> </span><span class="o">&amp;</span><span class="n">self</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">lock_guard</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span><span class="w"> </span><span class="n">lock</span><span class="p">(</span><span class="n">bt_mutex_</span><span class="p">);</span><span class="w"> </span>
+
+<span class="w">    </span><span class="c1">// Se já temos um alvo travado, retornamos ele (persistencia de alvo)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">current_target_id_</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">self</span><span class="p">.</span><span class="n">setOutput</span><span class="p">(</span><span class="s">&quot;output_pose&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">current_target_pose_</span><span class="p">);</span>
+<span class="w">        </span><span class="n">self</span><span class="p">.</span><span class="n">setOutput</span><span class="p">(</span><span class="s">&quot;output_id&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">current_target_id_</span><span class="p">);</span>
+<span class="w">        </span><span class="n">self</span><span class="p">.</span><span class="n">setOutput</span><span class="p">(</span><span class="s">&quot;object_size&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">cached_object_</span><span class="p">.</span><span class="n">size</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">NodeStatus</span><span class="o">::</span><span class="n">SUCCESS</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Se não, verifica a flag setada pelo detection_callback</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">has_new_object_</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">NodeStatus</span><span class="o">::</span><span class="n">RUNNING</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Promove o objeto cacheado para alvo atual</span>
+<span class="w">    </span><span class="n">current_target_id_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cached_object_</span><span class="p">.</span><span class="n">id</span><span class="p">;</span>
+<span class="w">    </span><span class="n">current_target_pose_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cached_object_</span><span class="p">.</span><span class="n">pose</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">self</span><span class="p">.</span><span class="n">setOutput</span><span class="p">(</span><span class="s">&quot;output_pose&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">current_target_pose_</span><span class="p">);</span>
+<span class="w">    </span><span class="n">self</span><span class="p">.</span><span class="n">setOutput</span><span class="p">(</span><span class="s">&quot;output_id&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">current_target_id_</span><span class="p">);</span>
+<span class="w">    </span><span class="n">self</span><span class="p">.</span><span class="n">setOutput</span><span class="p">(</span><span class="s">&quot;object_size&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">cached_object_</span><span class="p">.</span><span class="n">size</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Marca o ID como &#39;picked&#39; para evitar pegar o mesmo objeto em loop</span>
+<span class="w">    </span><span class="n">picked</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">current_target_id_</span><span class="p">);</span>
+<span class="w">    </span><span class="n">has_new_object_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">RCLCPP_INFO</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;BT: Alvo &#39;%s&#39; travado.&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">current_target_id_</span><span class="p">.</span><span class="n">c_str</span><span class="p">());</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">NodeStatus</span><span class="o">::</span><span class="n">SUCCESS</span><span class="p">;</span>
+<span class="p">},</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">BT</span><span class="o">::</span><span class="n">OutputPort</span><span class="o">&lt;</span><span class="n">geometry_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Pose</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;output_pose&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="n">BT</span><span class="o">::</span><span class="n">OutputPort</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;output_id&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="n">BT</span><span class="o">::</span><span class="n">OutputPort</span><span class="o">&lt;</span><span class="n">geometry_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Vector3</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;object_size&quot;</span><span class="p">)</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+</section>
+<section id="cleartarget">
+<h3>ClearTarget<a class="headerlink" href="#cleartarget" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Tipo:</strong> Action Node (Simple)</p></li>
+<li><p><strong>Natureza:</strong> Síncrono</p></li>
+</ul>
+<p>Reseta o estado de atenção do robô, limpando a variável interna <cite>current_target_id_</cite>. Obrigatório após a conclusão de uma tarefa.</p>
+<p><strong>Implementação:</strong></p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// --- Action: ClearTarget ---</span>
+<span class="c1">// Limpa o alvo atual, permitindo que a detecção busque um novo objeto.</span>
+<span class="n">factory</span><span class="p">.</span><span class="n">registerSimpleAction</span><span class="p">(</span><span class="s">&quot;ClearTarget&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="o">&amp;</span><span class="p">](</span><span class="n">BT</span><span class="o">::</span><span class="n">TreeNode</span><span class="w"> </span><span class="o">&amp;</span><span class="n">self</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">lock_guard</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span><span class="w"> </span><span class="n">lock</span><span class="p">(</span><span class="n">bt_mutex_</span><span class="p">);</span>
+<span class="w">    </span><span class="n">RCLCPP_INFO</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;BT: Alvo &#39;%s&#39; liberado.&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">current_target_id_</span><span class="p">.</span><span class="n">c_str</span><span class="p">());</span>
+<span class="w">    </span><span class="n">current_target_id_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">;</span><span class="w"> </span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">NodeStatus</span><span class="o">::</span><span class="n">SUCCESS</span><span class="p">;</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+<p>—</p>
+</section>
+</section>
+<section id="navegacao-navigation-stack">
+<h2>Navegação (Navigation Stack)<a class="headerlink" href="#navegacao-navigation-stack" title="Link to this heading"></a></h2>
+<section id="computepath">
+<h3>ComputePath<a class="headerlink" href="#computepath" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Tipo:</strong> Action Node (Async)</p></li>
+<li><p><strong>Natureza:</strong> Assíncrono (Action Client)</p></li>
+</ul>
+<p>Solicita o cálculo de uma rota livre de obstáculos ao planejador global.</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt><strong>Portas de Entrada (Input):</strong></dt><dd><ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">target</span></code> (Pose): O destino final desejado.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">planner</span></code> (string): ID do algoritmo de planejamento.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>Portas de Saída (Output):</strong></dt><dd><ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">path</span></code> (Path): A trajetória calculada, salva na Blackboard para ser consumida por <code class="docutils literal notranslate"><span class="pre">FollowPath</span></code> e <code class="docutils literal notranslate"><span class="pre">IsPathClear</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>Comportamento:</strong></dt><dd><ul>
+<li><p><strong>SUCCESS:</strong> Caminho válido calculado e armazenado.</p></li>
+<li><p><strong>FAILURE:</strong> Destino inalcançável.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<p><strong>Implementação:</strong></p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// --- Action: ComputePath (Assíncrona) ---</span>
+<span class="c1">// Envia requisição para o planejador de caminho global (A* / D*).</span>
+<span class="n">BT</span><span class="o">::</span><span class="n">NodeBuilder</span><span class="w"> </span><span class="n">builder_compute</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="o">&amp;</span><span class="p">](</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">NodeConfig</span><span class="o">&amp;</span><span class="w"> </span><span class="n">config</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_unique</span><span class="o">&lt;</span><span class="n">AsyncAction</span><span class="o">&gt;</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">config</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="o">&amp;</span><span class="p">](</span><span class="n">BT</span><span class="o">::</span><span class="n">TreeNode</span><span class="w"> </span><span class="o">&amp;</span><span class="n">self</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// 1. Monitoramento de Estado</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">lock_guard</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span><span class="w"> </span><span class="n">lock</span><span class="p">(</span><span class="n">state_mutex_</span><span class="p">);</span>
+<span class="w">            </span>
+<span class="w">            </span><span class="c1">// Se já terminou (Sucesso ou Falha), retorna e reseta para IDLE</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">path_state_</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">TaskState</span><span class="o">::</span><span class="n">SUCCESS</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">                </span><span class="n">path_state_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TaskState</span><span class="o">::</span><span class="n">IDLE</span><span class="p">;</span><span class="w"> </span>
+<span class="w">                </span><span class="k">return</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">NodeStatus</span><span class="o">::</span><span class="n">SUCCESS</span><span class="p">;</span><span class="w"> </span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">path_state_</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">TaskState</span><span class="o">::</span><span class="n">FAILURE</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">                </span><span class="n">path_state_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TaskState</span><span class="o">::</span><span class="n">IDLE</span><span class="p">;</span><span class="w"> </span>
+<span class="w">                </span><span class="k">return</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">NodeStatus</span><span class="o">::</span><span class="n">FAILURE</span><span class="p">;</span><span class="w"> </span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">            </span><span class="c1">// Se já está rodando, continua retornando RUNNING</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">path_state_</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">TaskState</span><span class="o">::</span><span class="n">RUNNING</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">NodeStatus</span><span class="o">::</span><span class="n">RUNNING</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="c1">// 2. Se está IDLE, inicia o processo</span>
+<span class="w">        </span><span class="k">auto</span><span class="w"> </span><span class="n">target</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="p">.</span><span class="n">getInput</span><span class="o">&lt;</span><span class="n">geometry_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Pose</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;target&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">target</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">RCLCPP_ERROR</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;ComputePath: Target inválido na Blackboard.&quot;</span><span class="p">);</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">NodeStatus</span><span class="o">::</span><span class="n">FAILURE</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="c1">// Tenta enviar o goal</span>
+<span class="w">        </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">send_path_goal</span><span class="p">(</span><span class="n">target</span><span class="p">.</span><span class="n">value</span><span class="p">());</span>
+
+<span class="w">        </span><span class="c1">// Define estado como RUNNING</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">lock_guard</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span><span class="w"> </span><span class="n">lock</span><span class="p">(</span><span class="n">state_mutex_</span><span class="p">);</span>
+<span class="w">            </span><span class="n">path_state_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TaskState</span><span class="o">::</span><span class="n">RUNNING</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">NodeStatus</span><span class="o">::</span><span class="n">RUNNING</span><span class="p">;</span>
+<span class="w">    </span><span class="p">});</span>
+<span class="p">};</span>
+<span class="n">factory</span><span class="p">.</span><span class="n">registerBuilder</span><span class="p">(</span><span class="n">BT</span><span class="o">::</span><span class="n">TreeNodeManifest</span><span class="p">{</span><span class="n">BT</span><span class="o">::</span><span class="n">NodeType</span><span class="o">::</span><span class="n">ACTION</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;ComputePath&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">InputPort</span><span class="o">&lt;</span><span class="n">geometry_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Pose</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;target&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">InputPort</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;planner&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="p">{}</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="n">builder_compute</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="followpath">
+<h3>FollowPath<a class="headerlink" href="#followpath" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Tipo:</strong> Action Node (Async)</p></li>
+<li><p><strong>Natureza:</strong> Assíncrono (Action Client)</p></li>
+</ul>
+<p>Substitui o antigo <em>NavigateTo</em>. É responsável exclusivamente pela execução da trajetória (Controller Server) em malha fechada.</p>
+<ul class="simple">
+<li><p><strong>Pré-requisito:</strong> Deve receber um caminho válido gerado por <code class="docutils literal notranslate"><span class="pre">ComputePath</span></code>.</p></li>
+<li><dl class="simple">
+<dt><strong>Portas de Entrada (Input):</strong></dt><dd><ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">path</span></code> (Path): O caminho a ser seguido.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">controller_id</span></code> (string): ID do controlador (ex: “FollowPath”).</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>Comportamento:</strong></dt><dd><p>Envia o caminho para o Action Server do Controlador.
+* <strong>RUNNING:</strong> Enquanto o robô segue a linha da trajetória.
+* <strong>SUCCESS:</strong> Quando a tolerância do objetivo final é atingida.
+* <strong>FAILURE:</strong> Se o desvio for muito grande ou o controlador falhar.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p><strong>Implementação:</strong></p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// --- Action: FollowPath (Assíncrona) ---</span>
+<span class="c1">// Envia o caminho calculado para o controlador local (Pure Pursuit).</span>
+<span class="n">factory</span><span class="p">.</span><span class="n">registerBuilder</span><span class="o">&lt;</span><span class="n">AsyncAction</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;FollowPath&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="o">&amp;</span><span class="p">](</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">NodeConfig</span><span class="o">&amp;</span><span class="w"> </span><span class="n">config</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_unique</span><span class="o">&lt;</span><span class="n">AsyncAction</span><span class="o">&gt;</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">config</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="o">&amp;</span><span class="p">](</span><span class="n">BT</span><span class="o">::</span><span class="n">TreeNode</span><span class="w"> </span><span class="o">&amp;</span><span class="n">self</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// 1. Monitoramento de Estado (Lógica Padrão)</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">lock_guard</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span><span class="w"> </span><span class="n">lock</span><span class="p">(</span><span class="n">state_mutex_</span><span class="p">);</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">nav_state_</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">TaskState</span><span class="o">::</span><span class="n">SUCCESS</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">nav_state_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TaskState</span><span class="o">::</span><span class="n">IDLE</span><span class="p">;</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">NodeStatus</span><span class="o">::</span><span class="n">SUCCESS</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">nav_state_</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">TaskState</span><span class="o">::</span><span class="n">FAILURE</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">nav_state_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TaskState</span><span class="o">::</span><span class="n">IDLE</span><span class="p">;</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">NodeStatus</span><span class="o">::</span><span class="n">FAILURE</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">nav_state_</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">TaskState</span><span class="o">::</span><span class="n">RUNNING</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">NodeStatus</span><span class="o">::</span><span class="n">RUNNING</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="c1">// 2. Se está IDLE, tenta iniciar a navegação</span>
+<span class="w">        </span><span class="n">nav_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Path</span><span class="w"> </span><span class="n">path_to_send</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">bool</span><span class="w"> </span><span class="n">has_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">lock_guard</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span><span class="w"> </span><span class="n">lock</span><span class="p">(</span><span class="n">path_mutex_</span><span class="p">);</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">last_calculated_path_</span><span class="p">.</span><span class="n">poses</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span><span class="n">path_to_send</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">last_calculated_path_</span><span class="p">;</span>
+<span class="w">                </span><span class="n">has_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">has_path</span><span class="p">)</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">send_controller_goal</span><span class="p">(</span><span class="n">path_to_send</span><span class="p">))</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span><span class="n">std</span><span class="o">::</span><span class="n">lock_guard</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span><span class="w"> </span><span class="n">lock</span><span class="p">(</span><span class="n">state_mutex_</span><span class="p">);</span>
+<span class="w">                </span><span class="n">nav_state_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TaskState</span><span class="o">::</span><span class="n">RUNNING</span><span class="p">;</span>
+<span class="w">                </span><span class="k">return</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">NodeStatus</span><span class="o">::</span><span class="n">RUNNING</span><span class="p">;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">            </span><span class="k">else</span><span class="w"> </span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span><span class="n">RCLCPP_ERROR</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;FollowPath: Falha ao enviar goal para o controlador.&quot;</span><span class="p">);</span>
+<span class="w">                </span><span class="k">return</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">NodeStatus</span><span class="o">::</span><span class="n">FAILURE</span><span class="p">;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">else</span><span class="w"> </span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="c1">// [CORREÇÃO] Se chegou aqui, o nó anterior (ComputePath) disse que teve sucesso,</span>
+<span class="w">            </span><span class="c1">// mas a variável de caminho está vazia. Isso é um erro lógico ou o caminho expirou.</span>
+<span class="w">            </span><span class="n">RCLCPP_ERROR</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;FollowPath: Nenhum caminho disponível para seguir!&quot;</span><span class="p">);</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">NodeStatus</span><span class="o">::</span><span class="n">FAILURE</span><span class="p">;</span><span class="w"> </span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">});</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+<p>—</p>
+</section>
+</section>
+<section id="manipulacao-moveit-integration">
+<h2>Manipulação (MoveIt Integration)<a class="headerlink" href="#manipulacao-moveit-integration" title="Link to this heading"></a></h2>
+<section id="pickobject">
+<h3>PickObject<a class="headerlink" href="#pickobject" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Tipo:</strong> Action Node (Async)</p></li>
+<li><p><strong>Natureza:</strong> Assíncrono (Action Client)</p></li>
+</ul>
+<p>Comanda o braço robótico para realizar a sequência de apreensão.</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt><strong>Portas de Entrada (Input):</strong></dt><dd><ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">id</span></code> (string): ID do objeto (para Collision Matrix).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pose</span></code> (Pose): A pose alvo do objeto.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>Comportamento:</strong></dt><dd><p>Aproximação -&gt; Fechamento -&gt; Validação de Sensor -&gt; Elevação.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p><strong>Implementação:</strong></p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// --- Action: PickObject ---</span>
+<span class="c1">// Envia comando para o braço pegar o objeto.</span>
+<span class="n">BT</span><span class="o">::</span><span class="n">NodeBuilder</span><span class="w"> </span><span class="n">builder_pick</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="o">&amp;</span><span class="p">](</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">NodeConfig</span><span class="o">&amp;</span><span class="w"> </span><span class="n">config</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_unique</span><span class="o">&lt;</span><span class="n">AsyncAction</span><span class="o">&gt;</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">config</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="o">&amp;</span><span class="p">](</span><span class="n">BT</span><span class="o">::</span><span class="n">TreeNode</span><span class="w"> </span><span class="o">&amp;</span><span class="n">self</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">manipulation_state_</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">TaskState</span><span class="o">::</span><span class="n">IDLE</span><span class="p">)</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="k">auto</span><span class="w"> </span><span class="n">pose</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="p">.</span><span class="n">getInput</span><span class="o">&lt;</span><span class="n">geometry_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Pose</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;pose&quot;</span><span class="p">);</span>
+<span class="w">            </span><span class="k">auto</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="p">.</span><span class="n">getInput</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;id&quot;</span><span class="p">);</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">pose</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">!</span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">NodeStatus</span><span class="o">::</span><span class="n">FAILURE</span><span class="p">;</span>
+
+<span class="w">            </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">send_goal</span><span class="p">(</span><span class="n">id</span><span class="p">.</span><span class="n">value</span><span class="p">(),</span><span class="w"> </span><span class="n">pose</span><span class="p">.</span><span class="n">value</span><span class="p">(),</span><span class="w"> </span><span class="nb">true</span><span class="p">);</span><span class="w"> </span><span class="c1">// true = Pick</span>
+<span class="w">            </span><span class="n">manipulation_state_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TaskState</span><span class="o">::</span><span class="n">RUNNING</span><span class="p">;</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">NodeStatus</span><span class="o">::</span><span class="n">RUNNING</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">check_task_status</span><span class="p">(</span><span class="n">manipulation_state_</span><span class="p">);</span>
+<span class="w">    </span><span class="p">});</span>
+<span class="p">};</span>
+<span class="n">factory</span><span class="p">.</span><span class="n">registerBuilder</span><span class="p">(</span><span class="n">BT</span><span class="o">::</span><span class="n">TreeNodeManifest</span><span class="p">{</span><span class="n">BT</span><span class="o">::</span><span class="n">NodeType</span><span class="o">::</span><span class="n">ACTION</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;PickObject&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">InputPort</span><span class="o">&lt;</span><span class="n">geometry_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Pose</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;pose&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">InputPort</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;id&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="p">{}</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="n">builder_pick</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="placeobject">
+<h3>PlaceObject<a class="headerlink" href="#placeobject" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Tipo:</strong> Action Node (Async)</p></li>
+<li><p><strong>Natureza:</strong> Assíncrono (Action Client)</p></li>
+</ul>
+<p>Comanda o braço robótico para depositar o objeto.</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt><strong>Portas de Entrada (Input):</strong></dt><dd><ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">pose</span></code> (Pose): A posição final.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>Comportamento:</strong></dt><dd><p>Aproximação -&gt; Abertura -&gt; Desanexação -&gt; Recuo.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p><strong>Implementação:</strong></p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// --- Action: PlaceObject ---</span>
+<span class="c1">// Envia comando para o braço largar o objeto.</span>
+<span class="n">BT</span><span class="o">::</span><span class="n">NodeBuilder</span><span class="w"> </span><span class="n">builder_place</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="o">&amp;</span><span class="p">](</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">NodeConfig</span><span class="o">&amp;</span><span class="w"> </span><span class="n">config</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_unique</span><span class="o">&lt;</span><span class="n">AsyncAction</span><span class="o">&gt;</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">config</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="o">&amp;</span><span class="p">](</span><span class="n">BT</span><span class="o">::</span><span class="n">TreeNode</span><span class="w"> </span><span class="o">&amp;</span><span class="n">self</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">manipulation_state_</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">TaskState</span><span class="o">::</span><span class="n">IDLE</span><span class="p">)</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="k">auto</span><span class="w"> </span><span class="n">pose</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="p">.</span><span class="n">getInput</span><span class="o">&lt;</span><span class="n">geometry_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Pose</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;pose&quot;</span><span class="p">);</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">pose</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">NodeStatus</span><span class="o">::</span><span class="n">FAILURE</span><span class="p">;</span>
+
+<span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">id_dummy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cached_object_</span><span class="p">.</span><span class="n">id</span><span class="p">;</span>
+<span class="w">            </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">send_goal</span><span class="p">(</span><span class="n">id_dummy</span><span class="p">,</span><span class="w"> </span><span class="n">pose</span><span class="p">.</span><span class="n">value</span><span class="p">(),</span><span class="w"> </span><span class="nb">false</span><span class="p">);</span><span class="w"> </span><span class="c1">// false = Place</span>
+<span class="w">            </span><span class="n">manipulation_state_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TaskState</span><span class="o">::</span><span class="n">RUNNING</span><span class="p">;</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">NodeStatus</span><span class="o">::</span><span class="n">RUNNING</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">check_task_status</span><span class="p">(</span><span class="n">manipulation_state_</span><span class="p">);</span>
+<span class="w">    </span><span class="p">});</span>
+<span class="p">};</span>
+<span class="n">factory</span><span class="p">.</span><span class="n">registerBuilder</span><span class="p">(</span><span class="n">BT</span><span class="o">::</span><span class="n">TreeNodeManifest</span><span class="p">{</span><span class="n">BT</span><span class="o">::</span><span class="n">NodeType</span><span class="o">::</span><span class="n">ACTION</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;PlaceObject&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">InputPort</span><span class="o">&lt;</span><span class="n">geometry_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Pose</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;pose&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">InputPort</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;&gt;</span><span class="p">(</span><span class="s">&quot;limits&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="p">{}</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="n">builder_place</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>—</p>
+</section>
+</section>
+<section id="gerenciamento-de-estoque-storage">
+<h2>Gerenciamento de Estoque (Storage)<a class="headerlink" href="#gerenciamento-de-estoque-storage" title="Link to this heading"></a></h2>
+<section id="getstorageinfo">
+<h3>GetStorageInfo<a class="headerlink" href="#getstorageinfo" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Tipo:</strong> Action Node (Simple)</p></li>
+<li><p><strong>Natureza:</strong> Síncrono</p></li>
+</ul>
+<p>Consulta o banco de dados para determinar o melhor destino (caixa/estante) e índices disponíveis.</p>
+<p><strong>Implementação:</strong></p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// --- Action: GetStorageInfo ---</span>
+<span class="c1">// Consulta o banco de dados (StorageNode) para achar uma vaga livre.</span>
+<span class="n">factory</span><span class="p">.</span><span class="n">registerSimpleAction</span><span class="p">(</span><span class="s">&quot;GetStorageInfo&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="o">&amp;</span><span class="p">](</span><span class="n">BT</span><span class="o">::</span><span class="n">TreeNode</span><span class="w"> </span><span class="o">&amp;</span><span class="n">self</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">id_opt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="p">.</span><span class="n">getInput</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;object_id&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">id_opt</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">NodeStatus</span><span class="o">::</span><span class="n">FAILURE</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">// Limpa o ID (ex: &quot;can_34&quot; -&gt; &quot;can&quot;) para buscar categoria genérica</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">full_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">id_opt</span><span class="p">.</span><span class="n">value</span><span class="p">();</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">full_id</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">size_t</span><span class="w"> </span><span class="n">pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">full_id</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="sc">&#39;_&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">pos</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">::</span><span class="n">npos</span><span class="p">)</span><span class="w"> </span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">full_id</span><span class="p">.</span><span class="n">substr</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">pos</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">geometry_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Pose</span><span class="w"> </span><span class="n">current_obj_pose</span><span class="p">;</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">lock_guard</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span><span class="w"> </span><span class="n">lock</span><span class="p">(</span><span class="n">bt_mutex_</span><span class="p">);</span>
+<span class="w">        </span><span class="n">current_obj_pose</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current_target_pose_</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Chama o StorageNode</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">storage_node_</span><span class="o">-&gt;</span><span class="n">getBestStorage</span><span class="p">(</span><span class="n">label</span><span class="p">,</span><span class="w"> </span><span class="n">current_obj_pose</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="n">success</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Exporta os dados da caixa encontrada para a Blackboard</span>
+<span class="w">        </span><span class="n">self</span><span class="p">.</span><span class="n">setOutput</span><span class="p">(</span><span class="s">&quot;storage_pose&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">result</span><span class="p">.</span><span class="n">pose</span><span class="p">);</span>
+<span class="w">        </span><span class="n">self</span><span class="p">.</span><span class="n">setOutput</span><span class="p">(</span><span class="s">&quot;storage_limits&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">result</span><span class="p">.</span><span class="n">limits</span><span class="p">);</span>
+<span class="w">        </span><span class="n">self</span><span class="p">.</span><span class="n">setOutput</span><span class="p">(</span><span class="s">&quot;storage_id&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">result</span><span class="p">.</span><span class="n">storage_name</span><span class="p">);</span>
+<span class="w">        </span><span class="n">self</span><span class="p">.</span><span class="n">setOutput</span><span class="p">(</span><span class="s">&quot;indexes&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">result</span><span class="p">.</span><span class="n">indexes</span><span class="p">);</span>
+<span class="w">        </span><span class="n">self</span><span class="p">.</span><span class="n">setOutput</span><span class="p">(</span><span class="s">&quot;storage_size&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">result</span><span class="p">.</span><span class="n">size</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">NodeStatus</span><span class="o">::</span><span class="n">SUCCESS</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="n">RCLCPP_WARN</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Storage cheio ou não encontrado para %s&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="p">.</span><span class="n">c_str</span><span class="p">());</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">NodeStatus</span><span class="o">::</span><span class="n">FAILURE</span><span class="p">;</span>
+<span class="p">},</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">BT</span><span class="o">::</span><span class="n">InputPort</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;object_id&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="n">BT</span><span class="o">::</span><span class="n">OutputPort</span><span class="o">&lt;</span><span class="n">geometry_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Pose</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;storage_pose&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="n">BT</span><span class="o">::</span><span class="n">OutputPort</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;&gt;</span><span class="p">(</span><span class="s">&quot;storage_limits&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="n">BT</span><span class="o">::</span><span class="n">OutputPort</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;storage_id&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="n">BT</span><span class="o">::</span><span class="n">OutputPort</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span><span class="p">(</span><span class="s">&quot;indexes&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="n">BT</span><span class="o">::</span><span class="n">OutputPort</span><span class="o">&lt;</span><span class="n">geometry_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Vector3</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;storage_size&quot;</span><span class="p">)</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+</section>
+<section id="computeposetoorganize">
+<h3>ComputePoseToOrganize<a class="headerlink" href="#computeposetoorganize" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Tipo:</strong> Action Node (Simple)</p></li>
+<li><p><strong>Natureza:</strong> Síncrono</p></li>
+</ul>
+<p>Calcula a pose exata de deposição utilizando Bin Packing para organizar itens.</p>
+<p><strong>Implementação:</strong></p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// --- Action: ComputePoseToOrganize ---</span>
+<span class="c1">// Calcula a posição exata dentro da caixa usando algoritmo de Bin Packing (OrganizeNode).</span>
+<span class="n">factory</span><span class="p">.</span><span class="n">registerSimpleAction</span><span class="p">(</span><span class="s">&quot;ComputePoseToOrganize&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="o">&amp;</span><span class="p">](</span><span class="n">BT</span><span class="o">::</span><span class="n">TreeNode</span><span class="w"> </span><span class="o">&amp;</span><span class="n">self</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">storagePose</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="p">.</span><span class="n">getInput</span><span class="o">&lt;</span><span class="n">geometry_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Pose</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;storage_pose&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">storageSize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="p">.</span><span class="n">getInput</span><span class="o">&lt;</span><span class="n">geometry_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Vector3</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;storage_size&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">objectSize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="p">.</span><span class="n">getInput</span><span class="o">&lt;</span><span class="n">geometry_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Vector3</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;object_size&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">indexes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="p">.</span><span class="n">getInput</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span><span class="p">(</span><span class="s">&quot;indexes&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">objectPadding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="p">.</span><span class="n">getInput</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;object_padding&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">zLiftOffset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="p">.</span><span class="n">getInput</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;z_lift_offset&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">storagePose</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">!</span><span class="n">storageSize</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">!</span><span class="n">objectSize</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">!</span><span class="n">indexes</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">!</span><span class="n">objectPadding</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">!</span><span class="n">zLiftOffset</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">RCLCPP_ERROR</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;BT: Parâmetros de organização faltando.&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">NodeStatus</span><span class="o">::</span><span class="n">FAILURE</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">idx_vec</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">indexes</span><span class="p">.</span><span class="n">value</span><span class="p">();</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">idx_vec</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">NodeStatus</span><span class="o">::</span><span class="n">FAILURE</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">// Chama o algoritmo de cálculo geométrico</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="n">geometry_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Pose</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">organize_node_</span><span class="o">-&gt;</span><span class="n">placeObjectInBox</span><span class="p">(</span>
+<span class="w">        </span><span class="n">storagePose</span><span class="p">.</span><span class="n">value</span><span class="p">(),</span><span class="w"> </span><span class="n">storageSize</span><span class="p">.</span><span class="n">value</span><span class="p">(),</span><span class="w"> </span><span class="n">objectSize</span><span class="p">.</span><span class="n">value</span><span class="p">(),</span>
+<span class="w">        </span><span class="n">objectPadding</span><span class="p">.</span><span class="n">value</span><span class="p">(),</span><span class="w"> </span><span class="n">zLiftOffset</span><span class="p">.</span><span class="n">value</span><span class="p">(),</span>
+<span class="w">        </span><span class="n">idx_vec</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">idx_vec</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">idx_vec</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="w">    </span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">self</span><span class="p">.</span><span class="n">setOutput</span><span class="p">(</span><span class="s">&quot;output_final_pose&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">get</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="n">result</span><span class="p">));</span>
+<span class="w">    </span><span class="n">self</span><span class="p">.</span><span class="n">setOutput</span><span class="p">(</span><span class="s">&quot;new_indexes&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">get</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">result</span><span class="p">));</span>
+
+<span class="w">    </span><span class="n">RCLCPP_INFO</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Nova posição de organização calculada.&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">NodeStatus</span><span class="o">::</span><span class="n">SUCCESS</span><span class="p">;</span>
+<span class="p">},</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">BT</span><span class="o">::</span><span class="n">InputPort</span><span class="o">&lt;</span><span class="n">geometry_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Pose</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;storage_pose&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="n">BT</span><span class="o">::</span><span class="n">InputPort</span><span class="o">&lt;</span><span class="n">geometry_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Vector3</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;storage_size&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="n">BT</span><span class="o">::</span><span class="n">InputPort</span><span class="o">&lt;</span><span class="n">geometry_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Vector3</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;object_size&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="n">BT</span><span class="o">::</span><span class="n">InputPort</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span><span class="p">(</span><span class="s">&quot;indexes&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="n">BT</span><span class="o">::</span><span class="n">InputPort</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;object_padding&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="n">BT</span><span class="o">::</span><span class="n">InputPort</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;z_lift_offset&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="n">BT</span><span class="o">::</span><span class="n">OutputPort</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span><span class="p">(</span><span class="s">&quot;new_indexes&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="n">BT</span><span class="o">::</span><span class="n">OutputPort</span><span class="o">&lt;</span><span class="n">geometry_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Pose</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;output_final_pose&quot;</span><span class="p">)</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+</section>
+<section id="computeposetostore">
+<h3>ComputePoseToStore<a class="headerlink" href="#computeposetostore" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Tipo:</strong> Action Node (Simple)</p></li>
+<li><p><strong>Natureza:</strong> Síncrono</p></li>
+</ul>
+<p>Cálculo simplificado para armazenamento (ex: empilhamento).</p>
+<p><strong>Implementação:</strong></p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// --- Action: ComputePoseToStore ---</span>
+<span class="c1">// Versão simples: Apenas calcula uma pose no topo da caixa (para empilhamento simples).</span>
+<span class="n">factory</span><span class="p">.</span><span class="n">registerSimpleAction</span><span class="p">(</span><span class="s">&quot;ComputePoseToStore&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="o">&amp;</span><span class="p">](</span><span class="n">BT</span><span class="o">::</span><span class="n">TreeNode</span><span class="w"> </span><span class="o">&amp;</span><span class="n">self</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">storagePose</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="p">.</span><span class="n">getInput</span><span class="o">&lt;</span><span class="n">geometry_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Pose</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;storage_pose&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">storageSize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="p">.</span><span class="n">getInput</span><span class="o">&lt;</span><span class="n">geometry_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Vector3</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;storage_size&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">zLiftOffset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="p">.</span><span class="n">getInput</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;z_lift_offset&quot;</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">storagePose</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">!</span><span class="n">storageSize</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">!</span><span class="n">zLiftOffset</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">NodeStatus</span><span class="o">::</span><span class="n">FAILURE</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">geometry_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Pose</span><span class="w"> </span><span class="n">output_final_pose</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">storagePose</span><span class="p">.</span><span class="n">value</span><span class="p">();</span>
+<span class="w">    </span><span class="n">output_final_pose</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">z</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">storageSize</span><span class="p">.</span><span class="n">value</span><span class="p">().</span><span class="n">z</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">zLiftOffset</span><span class="p">.</span><span class="n">value</span><span class="p">();</span>
+
+<span class="w">    </span><span class="n">self</span><span class="p">.</span><span class="n">setOutput</span><span class="p">(</span><span class="s">&quot;output_final_pose&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">output_final_pose</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">NodeStatus</span><span class="o">::</span><span class="n">SUCCESS</span><span class="p">;</span>
+<span class="p">},</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">BT</span><span class="o">::</span><span class="n">InputPort</span><span class="o">&lt;</span><span class="n">geometry_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Pose</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;storage_pose&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="n">BT</span><span class="o">::</span><span class="n">InputPort</span><span class="o">&lt;</span><span class="n">geometry_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Vector3</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;storage_size&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="n">BT</span><span class="o">::</span><span class="n">InputPort</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;z_lift_offset&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="n">BT</span><span class="o">::</span><span class="n">OutputPort</span><span class="o">&lt;</span><span class="n">geometry_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Pose</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;output_final_pose&quot;</span><span class="p">)</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+</section>
+<section id="incrementorganizedstorageindexes">
+<h3>IncrementOrganizedStorageIndexes<a class="headerlink" href="#incrementorganizedstorageindexes" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Tipo:</strong> Action Node (Simple)</p></li>
+<li><p><strong>Natureza:</strong> Síncrono (Commit)</p></li>
+</ul>
+<p>Atualiza o banco de dados marcando a posição como “Ocupada” após sucesso do <em>Place</em>.</p>
+<p><strong>Implementação:</strong></p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// --- Gerenciamento de Estoque ---</span>
+<span class="n">factory</span><span class="p">.</span><span class="n">registerSimpleAction</span><span class="p">(</span><span class="s">&quot;IncrementOrganizedStorageIndexes&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="o">&amp;</span><span class="p">](</span><span class="n">BT</span><span class="o">::</span><span class="n">TreeNode</span><span class="w"> </span><span class="o">&amp;</span><span class="n">self</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="c1">// Persiste a ocupação do espaço no banco de dados</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">id_opt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="p">.</span><span class="n">getInput</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;storage_id&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">newIndexes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="p">.</span><span class="n">getInput</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span><span class="p">(</span><span class="s">&quot;new_indexes&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">id_opt</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">!</span><span class="n">newIndexes</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">NodeStatus</span><span class="o">::</span><span class="n">FAILURE</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">storage_node_</span><span class="o">-&gt;</span><span class="n">addNewIndexes</span><span class="p">(</span><span class="n">id_opt</span><span class="p">.</span><span class="n">value</span><span class="p">(),</span><span class="w"> </span><span class="n">newIndexes</span><span class="p">.</span><span class="n">value</span><span class="p">());</span>
+<span class="w">    </span><span class="n">RCLCPP_WARN</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Storage &#39;%s&#39; atualizado.&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">id_opt</span><span class="p">.</span><span class="n">value</span><span class="p">().</span><span class="n">c_str</span><span class="p">());</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">NodeStatus</span><span class="o">::</span><span class="n">SUCCESS</span><span class="p">;</span>
+<span class="p">},</span>
+<span class="p">{</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">InputPort</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;storage_id&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">InputPort</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span><span class="p">(</span><span class="s">&quot;new_indexes&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">});</span>
+</pre></div>
+</div>
+</section>
+<section id="decrementstoragecount">
+<h3>DecrementStorageCount<a class="headerlink" href="#decrementstoragecount" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Tipo:</strong> Action Node (Simple)</p></li>
+<li><p><strong>Natureza:</strong> Síncrono (Rollback)</p></li>
+</ul>
+<p>Libera o espaço reservado no banco de dados em caso de falha na manipulação.</p>
+<p><strong>Implementação:</strong></p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">factory</span><span class="p">.</span><span class="n">registerSimpleAction</span><span class="p">(</span><span class="s">&quot;DecrementStorageCount&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="o">&amp;</span><span class="p">](</span><span class="n">BT</span><span class="o">::</span><span class="n">TreeNode</span><span class="w"> </span><span class="o">&amp;</span><span class="n">self</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="c1">// Rollback: Libera o espaço se algo der errado na manipulação</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">id_opt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="p">.</span><span class="n">getInput</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;storage_id&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">id_opt</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">NodeStatus</span><span class="o">::</span><span class="n">FAILURE</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">storage_node_</span><span class="o">-&gt;</span><span class="n">incrementStorageCount</span><span class="p">(</span><span class="n">id_opt</span><span class="p">.</span><span class="n">value</span><span class="p">(),</span><span class="w"> </span><span class="mi">-1</span><span class="p">);</span>
+<span class="w">    </span><span class="n">RCLCPP_WARN</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;ROLLBACK: Espaço liberado em &#39;%s&#39;.&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">id_opt</span><span class="p">.</span><span class="n">value</span><span class="p">().</span><span class="n">c_str</span><span class="p">());</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">NodeStatus</span><span class="o">::</span><span class="n">SUCCESS</span><span class="p">;</span>
+<span class="p">},</span>
+<span class="p">{</span><span class="w"> </span><span class="n">BT</span><span class="o">::</span><span class="n">InputPort</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;storage_id&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">});</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="bt_v1.0.html" class="btn btn-neutral float-left" title="Referência dos Nós da Behavior Tree (Legado v1.0)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../manipulation/index.html" class="btn btn-neutral float-right" title="Manipulation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Lucas Momesso.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

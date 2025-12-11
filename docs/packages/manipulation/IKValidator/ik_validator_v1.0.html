@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ik_validator.cpp (Atual v1.0) &mdash; Mobile Robot Documentation 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=86f27845" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=8f9e6779" />
+
+  
+  
+        <script src="../../../_static/jquery.js?v=8dae8fb0"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../../_static/clipboard.min.js?v=66b4909c"></script>
+        <script src="../../../_static/copybutton.js?v=71494f10"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Storage Manager" href="../../storage_manager/index.html" />
+    <link rel="prev" title="IKValidator" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Mobile Robot Documentation
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Pacotes do Sistema:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../task_planning/index.html">Task Planning</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../task_planning/ServerNode/index.html">ServerNode</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.0.html">server_node.cpp (Legado v1.0)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.0.html#adaptacao-para-behaviortree-cpp">1. Adaptação para BehaviorTree.CPP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.0.html#classe-principal-servernode">2. Classe Principal: ServerNode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.0.html#estruturas-de-dados-e-variaveis-internas">3. Estruturas de Dados e Variáveis Internas</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.0.html#callbacks-de-percepcao-inputs">4. Callbacks de Percepção (Inputs)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.0.html#integracao-com-navegacao">5. Integração com Navegação</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.0.html#integracao-com-manipulacao">6. Integração com Manipulação</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.0.html#analise-de-alcancabilidade-projetada">7. Análise de Alcançabilidade Projetada</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.0.html#utilitarios-e-main">8. Utilitários e Main</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.1.html">Documentação do Server Node (Atual v1.1)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.1.html#novidades-da-versao-1-1">1. Novidades da Versão 1.1</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.1.html#estrutura-e-inicializacao">2. Estrutura e Inicialização</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.1.html#detalhamento-dos-nos-da-behavior-tree">3. Detalhamento dos Nós da Behavior Tree</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.1.html#callbacks-de-percepcao">4. Callbacks de Percepção</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.1.html#implementacao-das-actions-e-comparativo-v1-0-vs-v1-1">5. Implementação das Actions e Comparativo (v1.0 vs v1.1)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../task_planning/BT/index.html">BT</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../task_planning/BT/bt_v1.0.html">Referência dos Nós da Behavior Tree (Legado v1.0)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.0.html#indice-rapido">Índice Rápido</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.0.html#controle-customizado">Controle Customizado</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.0.html#condicoes-conditions">Condições (Conditions)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.0.html#percepcao-e-contexto">Percepção e Contexto</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.0.html#navegacao-navigation-stack">Navegação (Navigation Stack)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.0.html#manipulacao-moveit-integration">Manipulação (MoveIt Integration)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.0.html#gerenciamento-de-estoque-storage">Gerenciamento de Estoque (Storage)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../task_planning/BT/bt_v1.1.html">Referência dos Nós da Behavior Tree (v1.1)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.1.html#indice-rapido">Índice Rápido</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.1.html#controle-customizado">Controle Customizado</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.1.html#condicoes-conditions">Condições (Conditions)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.1.html#percepcao-e-contexto">Percepção e Contexto</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.1.html#navegacao-navigation-stack">Navegação (Navigation Stack)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.1.html#manipulacao-moveit-integration">Manipulação (MoveIt Integration)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.1.html#gerenciamento-de-estoque-storage">Gerenciamento de Estoque (Storage)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Manipulation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../SimpleManipulation/index.html">SimpleManipulation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../SimpleManipulation/manipulation_impl_v1.0.html">manipulation_impl.cpp (Legado v1.0)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../SimpleManipulation/manipulation_impl_v1.0.html#demonstracao">Demonstração</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../SimpleManipulation/manipulation_impl_v1.0.html#construtor-e-inicializacao">1. Construtor e Inicialização</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../SimpleManipulation/manipulation_impl_v1.0.html#destrutor-cleanup">2. Destrutor (Cleanup)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../SimpleManipulation/manipulation_impl_v1.0.html#carregamento-de-parametros-yaml">3. Carregamento de Parâmetros (YAML)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../SimpleManipulation/manipulation_impl_v1.0.html#inicializacao-do-movegroup">4. Inicialização do MoveGroup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../SimpleManipulation/manipulation_impl_v1.0.html#posicao-de-seguranca-ready">5. Posição de Segurança (Ready)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../SimpleManipulation/manipulation_impl_v1.0.html#controle-da-garra-end-effector">6. Controle da Garra (End-Effector)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../SimpleManipulation/manipulation_impl_v1.0.html#planejamento-cartesiano-linha-reta">7. Planejamento Cartesiano (Linha Reta)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../SimpleManipulation/manipulation_impl_v1.0.html#planejamento-livre-rrtconnect">8. Planejamento Livre (RRTConnect)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../SimpleManipulation/manipulation_impl_v1.0.html#logica-central-pick-place">9. Lógica Central: Pick &amp; Place</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../SimpleManipulation/manipulation_impl_v1.0.html#gerenciamento-de-colisoes-acm">10. Gerenciamento de Colisões (ACM)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../SimpleManipulation/manipulation_impl_v1.0.html#requisicao-de-servicos-externos">11. Requisição de Serviços Externos</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../SimpleManipulation/manipulation_impl_v1.0.html#callbacks-do-action-server">12. Callbacks do Action Server</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../SimpleManipulation/manipulation_impl_v1.0.html#callback-do-sensor">13. Callback do Sensor</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../SimpleManipulation/manipulation_impl_v1.1.html">manipulation_impl.cpp (Atual v1.1 - Tentativa de recuperação)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../SimpleManipulation/manipulation_impl_v1.1.html#demonstracao">Demonstração</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../SimpleManipulation/manipulation_impl_v1.1.html#construtor-e-configuracao">1. Construtor e Configuração</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../SimpleManipulation/manipulation_impl_v1.1.html#destrutor-limpeza">2. Destrutor (Limpeza)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../SimpleManipulation/manipulation_impl_v1.1.html#carregamento-de-parametros-yaml">3. Carregamento de Parâmetros (YAML)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../SimpleManipulation/manipulation_impl_v1.1.html#inicializacao-tardia-movegroup">4. Inicialização Tardia (MoveGroup)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../SimpleManipulation/manipulation_impl_v1.1.html#posicao-de-seguranca-ready">5. Posição de Segurança (Ready)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../SimpleManipulation/manipulation_impl_v1.1.html#controle-da-garra">6. Controle da Garra</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../SimpleManipulation/manipulation_impl_v1.1.html#planejamento-de-movimento">7. Planejamento de Movimento</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../SimpleManipulation/manipulation_impl_v1.1.html#logica-central-pick-place-e-retry">8. Lógica Central: Pick, Place e Retry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../SimpleManipulation/manipulation_impl_v1.1.html#gerenciamento-de-colisoes">9. Gerenciamento de Colisões</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../SimpleManipulation/manipulation_impl_v1.1.html#servicos-externos">10. Serviços Externos</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../SimpleManipulation/manipulation_impl_v1.1.html#atualizacao-de-pose-novo">11. Atualização de Pose (Novo)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../SimpleManipulation/manipulation_impl_v1.1.html#action-callbacks">12. Action Callbacks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../SimpleManipulation/manipulation_impl_v1.1.html#callback-do-sensor">13. Callback do Sensor</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../IsGripperHolding/index.html">IsGripperHolding</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../IsGripperHolding/is_gripper_holding_impl_v1.0.html">is_gripper_holding_impl.cpp (Atual v1.0 - Composable Node)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../IsGripperHolding/is_gripper_holding_impl_v1.0.html#integracao-com-servernode-composicao">Integração com ServerNode (Composição)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../IsGripperHolding/is_gripper_holding_impl_v1.0.html#implementacao">Implementação</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../AddCollision/index.html">AddCollision</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../AddCollision/add_collision_impl_v1.0.html">add_collision_impl.cpp (Atual v1.0)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../AddCollision/add_collision_impl_v1.0.html#inicializacao-e-configuracao">Inicialização e Configuração</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../AddCollision/add_collision_impl_v1.0.html#filtragem-de-objetos-yaml">Filtragem de Objetos (YAML)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../AddCollision/add_collision_impl_v1.0.html#atualizacao-da-cena-moveit-interface">Atualização da Cena (MoveIt Interface)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../AddCollision/add_collision_impl_v1.0.html#logica-de-congelamento-service">Lógica de Congelamento (Service)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../AddCollision/add_collision_impl_v1.0.html#processamento-de-deteccoes">Processamento de Detecções</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../ProjectedReachabilityAnalysis/index.html">ProjectedReachabilityAnalysis</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../ProjectedReachabilityAnalysis/projected_reachability_analysis_v1.0.html">projected_reachability_analysis.cpp (Atual v1.0)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../ProjectedReachabilityAnalysis/projected_reachability_analysis_v1.0.html#matematica-da-projecao-3d-2d">1. Matemática da Projeção 3D -&gt; 2D</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../ProjectedReachabilityAnalysis/projected_reachability_analysis_v1.0.html#parametros-e-inicializacao">2. Parâmetros e Inicialização</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../ProjectedReachabilityAnalysis/projected_reachability_analysis_v1.0.html#algoritmo-de-expansao-bfs">3. Algoritmo de Expansão (BFS)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">IKValidator</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">ik_validator.cpp (Atual v1.0)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#inicializacao-assincrona-e-monitoramento-de-cena">1. Inicialização Assíncrona e Monitoramento de Cena</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#o-algoritmo-de-validacao-find-best-base">2. O Algoritmo de Validação (Find Best Base)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#demonstracao-visual">3. Demonstração visual</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../storage_manager/index.html">Storage Manager</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../storage_manager/Organize/index.html">Organize</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../storage_manager/Organize/organize_v1.0.html">organize.cpp (Atual v1.0 - Composable Node)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../storage_manager/Organize/organize_v1.0.html#arquitetura-de-composicao">Arquitetura de Composição</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../storage_manager/Organize/organize_v1.0.html#logica-de-empacotamento-bin-packing">Lógica de Empacotamento (Bin Packing)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../storage_manager/GetStorageInfo/index.html">GetStorageInfo</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../storage_manager/GetStorageInfo/get_storage_info_v1.0.html">get_storage_info.cpp (Atual v1.0 - Composable Node)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../storage_manager/GetStorageInfo/get_storage_info_v1.0.html#arquitetura-de-composicao">Arquitetura de Composição</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../storage_manager/GetStorageInfo/get_storage_info_v1.0.html#logica-de-selecao-best-storage">Lógica de Seleção (Best Storage)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../storage_manager/GetStorageInfo/get_storage_info_v1.0.html#gerenciamento-de-estado">Gerenciamento de Estado</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../storage_manager/GetStorageInfo/get_storage_info_v1.0.html#carregamento-de-dados-yaml">Carregamento de Dados (YAML)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../storage_manager/GetStorageInfo/get_storage_info_v1.0.html#calculo-de-limites">Cálculo de Limites</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../navigation/index.html">Navigation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../navigation/AStar/index.html">AStar</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../navigation/AStar/a_star_v1.0.html">a_star.cpp (Legado v1.0)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.0.html#inicializacao-e-parametros">Inicialização e Parâmetros</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.0.html#estruturas-de-dados">Estruturas de Dados</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.0.html#mapeamento-e-grid">Mapeamento e Grid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.0.html#recuperacao-de-alvo-bfs">Recuperação de Alvo (BFS)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.0.html#execucao-do-a-core">Execução do A* (Core)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.0.html#poda-de-seguranca-stop-distance">Poda de Segurança (Stop Distance)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.0.html#pos-processamento-e-suavizacao">Pós-Processamento e Suavização</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.0.html#execucao-e-recalculo-dinamico">Execução e Recálculo Dinâmico</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../navigation/AStar/a_star_v1.1.html">a_star.cpp (Atual v1.1)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.1.html#mudancas-criticas-v1-0-vs-v1-1">1. Mudanças Críticas: v1.0 vs v1.1</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.1.html#parametros-e-inicializacao">2. Parâmetros e Inicialização</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.1.html#core-do-algoritmo-a-com-otimizacao-de-raio">3. Core do Algoritmo: A* com Otimização de Raio</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.1.html#pos-processamento-filtro-e-orientacao">4. Pós-Processamento: Filtro e Orientação</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.1.html#implementacao-da-action-execute">5. Implementação da Action (Execute)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../navigation/AStarSplicing/index.html">AStarSplicing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../navigation/AStarSplicing/a_star_splicing_v1.0.html">a_star_splicing.cpp (Legado v1.0 - Planejador Dinâmico)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStarSplicing/a_star_splicing_v1.0.html#inicializacao-e-parametros">Inicialização e Parâmetros</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStarSplicing/a_star_splicing_v1.0.html#estruturas-de-dados">Estruturas de Dados</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStarSplicing/a_star_splicing_v1.0.html#mapeamento-e-grid">Mapeamento e Grid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStarSplicing/a_star_splicing_v1.0.html#recuperacao-de-alvo-bfs">Recuperação de Alvo (BFS)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStarSplicing/a_star_splicing_v1.0.html#motor-de-busca-a">Motor de Busca (A*)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStarSplicing/a_star_splicing_v1.0.html#poda-de-seguranca-stop-distance">Poda de Segurança (Stop Distance)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStarSplicing/a_star_splicing_v1.0.html#pos-processamento-e-suavizacao">Pós-Processamento e Suavização</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStarSplicing/a_star_splicing_v1.0.html#execucao-dinamica-path-splicing">Execução Dinâmica: Path Splicing</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../navigation/ObstacleGraph/index.html">OccupancyGridLoader</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../navigation/ObstacleGraph/obstacle_graph_with_occupancy_grid_v1.0.html">obstacle_graph_with_occupancy_grid.cpp (Atual v1.0)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/ObstacleGraph/obstacle_graph_with_occupancy_grid_v1.0.html#inicializacao-e-parametros">Inicialização e Parâmetros</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/ObstacleGraph/obstacle_graph_with_occupancy_grid_v1.0.html#estruturas-de-dados-hash-otimizado">Estruturas de Dados (Hash Otimizado)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/ObstacleGraph/obstacle_graph_with_occupancy_grid_v1.0.html#funcoes-auxiliares-discretizacao">Funções Auxiliares (Discretização)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/ObstacleGraph/obstacle_graph_with_occupancy_grid_v1.0.html#leitura-do-mapa-opencv-yaml">Leitura do Mapa (OpenCV + YAML)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/ObstacleGraph/obstacle_graph_with_occupancy_grid_v1.0.html#inflacao-de-obstaculos-safety-padding">Inflação de Obstáculos (Safety Padding)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/ObstacleGraph/obstacle_graph_with_occupancy_grid_v1.0.html#publicacao-pointcloud2">Publicação (PointCloud2)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../navigation/RobotController/index.html">RobotController</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../navigation/RobotController/controller_v1.0.html">controller.cpp (Atual v1.0)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/RobotController/controller_v1.0.html#inicializacao">Inicialização</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/RobotController/controller_v1.0.html#odometria-e-utilitarios">Odometria e Utilitários</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/RobotController/controller_v1.0.html#loop-de-controle-execute">Loop de Controle (Execute)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../navigation/SharedObstacleGraph/index.html">SharedObstacleGraph</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../navigation/SharedObstacleGraph/shared_obstacle_graph_v1.0.html">Shared Obstacle Graph</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/SharedObstacleGraph/shared_obstacle_graph_v1.0.html#estrategia-de-concorrencia-double-buffering">1. Estratégia de Concorrência (Double Buffering)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/SharedObstacleGraph/shared_obstacle_graph_v1.0.html#acesso-aos-dados">2. Acesso aos Dados</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/SharedObstacleGraph/shared_obstacle_graph_v1.0.html#discretizacao-e-hashing">3. Discretização e Hashing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/SharedObstacleGraph/shared_obstacle_graph_v1.0.html#inicializacao-e-parametros">4. Inicialização e Parâmetros</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../mobile_bringup/index.html">Mobile Bringup</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../mobile_bringup/mobile_manipulation.html">Launch File Inteligente (Bringup)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../mobile_bringup/mobile_manipulation.html#funcionamento-da-analise-xml">Funcionamento da Análise XML</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../mobile_bringup/mobile_manipulation.html#configuracao-de-nos-componiveis-servernode">Configuração de Nós Componíveis (ServerNode)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../mobile_bringup/mobile_manipulation.html#carregamento-dinamico-de-processos">Carregamento Dinâmico de Processos</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../mobile_manipulation_interfaces/index.html">Mobile Manipulation Interfaces</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../mobile_manipulation_interfaces/index.html#actions-acoes-assincronas">Actions (Ações Assíncronas)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../mobile_manipulation_interfaces/index.html#pickobject">PickObject</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../mobile_manipulation_interfaces/index.html#path">Path</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../mobile_manipulation_interfaces/index.html#controller">Controller</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../mobile_manipulation_interfaces/index.html#services-servicos-sincronos">Services (Serviços Síncronos)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../mobile_manipulation_interfaces/index.html#mobileobjectcollision">MobileObjectCollision</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Mobile Robot Documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Manipulation</a></li>
+          <li class="breadcrumb-item"><a href="index.html">IKValidator</a></li>
+      <li class="breadcrumb-item active">ik_validator.cpp (Atual v1.0)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/packages/manipulation/IKValidator/ik_validator_v1.0.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="ik-validator-cpp-atual-v1-0">
+<h1>ik_validator.cpp (Atual v1.0)<a class="headerlink" href="#ik-validator-cpp-atual-v1-0" title="Link to this heading"></a></h1>
+<p>O nó <code class="docutils literal notranslate"><span class="pre">IKValidator</span></code> é o componente mais computacionalmente intensivo do sistema de planejamento.
+Sua função é validar se uma posição candidata para a base do robô (x, y) permite, geometricamente e cinematicamente, que o <em>End-Effector</em> alcance a pose de pega desejada.</p>
+<p>Diferente de uma verificação simples de distância, este nó instancia uma simulação completa do robô utilizando a <strong>MoveIt Core API</strong>, considera a orientação da base, os limites das juntas (<em>joint limits</em>) e as auto-colisões.</p>
+<p>—</p>
+<section id="inicializacao-assincrona-e-monitoramento-de-cena">
+<h2>1. Inicialização Assíncrona e Monitoramento de Cena<a class="headerlink" href="#inicializacao-assincrona-e-monitoramento-de-cena" title="Link to this heading"></a></h2>
+<p>O MoveIt 2 exige o carregamento do URDF e SRDF, o que pode demorar alguns segundos. Para não bloquear o <em>spin</em> do ROS, utiliza-se um padrão de <strong>Inicialização Atrasada (Delayed Init)</strong>.</p>
+<p>O nó cria um <code class="docutils literal notranslate"><span class="pre">PlanningSceneMonitor</span></code> (PSM) que mantém uma cópia em tempo real do ambiente do robô (incluindo obstáculos adicionados dinamicamente via sensores).</p>
+<p><strong>Junta Virtual (Virtual Joint):</strong>
+O conceito chave aqui é a detecção automática da “Junta Virtual”.
+No MoveIt, para mover a base de um manipulador móvel durante o planejamento sem mover o robô real, define-se uma junta do tipo <code class="docutils literal notranslate"><span class="pre">PLANAR</span></code> ou <code class="docutils literal notranslate"><span class="pre">FLOATING</span></code> conectando o <code class="docutils literal notranslate"><span class="pre">world</span></code> ao <code class="docutils literal notranslate"><span class="pre">base_link</span></code>.
+O nó busca essa junta automaticamente para injetar as posições candidatas (x, y) durante a validação.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">IKValidator::delayed_init</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">initialized_</span><span class="p">.</span><span class="n">load</span><span class="p">())</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">init_timer_</span><span class="o">-&gt;</span><span class="n">cancel</span><span class="p">();</span><span class="w"> </span><span class="k">return</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">robot_model_loader_</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">robot_model_loader_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">robot_model_loader</span><span class="o">::</span><span class="n">RobotModelLoader</span><span class="o">&gt;</span><span class="p">(</span><span class="n">shared_from_this</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;robot_description&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">psm_</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">psm_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">planning_scene_monitor</span><span class="o">::</span><span class="n">PlanningSceneMonitor</span><span class="o">&gt;</span><span class="p">(</span><span class="n">shared_from_this</span><span class="p">(),</span><span class="w"> </span><span class="n">robot_model_loader_</span><span class="p">);</span>
+<span class="w">            </span><span class="n">psm_</span><span class="o">-&gt;</span><span class="n">startSceneMonitor</span><span class="p">();</span>
+<span class="w">            </span><span class="n">psm_</span><span class="o">-&gt;</span><span class="n">startWorldGeometryMonitor</span><span class="p">();</span><span class="w"> </span>
+<span class="w">            </span><span class="n">psm_</span><span class="o">-&gt;</span><span class="n">startStateMonitor</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">psm_</span><span class="o">-&gt;</span><span class="n">getRobotModel</span><span class="p">())</span><span class="w"> </span><span class="k">return</span><span class="p">;</span><span class="w"> </span>
+
+<span class="w">        </span><span class="n">robot_model_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">psm_</span><span class="o">-&gt;</span><span class="n">getRobotModel</span><span class="p">();</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">robot_model_</span><span class="o">-&gt;</span><span class="n">hasJointModelGroup</span><span class="p">(</span><span class="n">group_name_</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">RCLCPP_ERROR</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Grupo &#39;%s&#39; não existe!&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">group_name_</span><span class="p">.</span><span class="n">c_str</span><span class="p">());</span>
+<span class="w">            </span><span class="k">return</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">virtual_joints</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">robot_model_</span><span class="o">-&gt;</span><span class="n">getJointModels</span><span class="p">();</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="o">*</span><span class="w"> </span><span class="n">joint</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">virtual_joints</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">joint</span><span class="o">-&gt;</span><span class="n">getType</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">moveit</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">JointModel</span><span class="o">::</span><span class="n">PLANAR</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>
+<span class="w">                </span><span class="n">joint</span><span class="o">-&gt;</span><span class="n">getType</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">moveit</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">JointModel</span><span class="o">::</span><span class="n">FLOATING</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">virtual_joint_name_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">joint</span><span class="o">-&gt;</span><span class="n">getName</span><span class="p">();</span>
+<span class="w">                </span><span class="n">RCLCPP_INFO</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Virtual Joint encontrada: %s&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">virtual_joint_name_</span><span class="p">.</span><span class="n">c_str</span><span class="p">());</span>
+<span class="w">                </span><span class="k">break</span><span class="p">;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="n">initialized_</span><span class="p">.</span><span class="n">store</span><span class="p">(</span><span class="nb">true</span><span class="p">);</span><span class="w"> </span>
+<span class="w">        </span><span class="n">init_timer_</span><span class="o">-&gt;</span><span class="n">cancel</span><span class="p">();</span><span class="w"> </span>
+<span class="w">        </span><span class="n">RCLCPP_INFO</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;IK Validator PRONTO.&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">exception</span><span class="o">&amp;</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">RCLCPP_ERROR</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Erro Init: %s&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">what</span><span class="p">());</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>—</p>
+</section>
+<section id="o-algoritmo-de-validacao-find-best-base">
+<h2>2. O Algoritmo de Validação (Find Best Base)<a class="headerlink" href="#o-algoritmo-de-validacao-find-best-base" title="Link to this heading"></a></h2>
+<p>Esta é a função central. Ela recebe uma lista de pontos candidatos (gerados pelo <code class="docutils literal notranslate"><span class="pre">ReachabilityNode</span></code>) e retorna a melhor posição base onde o IK foi bem-sucedido.</p>
+<section id="configuracao-da-cena-thread-safe">
+<h3>Configuração da Cena (Thread-Safe)<a class="headerlink" href="#configuracao-da-cena-thread-safe" title="Link to this heading"></a></h3>
+<p>Antes de iterar, é preciso “congelar” a cena atual para garantir que obstáculos não se movam durante o cálculo matemático.
+Utiliza-se <code class="docutils literal notranslate"><span class="pre">LockedPlanningSceneRO</span></code> para leitura e cria-se um <code class="docutils literal notranslate"><span class="pre">diff</span></code> (diferença) para modificar a cena localmente sem afetar o sistema global.</p>
+<p><strong>Gerenciamento de Colisões (ACM):</strong>
+Para pegar um objeto, o <em>gripper</em> precisa tocar nele. Por padrão, o MoveIt considera isso uma colisão.
+O código manipula a <strong>Allowed Collision Matrix (ACM)</strong> para permitir explicitamente o contato entre os elos da garra (<code class="docutils literal notranslate"><span class="pre">gripper_links</span></code>) e o objeto alvo (<code class="docutils literal notranslate"><span class="pre">authorized_collision</span></code>).</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="n">psm_</span><span class="o">-&gt;</span><span class="n">requestPlanningSceneState</span><span class="p">();</span>
+<span class="w">    </span><span class="n">planning_scene_monitor</span><span class="o">::</span><span class="n">LockedPlanningSceneRO</span><span class="w"> </span><span class="nf">parent_scene</span><span class="p">(</span><span class="n">psm_</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">parent_scene</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">nullopt</span><span class="p">;</span>
+<span class="w">    </span><span class="n">planning_scene</span><span class="o">::</span><span class="n">PlanningScenePtr</span><span class="w"> </span><span class="n">temp_scene</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">parent_scene</span><span class="o">-&gt;</span><span class="n">diff</span><span class="p">();</span>
+
+<span class="w">    </span>
+<span class="w">    </span><span class="n">collision_detection</span><span class="o">::</span><span class="n">AllowedCollisionMatrix</span><span class="o">&amp;</span><span class="w"> </span><span class="n">acm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp_scene</span><span class="o">-&gt;</span><span class="n">getAllowedCollisionMatrixNonConst</span><span class="p">();</span>
+<span class="w">    </span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="w"> </span><span class="n">gripper_links</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;panda_link8&quot;</span><span class="p">};</span><span class="w"> </span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">robot_model_</span><span class="o">-&gt;</span><span class="n">hasJointModelGroup</span><span class="p">(</span><span class="s">&quot;hand&quot;</span><span class="p">))</span><span class="w"> </span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">links</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">robot_model_</span><span class="o">-&gt;</span><span class="n">getJointModelGroup</span><span class="p">(</span><span class="s">&quot;hand&quot;</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">getLinkModelNames</span><span class="p">();</span>
+<span class="w">        </span><span class="n">gripper_links</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">gripper_links</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span><span class="w"> </span><span class="n">links</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="w"> </span><span class="n">links</span><span class="p">.</span><span class="n">end</span><span class="p">());</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">authorized_collision</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span><span class="w"> </span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">link</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">gripper_links</span><span class="p">)</span><span class="w"> </span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">robot_model_</span><span class="o">-&gt;</span><span class="n">hasLinkModel</span><span class="p">(</span><span class="n">link</span><span class="p">))</span><span class="w"> </span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span>
+<span class="w">                </span><span class="n">acm</span><span class="p">.</span><span class="n">setEntry</span><span class="p">(</span><span class="n">link</span><span class="p">,</span><span class="w"> </span><span class="n">authorized_collision</span><span class="p">,</span><span class="w"> </span><span class="nb">true</span><span class="p">);</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">else</span><span class="w"> </span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="n">RCLCPP_DEBUG</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Nenhum objeto autorizado fornecido. Colisão padrão mantida.&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="callback-de-validacao-customizado">
+<h3>Callback de Validação Customizado<a class="headerlink" href="#callback-de-validacao-customizado" title="Link to this heading"></a></h3>
+<p>O <em>solver</em> de IK do MoveIt (<code class="docutils literal notranslate"><span class="pre">KDL</span></code> ou <code class="docutils literal notranslate"><span class="pre">Trac-IK</span></code>) apenas resolve a matemática das juntas. Ele não sabe se o cotovelo do robô colidirá com a parede.
+Por isso, injeta-se uma função lambda (<code class="docutils literal notranslate"><span class="pre">validity_callback</span></code>) que é chamada a cada solução matemática encontrada para testar colisões reais na cena.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="n">moveit</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">GroupStateValidityCallbackFn</span><span class="w"> </span><span class="n">validity_callback</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>
+<span class="w">        </span><span class="p">[</span><span class="o">&amp;</span><span class="n">temp_scene</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">acm</span><span class="p">](</span><span class="n">moveit</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">RobotState</span><span class="o">*</span><span class="w"> </span><span class="n">state</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">moveit</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">JointModelGroup</span><span class="o">*</span><span class="w"> </span><span class="n">group</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">double</span><span class="o">*</span><span class="w"> </span><span class="n">values</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">bool</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="n">state</span><span class="o">-&gt;</span><span class="n">setJointGroupPositions</span><span class="p">(</span><span class="n">group</span><span class="p">,</span><span class="w"> </span><span class="n">values</span><span class="p">);</span>
+<span class="w">            </span><span class="n">collision_detection</span><span class="o">::</span><span class="n">CollisionRequest</span><span class="w"> </span><span class="n">req</span><span class="p">;</span>
+<span class="w">            </span><span class="n">req</span><span class="p">.</span><span class="n">group_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">group</span><span class="o">-&gt;</span><span class="n">getName</span><span class="p">();</span>
+<span class="w">            </span>
+<span class="w">            </span>
+<span class="w">            </span><span class="n">req</span><span class="p">.</span><span class="n">verbose</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span><span class="w"> </span>
+<span class="w">            </span><span class="n">req</span><span class="p">.</span><span class="n">contacts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="w">            </span>
+<span class="w">            </span><span class="n">collision_detection</span><span class="o">::</span><span class="n">CollisionResult</span><span class="w"> </span><span class="n">res</span><span class="p">;</span>
+<span class="w">            </span>
+<span class="w">            </span>
+<span class="w">            </span><span class="n">temp_scene</span><span class="o">-&gt;</span><span class="n">checkCollision</span><span class="p">(</span><span class="n">req</span><span class="p">,</span><span class="w"> </span><span class="n">res</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">state</span><span class="p">,</span><span class="w"> </span><span class="n">acm</span><span class="p">);</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="o">!</span><span class="n">res</span><span class="p">.</span><span class="n">collision</span><span class="p">;</span>
+<span class="w">        </span><span class="p">};</span>
+</pre></div>
+</div>
+</section>
+<section id="loop-de-verificacao-e-orientacao-da-base">
+<h3>Loop de Verificação e Orientação da Base<a class="headerlink" href="#loop-de-verificacao-e-orientacao-da-base" title="Link to this heading"></a></h3>
+<p>Para cada ponto candidato (x, y):</p>
+<ol class="arabic">
+<li><p><strong>Verificação 2D:</strong> Consulta-se o <code class="docutils literal notranslate"><span class="pre">SharedObstacleGraph</span></code> para garantir que a base não esteja dentro de uma parede (validação rápida O(1)).</p></li>
+<li><p><strong>Cálculo de Orientação (Yaw):</strong> O robô deve estar virado para o objeto. Calcula-se o ângulo utilizando arco-tangente:</p>
+<div class="math notranslate nohighlight">
+\[\theta_{base} = \text{atan2}(y_{obj} - y_{base}, x_{obj} - x_{base})\]</div>
+</li>
+<li><p><strong>Injeção na Junta Virtual:</strong> Move-se o robô “imaginário” para a posição ($x, y, theta$).</p></li>
+<li><p><strong>Solver IK:</strong> Chama-se a função <code class="docutils literal notranslate"><span class="pre">setFromIK</span></code>. Se o <em>solver</em> encontrar uma configuração de juntas válida para o braço alcançar o alvo <em>a partir dessa base</em>, o ponto é salvo.</p></li>
+</ol>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">base_pos_3d</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">robot_positions</span><span class="p">)</span><span class="w"> </span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">bx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">get</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="n">base_pos_3d</span><span class="p">);</span>
+<span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">get</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">base_pos_3d</span><span class="p">);</span>
+<span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">bz</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">get</span><span class="o">&lt;</span><span class="mi">2</span><span class="o">&gt;</span><span class="p">(</span><span class="n">base_pos_3d</span><span class="p">);</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">isnan</span><span class="p">(</span><span class="n">bx</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">isnan</span><span class="p">(</span><span class="n">by</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">isnan</span><span class="p">(</span><span class="n">bz</span><span class="p">))</span><span class="w"> </span><span class="k">continue</span><span class="p">;</span>
+
+<span class="w">        </span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">float</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="o">&gt;</span><span class="w"> </span><span class="n">base_pos_2d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">bx</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="p">};</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">map_snapshot</span><span class="o">-&gt;</span><span class="n">find</span><span class="p">(</span><span class="n">base_pos_2d</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">map_snapshot</span><span class="o">-&gt;</span><span class="n">end</span><span class="p">())</span><span class="w"> </span><span class="k">continue</span><span class="p">;</span><span class="w"> </span>
+
+<span class="w">        </span><span class="kt">double</span><span class="w"> </span><span class="n">dx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">check_pose</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">bx</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">double</span><span class="w"> </span><span class="n">dy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">check_pose</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">y</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">by</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">double</span><span class="w"> </span><span class="n">dz</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">check_pose</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">z</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">bz</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">double</span><span class="w"> </span><span class="n">dist_3d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">sqrt</span><span class="p">(</span><span class="n">dx</span><span class="o">*</span><span class="n">dx</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">dy</span><span class="o">*</span><span class="n">dy</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">dz</span><span class="o">*</span><span class="n">dz</span><span class="p">);</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">dist_3d</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">0.95</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">dist_3d</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">0.15</span><span class="p">)</span><span class="w"> </span><span class="k">continue</span><span class="p">;</span><span class="w"> </span>
+
+<span class="w">        </span>
+<span class="w">        </span><span class="kt">double</span><span class="w"> </span><span class="n">yaw_to_target</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">atan2</span><span class="p">(</span><span class="n">dy</span><span class="p">,</span><span class="w"> </span><span class="n">dx</span><span class="p">);</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">virtual_joint_name_</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="o">*</span><span class="w"> </span><span class="n">vjoint</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">robot_model_</span><span class="o">-&gt;</span><span class="n">getJointModel</span><span class="p">(</span><span class="n">virtual_joint_name_</span><span class="p">);</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">vjoint</span><span class="o">-&gt;</span><span class="n">getType</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">moveit</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">JointModel</span><span class="o">::</span><span class="n">FLOATING</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">Eigen</span><span class="o">::</span><span class="n">Quaterniond</span><span class="w"> </span><span class="nf">q_base</span><span class="p">(</span><span class="n">Eigen</span><span class="o">::</span><span class="n">AngleAxisd</span><span class="p">(</span><span class="n">yaw_to_target</span><span class="p">,</span><span class="w"> </span><span class="n">Eigen</span><span class="o">::</span><span class="n">Vector3d</span><span class="o">::</span><span class="n">UnitZ</span><span class="p">()));</span>
+<span class="w">                </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="w"> </span><span class="n">float_vals</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">bx</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">by</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">bz</span><span class="p">,</span><span class="w"> </span><span class="n">q_base</span><span class="p">.</span><span class="n">x</span><span class="p">(),</span><span class="w"> </span><span class="n">q_base</span><span class="p">.</span><span class="n">y</span><span class="p">(),</span><span class="w"> </span><span class="n">q_base</span><span class="p">.</span><span class="n">z</span><span class="p">(),</span><span class="w"> </span><span class="n">q_base</span><span class="p">.</span><span class="n">w</span><span class="p">()</span><span class="w"> </span><span class="p">};</span>
+<span class="w">                </span><span class="n">local_state</span><span class="p">.</span><span class="n">setJointPositions</span><span class="p">(</span><span class="n">virtual_joint_name_</span><span class="p">,</span><span class="w"> </span><span class="n">float_vals</span><span class="p">);</span>
+<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">                </span><span class="n">local_state</span><span class="p">.</span><span class="n">setJointPositions</span><span class="p">(</span><span class="n">virtual_joint_name_</span><span class="p">,</span><span class="w"> </span><span class="p">{(</span><span class="kt">double</span><span class="p">)</span><span class="n">bx</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">by</span><span class="p">,</span><span class="w"> </span><span class="n">yaw_to_target</span><span class="p">});</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">local_state</span><span class="p">.</span><span class="n">update</span><span class="p">();</span><span class="w"> </span>
+
+<span class="w">        </span>
+<span class="w">        </span><span class="n">q_grip</span><span class="p">.</span><span class="n">setRPY</span><span class="p">(</span><span class="n">M_PI</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="n">yaw_to_target</span><span class="p">);</span><span class="w"> </span>
+<span class="w">        </span><span class="n">q_grip</span><span class="p">.</span><span class="n">normalize</span><span class="p">();</span>
+<span class="w">        </span><span class="n">check_pose</span><span class="p">.</span><span class="n">orientation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tf2</span><span class="o">::</span><span class="n">toMsg</span><span class="p">(</span><span class="n">q_grip</span><span class="p">);</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">seed_mode</span><span class="p">)</span><span class="w"> </span><span class="n">local_state</span><span class="p">.</span><span class="n">setToDefaultValues</span><span class="p">(</span><span class="n">arm_jmg</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;ready&quot;</span><span class="p">);</span>
+
+<span class="w">        </span>
+<span class="w">        </span><span class="kt">bool</span><span class="w"> </span><span class="n">found_ik</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">local_state</span><span class="p">.</span><span class="n">setFromIK</span><span class="p">(</span><span class="n">arm_jmg</span><span class="p">,</span><span class="w"> </span><span class="n">check_pose</span><span class="p">,</span><span class="w"> </span><span class="mf">0.015</span><span class="p">,</span><span class="w"> </span><span class="n">validity_callback</span><span class="p">);</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">found_ik</span><span class="p">)</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="n">valid_count</span><span class="o">++</span><span class="p">;</span>
+<span class="w">            </span><span class="n">successful_ik_points</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">base_pos_3d</span><span class="p">);</span>
+<span class="w">            </span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">dist_3d</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">min_dist_sq</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">min_dist_sq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dist_3d</span><span class="p">;</span>
+<span class="w">                </span><span class="n">best_base</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">base_pos_3d</span><span class="p">;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+</pre></div>
+</div>
+<p>—</p>
+</section>
+</section>
+<section id="demonstracao-visual">
+<h2>3. Demonstração visual<a class="headerlink" href="#demonstracao-visual" title="Link to this heading"></a></h2>
+<p>Explicação das imagens:</p>
+<ol class="arabic simple">
+<li><p><strong>Quadrados pretos:</strong> Representam o grafo de obstáculos gerado pelo nó <a class="reference internal" href="../../navigation/ObstacleGraph/obstacle_graph_with_occupancy_grid_v1.0.html"><span class="doc">Obstacle Graph v1.0</span></a>. O nó atual acessa esse grafo através de um ponteiro compartilhado (<em>shared pointer</em>) do <a class="reference internal" href="../../navigation/SharedObstacleGraph/shared_obstacle_graph_v1.0.html"><span class="doc">SharedObstacleGraph v1.0</span></a>, fornecido pelo <a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.1.html"><span class="doc">Server Node v1.1</span></a>.</p></li>
+<li><p><strong>Quadrados vermelhos:</strong> São gerados pelo nó <a class="reference internal" href="../ProjectedReachabilityAnalysis/projected_reachability_analysis_v1.0.html"><span class="doc">ProjectedReachabilityAnalysis v1.0</span></a>.</p></li>
+<li><p><strong>Quadrados azuis:</strong> Gerados pelo nó atual, indicam os pontos de preensão (<em>grasping points</em>) onde o robô pode interagir com o objeto.</p></li>
+</ol>
+<section id="sem-parede-bloqueando-o-objeto">
+<h3>Sem parede bloqueando o objeto<a class="headerlink" href="#sem-parede-bloqueando-o-objeto" title="Link to this heading"></a></h3>
+<div style="text-align: center; margin-bottom: 20px; border: 1px solid #ccc; padding: 10px;">
+    <p><em>Visualização da validação de IK considerando obstáculos.</em></p>
+    <img src="../../../_static/manipulation/ik_validator_sem_parede.png" alt="Visualização da validação de IK considerando obstáculos" style="width: 100%; height: auto;">
+</div>
+
+<div style="text-align: center; margin-bottom: 20px; border: 1px solid #ccc; padding: 10px;">
+    <p><em>Visualização da BFS com o modelo do robô ao lado do objeto.</em></p>
+    <img src="../../../_static/manipulation/ik_validator_sem_parede_e_robo.png" alt="Visualização lateral do Triângulo de Cálculo." style="width: 100%; height: auto;">
+</div>
+
+<div style="text-align: center; margin-bottom: 20px; border: 1px solid #ccc; padding: 10px;">
+    <p><em>Visualização da simulação real.</em></p>
+    <img src="../../../_static/manipulation/simulacao_real_sem_parede_ik_validator.png" alt="Screenshot do RViz." style="width: 100%; height: auto;">
+</div></section>
+<section id="com-parede-bloqueando-o-objeto">
+<h3>Com parede bloqueando o objeto<a class="headerlink" href="#com-parede-bloqueando-o-objeto" title="Link to this heading"></a></h3>
+<div style="text-align: center; margin-bottom: 20px; border: 1px solid #ccc; padding: 10px;">
+    <p><em>Visualização da validação de IK considerando obstáculos.</em></p>
+    <img src="../../../_static/manipulation/ik_validator_com_parede.png" alt="Visualização da validação de IK considerando obstáculos" style="width: 100%; height: auto;">
+</div>
+
+<div style="text-align: center; margin-bottom: 20px; border: 1px solid #ccc; padding: 10px;">
+    <p><em>Visualização da BFS com o modelo do robô ao lado do objeto.</em></p>
+    <img src="../../../_static/manipulation/ik_validator_com_parede_e_robo.png" alt="Visualização lateral do Triângulo de Cálculo." style="width: 100%; height: auto;">
+</div>
+
+<div style="text-align: center; margin-bottom: 20px; border: 1px solid #ccc; padding: 10px;">
+    <p><em>Visualização da simulação real.</em></p>
+    <img src="../../../_static/manipulation/simulacao_real_com_parede_ik_validator.png" alt="Screenshot do Isaac Sim." style="width: 100%; height: auto;">
+</div></section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="IKValidator" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../storage_manager/index.html" class="btn btn-neutral float-right" title="Storage Manager" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Lucas Momesso.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,150 @@
+a_star.cpp (Atual v1.1)
+==========================
+
+O nó ``AStar`` v1.1 é um planejador de caminho global determinístico. Diferente da versão anterior, que atuava como um supervisor de navegação, a v1.1 funciona como uma **Calculadora de Rota Pura (One-Shot)**.
+
+Ele recebe um mapa de ocupação (nuvem de pontos) e uma posição de destino, calcula a rota ótima e retorna imediatamente, delegando a monitoração de obstáculos dinâmicos para a Behavior Tree (Nó ``IsPathClear``).
+
+---
+
+1. Mudanças Críticas: v1.0 vs v1.1
+----------------------------------
+
+A arquitetura do planejador foi simplificada para se adequar ao modelo "Deliberativo" do Server Node v1.1.
+
+Remoção da Distância de Segurança (Security Distance)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+A alteração mais impactante nesta versão.
+
+* **Na v1.0:** O planejador recebia um alvo (ex: centro de uma mesa) e cortava o caminho quando a distância fosse menor que ``security_distance``. O robô parava *antes* de chegar.
+* **Na v1.1:** O parâmetro ``security_distance`` foi **REMOVIDO**. O planejador agora traça uma rota até a coordenada **exata** solicitada (ou o ponto livre mais próximo dela).
+
+.. warning::
+   **Mudança de Comportamento:**
+   Se você enviar a coordenada do centro de um obstáculo para o A* v1.1, ele tentará criar um caminho até lá (limitado apenas pela colisão física do mapa).
+   **Motivo:** A responsabilidade de calcular a "Pose de Aproximação" (onde o robô deve parar para pegar um objeto) foi movida para o nó :doc:`Projected Reachability Analysis v1.0 <../../manipulation/ProjectedReachabilityAnalysis/projected_reachability_analysis_v1.0>` que faz parte do Composable Node de :doc:`Server Node v1.1 <../../task_planning/ServerNode/server_node_v1.1>`. O A* agora apenas obedece.
+
+Fim do Loop de Execução e Feedback
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+* **Na v1.0:** A Action entrava em um loop infinito, monitorando a odometria e recalculando a rota se obstáculos dinâmicos aparecessem. Enviava feedbacks de *Recalculating*.
+* **Na v1.1:** A Action é **One-Shot**. Ela calcula, retorna o resultado e encerra (Succeed/Abort). Não há monitoramento contínuo dentro deste nó. A verificação de novos obstáculos é feita externamente pelo nó ``IsPathClear`` da BT.
+
+---
+
+2. Parâmetros e Inicialização
+-----------------------------
+
+Os parâmetros foram ajustados para focar apenas na resolução do grafo e na otimização heurística.
+
+* **path_resolution:** Tamanho da célula do grid (discretização).
+* **iterations_before_verification (Novo):** Define a agressividade da otimização "Line-of-Sight". A cada N iterações do A*, o algoritmo tenta traçar uma linha reta até o final para encontrar atalhos, acelerando a busca em áreas abertas.
+
+.. literalinclude:: ../../../../../docs_central/legacy_src/navigation/AStar/a_star_v1.1.cpp
+   :language: cpp
+   :start-after: // DOC-START: AStar_Constructor
+   :end-before: // DOC-END: AStar_Constructor
+
+---
+
+3. Core do Algoritmo: A* com Otimização de Raio
+-----------------------------------------------
+
+A lógica de busca mantém a robustez contra alvos inválidos (usando BFS para encontrar o vizinho livre mais próximo), mas introduz uma verificação de linha de visão (Raycast) dentro do loop principal.
+
+Recuperação de Alvo (BFS)
+^^^^^^^^^^^^^^^^^^^^^^^^^
+Antes de iniciar o A*, verifica se o `start` ou o `goal` estão dentro de obstáculos. Se estiverem, busca o ponto livre mais próximo em espiral.
+
+**Demonstração da Expansão BFS:**
+
+.. raw:: html
+
+    <div style="text-align: center; margin-bottom: 20px; border: 1px solid #ccc; padding: 10px;">
+       <p><em>Visualização da recuperação de alvo via BFS (vídeo extremamente desacelerado).</em></p>
+       
+       <video width="100%" height="auto" controls autoplay loop muted>
+           <source src="../../../_static/navigation/BFS_example_precise.webm" type="video/webm">
+           Seu navegador não suporta a tag de vídeo.
+       </video>
+
+       <br><br>
+
+       <p><em>Visualização do mapa real. O alvo é o cubo vermelho.</em></p>
+       <img src="../../../_static/navigation/mapa_real_bfs.png" alt="Visualização do mapa real." style="width: 100%; height: auto;">
+   </div>
+
+.. literalinclude:: ../../../../../docs_central/legacy_src/navigation/AStar/a_star_v1.1.cpp
+   :language: cpp
+   :start-after: // DOC-START: find_nearest_free_point
+   :end-before: // DOC-END: find_nearest_free_point
+
+Heurística e Otimização
+^^^^^^^^^^^^^^^^^^^^^^^
+O loop principal do A* agora contém uma verificação periódica (`iterations_before_verification`). Se o nó atual tiver uma linha de visão limpa até o alvo (sem obstáculos no meio), o algoritmo encerra a busca imediatamente e conecta os pontos, economizando processamento.
+
+**Visualização da Expansão do A*:**
+
+.. raw:: html
+
+   <div style="text-align: center; margin-bottom: 20px; border: 1px solid #ccc; padding: 10px;">
+       <p><em>Visualização da expansão dos nós (A*)</em></p>
+       <video width="100%" height="auto" controls autoplay loop muted>
+           <source src="../../../_static/navigation/A*.webm" type="video/webm">
+           Seu navegador não suporta a tag de vídeo.
+       </video>
+   </div>
+
+.. literalinclude:: ../../../../../docs_central/legacy_src/navigation/AStar/a_star_v1.1.cpp
+   :language: cpp
+   :start-after: // DOC-START: run_a_star
+   :end-before: // DOC-END: run_a_star
+
+---
+
+4. Pós-Processamento: Filtro e Orientação
+-----------------------------------------
+
+O método de saída mudou significativamente. Agora, o nó retorna **dois caminhos** simultaneamente.
+
+1.  **Path Suavizado:** Usado para navegação do controlador. Passa por um algoritmo que remove *waypoints* desnecessários (pontos colineares ou atalhos seguros).
+2.  **Path Sem Filtro:** Usado pelo ``ServerNode`` para verificação de colisão (`IsPathClear`). Mantém a fidelidade do grid para garantir que a checagem de obstáculos seja precisa.
+
+**Comparativo: Caminho Bruto vs. Suavizado:**
+
+.. raw:: html
+
+   <div style="text-align: center; margin-bottom: 20px; border: 1px solid #ccc; padding: 10px;">
+       <p><em>Filtro de Suavização (demonstração visual da técnica)</em></p>
+       <video width="100%" height="auto" controls autoplay loop muted>
+           <source src="../../../_static/navigation/Filter_60fps.webm" type="video/webm">
+           Seu navegador não suporta a tag de vídeo.
+       </video>
+   </div>
+
+**Cálculo de Orientação:**
+Diferente da v1.0, a v1.1 calcula a orientação (quaternion) de cada pose baseada no vetor direção para o próximo ponto ($P_{i+1} - P_i$). Isso permite que o robô já receba o caminho orientado para a frente.
+
+.. literalinclude:: ../../../../../docs_central/legacy_src/navigation/AStar/a_star_v1.1.cpp
+   :language: cpp
+   :start-after: // DOC-START: filter_path
+   :end-before: // DOC-END: filter_path
+
+---
+
+5. Implementação da Action (Execute)
+------------------------------------
+
+A função ``execute`` demonstra a natureza "stateless" (sem estado contínuo) da v1.1.
+
+1.  Bloqueia os mutexes de mapa e odometria para obter um *snapshot* do mundo.
+2.  Roda o A*.
+3.  Filtra o resultado.
+4.  Retorna imediatamente ``SUCCEEDED`` ou ``ABORTED``.
+
+.. note::
+   Não há laços `while` monitorando o progresso do robô aqui. A Action termina em milissegundos (tempo de cálculo da CPU).
+
+.. literalinclude:: ../../../../../docs_central/legacy_src/navigation/AStar/a_star_v1.1.cpp
+   :language: cpp
+   :start-after: // DOC-START: execute
+   :end-before: // DOC-END: execute

@@ -1,0 +1,132 @@
+ik_validator.cpp (Atual v1.0)
+==============================
+
+O nó ``IKValidator`` é o componente mais computacionalmente intensivo do sistema de planejamento.
+Sua função é validar se uma posição candidata para a base do robô (x, y) permite, geometricamente e cinematicamente, que o *End-Effector* alcance a pose de pega desejada.
+
+Diferente de uma verificação simples de distância, este nó instancia uma simulação completa do robô utilizando a **MoveIt Core API**, considera a orientação da base, os limites das juntas (*joint limits*) e as auto-colisões.
+
+---
+
+1. Inicialização Assíncrona e Monitoramento de Cena
+---------------------------------------------------
+
+O MoveIt 2 exige o carregamento do URDF e SRDF, o que pode demorar alguns segundos. Para não bloquear o *spin* do ROS, utiliza-se um padrão de **Inicialização Atrasada (Delayed Init)**.
+
+O nó cria um ``PlanningSceneMonitor`` (PSM) que mantém uma cópia em tempo real do ambiente do robô (incluindo obstáculos adicionados dinamicamente via sensores).
+
+**Junta Virtual (Virtual Joint):**
+O conceito chave aqui é a detecção automática da "Junta Virtual".
+No MoveIt, para mover a base de um manipulador móvel durante o planejamento sem mover o robô real, define-se uma junta do tipo ``PLANAR`` ou ``FLOATING`` conectando o ``world`` ao ``base_link``.
+O nó busca essa junta automaticamente para injetar as posições candidatas (x, y) durante a validação.
+
+.. literalinclude:: ../../../../../docs_central/legacy_src/manipulation/IKValidator/ik_validator_v1.0.cpp
+   :language: cpp
+   :start-after: // DOC-START: delayed_init
+   :end-before: // DOC-END: delayed_init
+
+---
+
+2. O Algoritmo de Validação (Find Best Base)
+--------------------------------------------
+
+Esta é a função central. Ela recebe uma lista de pontos candidatos (gerados pelo ``ReachabilityNode``) e retorna a melhor posição base onde o IK foi bem-sucedido.
+
+Configuração da Cena (Thread-Safe)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Antes de iterar, é preciso "congelar" a cena atual para garantir que obstáculos não se movam durante o cálculo matemático.
+Utiliza-se ``LockedPlanningSceneRO`` para leitura e cria-se um ``diff`` (diferença) para modificar a cena localmente sem afetar o sistema global.
+
+**Gerenciamento de Colisões (ACM):**
+Para pegar um objeto, o *gripper* precisa tocar nele. Por padrão, o MoveIt considera isso uma colisão.
+O código manipula a **Allowed Collision Matrix (ACM)** para permitir explicitamente o contato entre os elos da garra (``gripper_links``) e o objeto alvo (``authorized_collision``).
+
+.. literalinclude:: ../../../../../docs_central/legacy_src/manipulation/IKValidator/ik_validator_v1.0.cpp
+   :language: cpp
+   :start-after: // DOC-START: acm_setup
+   :end-before: // DOC-END: acm_setup
+
+Callback de Validação Customizado
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+O *solver* de IK do MoveIt (``KDL`` ou ``Trac-IK``) apenas resolve a matemática das juntas. Ele não sabe se o cotovelo do robô colidirá com a parede.
+Por isso, injeta-se uma função lambda (``validity_callback``) que é chamada a cada solução matemática encontrada para testar colisões reais na cena.
+
+.. literalinclude:: ../../../../../docs_central/legacy_src/manipulation/IKValidator/ik_validator_v1.0.cpp
+   :language: cpp
+   :start-after: // DOC-START: validity_callback
+   :end-before: // DOC-END: validity_callback
+
+Loop de Verificação e Orientação da Base
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Para cada ponto candidato (x, y):
+
+1.  **Verificação 2D:** Consulta-se o ``SharedObstacleGraph`` para garantir que a base não esteja dentro de uma parede (validação rápida O(1)).
+2.  **Cálculo de Orientação (Yaw):** O robô deve estar virado para o objeto. Calcula-se o ângulo utilizando arco-tangente:
+    
+    .. math::
+       \theta_{base} = \text{atan2}(y_{obj} - y_{base}, x_{obj} - x_{base})
+
+3.  **Injeção na Junta Virtual:** Move-se o robô "imaginário" para a posição ($x, y, \theta$).
+4.  **Solver IK:** Chama-se a função ``setFromIK``. Se o *solver* encontrar uma configuração de juntas válida para o braço alcançar o alvo *a partir dessa base*, o ponto é salvo.
+
+.. literalinclude:: ../../../../../docs_central/legacy_src/manipulation/IKValidator/ik_validator_v1.0.cpp
+   :language: cpp
+   :start-after: // DOC-START: ik_loop
+   :end-before: // DOC-END: ik_loop
+
+---
+
+3. Demonstração visual
+----------------------
+
+Explicação das imagens:
+
+1. **Quadrados pretos:** Representam o grafo de obstáculos gerado pelo nó :doc:`Obstacle Graph v1.0 <../../navigation/ObstacleGraph/obstacle_graph_with_occupancy_grid_v1.0>`. O nó atual acessa esse grafo através de um ponteiro compartilhado (*shared pointer*) do :doc:`SharedObstacleGraph v1.0 <../../navigation/SharedObstacleGraph/shared_obstacle_graph_v1.0>`, fornecido pelo :doc:`Server Node v1.1 <../../task_planning/ServerNode/server_node_v1.1>`.
+
+2. **Quadrados vermelhos:** São gerados pelo nó :doc:`ProjectedReachabilityAnalysis v1.0 <../../manipulation/ProjectedReachabilityAnalysis/projected_reachability_analysis_v1.0>`.
+
+3. **Quadrados azuis:** Gerados pelo nó atual, indicam os pontos de preensão (*grasping points*) onde o robô pode interagir com o objeto.
+
+Sem parede bloqueando o objeto
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. raw:: html
+
+   <div style="text-align: center; margin-bottom: 20px; border: 1px solid #ccc; padding: 10px;">
+       <p><em>Visualização da validação de IK considerando obstáculos.</em></p>
+       <img src="../../../_static/manipulation/ik_validator_sem_parede.png" alt="Visualização da validação de IK considerando obstáculos" style="width: 100%; height: auto;">
+   </div>
+
+   <div style="text-align: center; margin-bottom: 20px; border: 1px solid #ccc; padding: 10px;">
+       <p><em>Visualização da BFS com o modelo do robô ao lado do objeto.</em></p>
+       <img src="../../../_static/manipulation/ik_validator_sem_parede_e_robo.png" alt="Visualização lateral do Triângulo de Cálculo." style="width: 100%; height: auto;">
+   </div>
+
+   <div style="text-align: center; margin-bottom: 20px; border: 1px solid #ccc; padding: 10px;">
+       <p><em>Visualização da simulação real.</em></p>
+       <img src="../../../_static/manipulation/simulacao_real_sem_parede_ik_validator.png" alt="Screenshot do RViz." style="width: 100%; height: auto;">
+   </div>
+
+
+Com parede bloqueando o objeto
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. raw:: html
+
+   <div style="text-align: center; margin-bottom: 20px; border: 1px solid #ccc; padding: 10px;">
+       <p><em>Visualização da validação de IK considerando obstáculos.</em></p>
+       <img src="../../../_static/manipulation/ik_validator_com_parede.png" alt="Visualização da validação de IK considerando obstáculos" style="width: 100%; height: auto;">
+   </div>
+
+   <div style="text-align: center; margin-bottom: 20px; border: 1px solid #ccc; padding: 10px;">
+       <p><em>Visualização da BFS com o modelo do robô ao lado do objeto.</em></p>
+       <img src="../../../_static/manipulation/ik_validator_com_parede_e_robo.png" alt="Visualização lateral do Triângulo de Cálculo." style="width: 100%; height: auto;">
+   </div>
+
+   <div style="text-align: center; margin-bottom: 20px; border: 1px solid #ccc; padding: 10px;">
+       <p><em>Visualização da simulação real.</em></p>
+       <img src="../../../_static/manipulation/simulacao_real_com_parede_ik_validator.png" alt="Screenshot do Isaac Sim." style="width: 100%; height: auto;">
+   </div>

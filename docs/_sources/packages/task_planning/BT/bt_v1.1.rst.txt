@@ -1,0 +1,407 @@
+Referência dos Nós da Behavior Tree (v1.1)
+==========================================
+
+Esta seção documenta a biblioteca de nós (Nodes) desenvolvidos para a composição das árvores de comportamento do projeto (Versão 1.1).
+
+1. Demonstração da BT na simulação
+
+.. raw:: html
+
+   <div style="text-align: center; margin-bottom: 20px; border: 1px solid #ccc; padding: 10px;">
+       <p><em>Visualização do comportamento da BT.</em></p>
+       
+       <video width="100%" height="auto" controls autoplay loop muted>
+           <source src="../../../_static/task_planning/BT e simulação.webm" type="video/webm">
+           Seu navegador não suporta a tag de vídeo.
+       </video>
+
+   </div>
+
+
+Índice Rápido
+-------------
+
+.. list-table::
+   :widths: 30 15 55
+   :header-rows: 1
+
+   * - Nome do Nó
+     - Tipo
+     - Descrição Resumida
+   * - **ParallelAny**
+     - Control
+     - Executa filhos em paralelo com lógica OR (Short-circuit).
+   * - **IsReachable**
+     - Condition
+     - Verifica alcance cinemático e calcula pose de navegação.
+   * - **IsGripperHoldingObject**
+     - Condition
+     - Verifica sensor de contato da garra.
+   * - **IsPathClear**
+     - Condition
+     - Verifica colisão no caminho atual a cada tick.
+   * - **DetectObject**
+     - Action
+     - Processa visão computacional e seleciona alvos.
+   * - **ClearTarget**
+     - Action
+     - Reseta o alvo atual para permitir nova busca.
+   * - **ComputePath**
+     - Action
+     - Solicita planejamento global de rota (A*).
+   * - **FollowPath**
+     - Action
+     - Executa a trajetória (Controlador) em malha fechada.
+   * - **PickObject**
+     - Action
+     - Executa sequência de manipulação para pegar.
+   * - **PlaceObject**
+     - Action
+     - Executa sequência de manipulação para largar.
+   * - **GetStorageInfo**
+     - Action
+     - Consulta banco de dados de armazenamento.
+   * - **ComputePoseToOrganize**
+     - Action
+     - Calcula pose de *Place* usando Bin Packing.
+   * - **ComputePoseToStore**
+     - Action
+     - Calcula pose de *Place* simples (pilha).
+   * - **IncrementOrganizedStorageIndexes**
+     - Action
+     - Confirma ocupação de espaço (Commit).
+   * - **DecrementStorageCount**
+     - Action
+     - Libera espaço em caso de falha (Rollback).
+
+---
+
+Controle Customizado
+--------------------
+
+ParallelAny
+^^^^^^^^^^^
+* **Tipo:** Control Node
+* **Natureza:** Síncrono
+
+Diferente do nó `Parallel` padrão (que aguarda N sucessos ou N falhas), este nó implementa uma lógica de "curto-circuito" (OR lógico em paralelo).
+
+* **Comportamento:**
+    1. Executa **todos** os nós filhos simultaneamente a cada *tick*.
+    2. Retorna **SUCCESS** imediatamente se *qualquer* filho retornar `SUCCESS`.
+    3. Retorna **FAILURE** imediatamente se *qualquer* filho retornar `FAILURE`.
+    4. Retorna **RUNNING** caso contrário.
+
+* **Aplicação Principal:**
+    Implementação de **condições de guarda** em paralelo.
+    *Exemplo:* "Seguir Caminho" EM PARALELO COM "Monitorar Sensor de Queda". Se o sensor indicar queda (FAILURE), a navegação é abortada imediatamente.
+
+**Implementação:**
+
+.. literalinclude:: ../../../../legacy_src/task_planning/server_node_v1.1.cpp
+   :language: cpp
+   :start-after: // DOC-START: BT_ParallelAny
+   :end-before: // DOC-END: BT_ParallelAny
+   :dedent: 8
+
+---
+
+Condições (Conditions)
+----------------------
+
+IsReachable
+^^^^^^^^^^^
+* **Tipo:** Condition Node
+* **Natureza:** Síncrono (Cálculo Geométrico / Cinemática)
+
+Substitui o antigo *IsRobotNear*. Verifica se a pose de manipulação (Pick ou Place) é alcançável pelo robô na posição atual. Se não for, calcula uma posição de base válida para navegação.
+
+* **Portas de Entrada (Input):**
+    * ``target`` (Pose): A pose 3D do objeto ou local de deposição desejado.
+    * ``object_id`` (string): Identificador do objeto (usado para contexto de colisão ou logs).
+    * ``robot_base_z`` (double): Altura da base do robô (offset Z) em relação ao solo.
+    * ``max_reach_3d`` (double): Raio máximo absoluto de alcance do braço (esfera de alcance) para pré-filtro.
+* **Portas de Saída (Output):**
+    * ``adjustment_pose`` (Pose): Chave da Blackboard onde a nova pose de navegação será escrita caso o alvo não esteja alcançável.
+* **Lógica:**
+    1. **Pré-filtro:** Verifica se a distância euclidiana até o ``target`` é menor que ``max_reach_3d``.
+    2. **Validação IK:** Se estiver no raio, tenta resolver a Cinemática Inversa para garantir que o braço alcança a pose sem colisão.
+    3. **Resultado:**
+        * **SUCCESS:** O alvo é alcançável da posição atual (a árvore pode prosseguir para o *Pick/Place*).
+        * **FAILURE:** O alvo não é alcançável. O nó calcula uma nova posição de base (projetada no plano XY ao redor do alvo) e escreve na porta ``adjustment_pose`` para que a árvore acione a navegação (via *FollowPath*).
+
+**Implementação:**
+
+.. literalinclude:: ../../../../legacy_src/task_planning/server_node_v1.1.cpp
+   :language: cpp
+   :start-after: // DOC-START: BT_IsReachable
+   :end-before: // DOC-END: BT_IsReachable
+   :dedent: 8
+
+IsGripperHoldingObject
+^^^^^^^^^^^^^^^^^^^^^^
+* **Tipo:** Condition Node
+* **Natureza:** Síncrono (Leitura de Memória)
+
+Verifica o estado físico do efetuador final (garra) para garantir que o objeto ainda está seguro.
+
+* **Lógica:**
+    Consulta o nó de monitoramento da garra via ponteiro compartilhado.
+    * **SUCCESS:** Se o sensor indicar pressão/contato.
+    * **FAILURE:** Se a garra estiver vazia.
+    * **Efeito Colateral:** Pode acionar paradas de emergência se o objeto cair durante o transporte.
+
+**Implementação:**
+
+.. literalinclude:: ../../../../legacy_src/task_planning/server_node_v1.1.cpp
+   :language: cpp
+   :start-after: // DOC-START: BT_IsGripperHoldingObject
+   :end-before: // DOC-END: BT_IsGripperHoldingObject
+   :dedent: 8
+
+IsPathClear
+^^^^^^^^^^^
+* **Tipo:** Condition Node
+* **Natureza:** Síncrono (Tick-based Check)
+
+Verifica continuamente se o caminho planejado permanece livre de obstáculos dinâmicos (ex: pessoas ou objetos que entraram na cena após o planejamento inicial).
+
+* **Portas de Entrada (Input):**
+    * ``path`` (Path): O caminho global gerado anteriormente pelo ``ComputePath``.
+* **Lógica:**
+    Itera sobre os pontos da trajetória futura e verifica sua validade contra o *Costmap* local ou global atualizado.
+    * **SUCCESS:** O caminho está livre.
+    * **FAILURE:** Um obstáculo foi detectado na rota (deve acionar replanejamento).
+* **Uso:** Normalmente inserido em uma `ReactiveSequence` junto com o nó `FollowPath`.
+
+**Implementação:**
+
+.. literalinclude:: ../../../../legacy_src/task_planning/server_node_v1.1.cpp
+   :language: cpp
+   :start-after: // DOC-START: BT_IsPathClear
+   :end-before: // DOC-END: BT_IsPathClear
+   :dedent: 8
+
+---
+
+Percepção e Contexto
+--------------------
+
+DetectObject
+^^^^^^^^^^^^
+* **Tipo:** Action Node (Simple)
+* **Natureza:** Síncrono
+
+Gerencia a triagem e seleção de alvos a partir do fluxo de dados do sistema de visão computacional.
+
+* **Portas de Saída (Output):**
+    * ``output_pose`` (Pose): Posição espacial do objeto selecionado.
+    * ``output_id`` (string): Identificador único do objeto.
+    * ``object_size`` (Vector3): Dimensões da Bounding Box.
+* **Lógica (Latch):**
+    1. **Modo Rastreamento:** Se já existe um alvo ativo, retorna seus dados atuais (**SUCCESS**).
+    2. **Modo Busca:** Se não há alvo, verifica a fila de novas detecções aplicando filtros.
+    3. Se um novo objeto válido for encontrado, ele é promovido a alvo atual.
+
+**Implementação:**
+
+.. literalinclude:: ../../../../legacy_src/task_planning/server_node_v1.1.cpp
+   :language: cpp
+   :start-after: // DOC-START: BT_DetectObject
+   :end-before: // DOC-END: BT_DetectObject
+   :dedent: 8
+
+ClearTarget
+^^^^^^^^^^^
+* **Tipo:** Action Node (Simple)
+* **Natureza:** Síncrono
+
+Reseta o estado de atenção do robô, limpando a variável interna `current_target_id_`. Obrigatório após a conclusão de uma tarefa.
+
+**Implementação:**
+
+.. literalinclude:: ../../../../legacy_src/task_planning/server_node_v1.1.cpp
+   :language: cpp
+   :start-after: // DOC-START: BT_ClearTarget
+   :end-before: // DOC-END: BT_ClearTarget
+   :dedent: 8
+
+---
+
+Navegação (Navigation Stack)
+----------------------------
+
+ComputePath
+^^^^^^^^^^^
+* **Tipo:** Action Node (Async)
+* **Natureza:** Assíncrono (Action Client)
+
+Solicita o cálculo de uma rota livre de obstáculos ao planejador global.
+
+* **Portas de Entrada (Input):**
+    * ``target`` (Pose): O destino final desejado.
+    * ``planner`` (string): ID do algoritmo de planejamento.
+* **Portas de Saída (Output):**
+    * ``path`` (Path): A trajetória calculada, salva na Blackboard para ser consumida por ``FollowPath`` e ``IsPathClear``.
+* **Comportamento:**
+    * **SUCCESS:** Caminho válido calculado e armazenado.
+    * **FAILURE:** Destino inalcançável.
+
+**Implementação:**
+
+.. literalinclude:: ../../../../legacy_src/task_planning/server_node_v1.1.cpp
+   :language: cpp
+   :start-after: // DOC-START: BT_ComputePath
+   :end-before: // DOC-END: BT_ComputePath
+   :dedent: 8
+
+FollowPath
+^^^^^^^^^^
+* **Tipo:** Action Node (Async)
+* **Natureza:** Assíncrono (Action Client)
+
+Substitui o antigo *NavigateTo*. É responsável exclusivamente pela execução da trajetória (Controller Server) em malha fechada.
+
+* **Pré-requisito:** Deve receber um caminho válido gerado por ``ComputePath``.
+* **Portas de Entrada (Input):**
+    * ``path`` (Path): O caminho a ser seguido.
+    * ``controller_id`` (string): ID do controlador (ex: "FollowPath").
+* **Comportamento:**
+    Envia o caminho para o Action Server do Controlador.
+    * **RUNNING:** Enquanto o robô segue a linha da trajetória.
+    * **SUCCESS:** Quando a tolerância do objetivo final é atingida.
+    * **FAILURE:** Se o desvio for muito grande ou o controlador falhar.
+
+**Implementação:**
+
+.. literalinclude:: ../../../../legacy_src/task_planning/server_node_v1.1.cpp
+   :language: cpp
+   :start-after: // DOC-START: BT_FollowPath
+   :end-before: // DOC-END: BT_FollowPath
+   :dedent: 8
+
+---
+
+Manipulação (MoveIt Integration)
+--------------------------------
+
+PickObject
+^^^^^^^^^^
+* **Tipo:** Action Node (Async)
+* **Natureza:** Assíncrono (Action Client)
+
+Comanda o braço robótico para realizar a sequência de apreensão.
+
+* **Portas de Entrada (Input):**
+    * ``id`` (string): ID do objeto (para Collision Matrix).
+    * ``pose`` (Pose): A pose alvo do objeto.
+* **Comportamento:**
+    Aproximação -> Fechamento -> Validação de Sensor -> Elevação.
+
+**Implementação:**
+
+.. literalinclude:: ../../../../legacy_src/task_planning/server_node_v1.1.cpp
+   :language: cpp
+   :start-after: // DOC-START: BT_PickObject
+   :end-before: // DOC-END: BT_PickObject
+   :dedent: 8
+
+PlaceObject
+^^^^^^^^^^^
+* **Tipo:** Action Node (Async)
+* **Natureza:** Assíncrono (Action Client)
+
+Comanda o braço robótico para depositar o objeto.
+
+* **Portas de Entrada (Input):**
+    * ``pose`` (Pose): A posição final.
+* **Comportamento:**
+    Aproximação -> Abertura -> Desanexação -> Recuo.
+
+**Implementação:**
+
+.. literalinclude:: ../../../../legacy_src/task_planning/server_node_v1.1.cpp
+   :language: cpp
+   :start-after: // DOC-START: BT_PlaceObject
+   :end-before: // DOC-END: BT_PlaceObject
+   :dedent: 8
+
+---
+
+Gerenciamento de Estoque (Storage)
+----------------------------------
+
+GetStorageInfo
+^^^^^^^^^^^^^^
+* **Tipo:** Action Node (Simple)
+* **Natureza:** Síncrono
+
+Consulta o banco de dados para determinar o melhor destino (caixa/estante) e índices disponíveis.
+
+**Implementação:**
+
+.. literalinclude:: ../../../../legacy_src/task_planning/server_node_v1.1.cpp
+   :language: cpp
+   :start-after: // DOC-START: BT_GetStorageInfo
+   :end-before: // DOC-END: BT_GetStorageInfo
+   :dedent: 8
+
+ComputePoseToOrganize
+^^^^^^^^^^^^^^^^^^^^^
+* **Tipo:** Action Node (Simple)
+* **Natureza:** Síncrono
+
+Calcula a pose exata de deposição utilizando Bin Packing para organizar itens.
+
+**Implementação:**
+
+.. literalinclude:: ../../../../legacy_src/task_planning/server_node_v1.1.cpp
+   :language: cpp
+   :start-after: // DOC-START: BT_ComputePoseToOrganize
+   :end-before: // DOC-END: BT_ComputePoseToOrganize
+   :dedent: 8
+
+ComputePoseToStore
+^^^^^^^^^^^^^^^^^^
+* **Tipo:** Action Node (Simple)
+* **Natureza:** Síncrono
+
+Cálculo simplificado para armazenamento (ex: empilhamento).
+
+**Implementação:**
+
+.. literalinclude:: ../../../../legacy_src/task_planning/server_node_v1.1.cpp
+   :language: cpp
+   :start-after: // DOC-START: BT_ComputePoseToStore
+   :end-before: // DOC-END: BT_ComputePoseToStore
+   :dedent: 8
+
+IncrementOrganizedStorageIndexes
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+* **Tipo:** Action Node (Simple)
+* **Natureza:** Síncrono (Commit)
+
+Atualiza o banco de dados marcando a posição como "Ocupada" após sucesso do *Place*.
+
+**Implementação:**
+
+.. literalinclude:: ../../../../legacy_src/task_planning/server_node_v1.1.cpp
+   :language: cpp
+   :start-after: // DOC-START: BT_IncrementOrganizedStorageIndexes
+   :end-before: // DOC-END: BT_IncrementOrganizedStorageIndexes
+   :dedent: 8
+
+DecrementStorageCount
+^^^^^^^^^^^^^^^^^^^^^
+* **Tipo:** Action Node (Simple)
+* **Natureza:** Síncrono (Rollback)
+
+Libera o espaço reservado no banco de dados em caso de falha na manipulação.
+
+**Implementação:**
+
+.. literalinclude:: ../../../../legacy_src/task_planning/server_node_v1.1.cpp
+   :language: cpp
+   :start-after: // DOC-START: BT_DecrementStorageCount
+   :end-before: // DOC-END: BT_DecrementStorageCount
+   :dedent: 8

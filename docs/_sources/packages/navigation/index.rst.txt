@@ -11,3 +11,4 @@ O pacote ``navigation`` possui todos os nós que participam diretamente do plane
    AStarSplicing/index
    ObstacleGraph/index
    RobotController/index
+   SharedObstacleGraph/index

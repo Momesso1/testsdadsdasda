@@ -1,5 +1,5 @@
-a_star.cpp (Atual v1.0)
-=======================
+a_star.cpp (Legado v1.0)
+========================
 
 O nó ``AStar`` implementa um planejador de caminho global determinístico. Ele recebe um mapa de ocupação (via nuvem de pontos) e calcula a rota mais curta entre a posição atual do robô e o destino, desviando de obstáculos estáticos e dinâmicos.
 
@@ -138,7 +138,7 @@ Além da poda de segurança, a função ``store_edges_in_path`` também aplica o
    <div style="text-align: center; margin-bottom: 20px; border: 1px solid #ccc; padding: 10px;">
        <p><em>Filtro de Suavização</em></p>
        <video width="100%" height="auto" controls autoplay loop muted>
-           <source src="../../../_static/navigation/filter_60fps.webm" type="video/webm">
+           <source src="../../../_static/navigation/Filter_60fps.webm" type="video/webm">
            Seu navegador não suporta a tag de vídeo.
        </video>
    </div>

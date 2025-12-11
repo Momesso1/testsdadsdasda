@@ -30,12 +30,12 @@ Abaixo, um vídeo da execução desta lógica:
 O construtor é a parte mais crítica para a estabilidade do nó.
 Diferente de nós simples, o MoveIt requer um **Executor Multi-Threaded**.
 
-**Desafio:** O `MoveGroupInterface` precisa processar callbacks (como o estado das juntas) enquanto o construtor ainda está rodando. Se usarmos o mesmo nó/executor, ocorre um *Deadlock*.
+**Desafio:** O `MoveGroupInterface` precisa processar callbacks (como o estado das juntas) enquanto o construtor ainda está rodando. Caso seja utilizado o mesmo nó/executor, ocorre um *Deadlock*.
 
 **Solução:**
-1.  Criamos um nó separado (`moveit_node_`) apenas para o MoveIt.
-2.  Criamos um `executor_` separado.
-3.  Lançamos uma `std::thread` dedicada para rodar esse executor.
+1.  Cria-se um nó separado (`moveit_node_`) apenas para o MoveIt.
+2.  Cria-se um `executor_` separado.
+3.  Lança-se uma `std::thread` dedicada para rodar esse executor.
 
 .. literalinclude:: ../../../../../docs_central/legacy_src/manipulation/Manipulation/manipulation_impl_v1.0.cpp
    :language: cpp
@@ -47,7 +47,7 @@ Diferente de nós simples, o MoveIt requer um **Executor Multi-Threaded**.
 2. Destrutor (Cleanup)
 ----------------------
 
-Ao desligar o nó, precisamos parar o executor e juntar a thread para evitar erros de memória (*Segmentation Fault*).
+Ao desligar o nó, é preciso parar o executor e juntar a thread para evitar erros de memória (*Segmentation Fault*).
 
 .. literalinclude:: ../../../../../docs_central/legacy_src/manipulation/Manipulation/manipulation_impl_v1.0.cpp
    :language: cpp
@@ -69,8 +69,8 @@ Isso permite calibrar a posição da mão em relação ao centro do objeto sem r
 4. Inicialização do MoveGroup
 -----------------------------
 
-O MoveIt pode demorar para subir. Usamos um `Timer` no construtor para chamar esta função 1 segundo após o boot.
-Aqui instanciamos as interfaces de controle do braço (`panda_arm`) e da garra (`hand`).
+O MoveIt pode demorar para subir. Utiliza-se um `Timer` no construtor para chamar esta função 1 segundo após o boot.
+Aqui são instanciadas as interfaces de controle do braço (`panda_arm`) e da garra (`hand`).
 
 .. literalinclude:: ../../../../../docs_central/legacy_src/manipulation/Manipulation/manipulation_impl_v1.0.cpp
    :language: cpp
@@ -121,7 +121,7 @@ A função tenta calcular uma linha reta com resolução de 1cm (`eef_step = 0.0
 8. Planejamento Livre (RRTConnect)
 ----------------------------------
 
-Quando o movimento não precisa ser reto (ex: ir de uma caixa para outra), usamos o planejador probabilístico `RRTConnect`. Ele desvia de obstáculos automaticamente.
+Quando o movimento não precisa ser reto (ex: ir de uma caixa para outra), utiliza-se o planejador probabilístico `RRTConnect`. Ele desvia de obstáculos automaticamente.
 
 .. literalinclude:: ../../../../../docs_central/legacy_src/manipulation/Manipulation/manipulation_impl_v1.0.cpp
    :language: cpp
@@ -175,7 +175,7 @@ Comunica-se com o simulador ou sistema de física para "congelar" ou "descongela
 12. Callbacks do Action Server
 ------------------------------
 
-Aqui gerenciamos o ciclo de vida da Action ROS 2 (`PickObject`).
+Aqui gerencia-se o ciclo de vida da Action ROS 2 (`PickObject`).
 
 **Recebimento e Aceite:**
 
