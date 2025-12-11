@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>obstacle_graph_with_occupancy_grid.cpp (Atual v1.0) &mdash; Mobile Robot Documentation 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=86f27845" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=8f9e6779" />
+
+  
+  
+        <script src="../../../_static/jquery.js?v=8dae8fb0"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../../_static/clipboard.min.js?v=66b4909c"></script>
+        <script src="../../../_static/copybutton.js?v=71494f10"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="RobotController" href="../RobotController/index.html" />
+    <link rel="prev" title="OccupancyGridLoader" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Mobile Robot Documentation
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Pacotes do Sistema:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../task_planning/index.html">Task Planning</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../task_planning/ServerNode/index.html">ServerNode</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.0.html">server_node.cpp (Atual v1.0)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.0.html#adaptacao-para-behaviortree-cpp">1. Adaptação para BehaviorTree.CPP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.0.html#classe-principal-servernode">2. Classe Principal: ServerNode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.0.html#estruturas-de-dados-e-variaveis-internas">3. Estruturas de Dados e Variáveis Internas</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.0.html#callbacks-de-percepcao-inputs">4. Callbacks de Percepção (Inputs)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.0.html#integracao-com-navegacao">5. Integração com Navegação</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.0.html#integracao-com-manipulacao">6. Integração com Manipulação</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.0.html#analise-de-alcancabilidade-projetada">7. Análise de Alcançabilidade Projetada</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.0.html#utilitarios-e-main">8. Utilitários e Main</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../task_planning/BT/index.html">Referência dos Nós da Behavior Tree</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../task_planning/BT/index.html#indice-rapido">Índice Rápido</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../task_planning/BT/index.html#controle-customizado">Controle Customizado</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/index.html#parallelany">ParallelAny</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../task_planning/BT/index.html#condicoes-conditions">Condições (Conditions)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/index.html#isrobotnear">IsRobotNear</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/index.html#isgripperholdingobject">IsGripperHoldingObject</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../task_planning/BT/index.html#percepcao-e-contexto">Percepção e Contexto</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/index.html#detectobject">DetectObject</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/index.html#cleartarget">ClearTarget</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../task_planning/BT/index.html#navegacao-navigation-stack">Navegação (Navigation Stack)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/index.html#computepath">ComputePath</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/index.html#navigateto">NavigateTo</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../task_planning/BT/index.html#manipulacao-moveit-integration">Manipulação (MoveIt Integration)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/index.html#pickobject">PickObject</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/index.html#placeobject">PlaceObject</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../task_planning/BT/index.html#gerenciamento-de-estoque-storage">Gerenciamento de Estoque (Storage)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/index.html#getstorageinfo">GetStorageInfo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/index.html#computeposetoorganize">ComputePoseToOrganize</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/index.html#computeposetostore">ComputePoseToStore</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/index.html#incrementorganizedstorageindexes">IncrementOrganizedStorageIndexes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/index.html#decrementstoragecount">DecrementStorageCount</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../manipulation/index.html">Manipulation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../manipulation/SimpleManipulation/index.html">SimpleManipulation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html">manipulation_impl.cpp (Legado v1.0)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#demonstracao">Demonstração</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#construtor-e-inicializacao">1. Construtor e Inicialização</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#destrutor-cleanup">2. Destrutor (Cleanup)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#carregamento-de-parametros-yaml">3. Carregamento de Parâmetros (YAML)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#inicializacao-do-movegroup">4. Inicialização do MoveGroup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#posicao-de-seguranca-ready">5. Posição de Segurança (Ready)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#controle-da-garra-end-effector">6. Controle da Garra (End-Effector)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#planejamento-cartesiano-linha-reta">7. Planejamento Cartesiano (Linha Reta)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#planejamento-livre-rrtconnect">8. Planejamento Livre (RRTConnect)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#logica-central-pick-place">9. Lógica Central: Pick &amp; Place</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#gerenciamento-de-colisoes-acm">10. Gerenciamento de Colisões (ACM)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#requisicao-de-servicos-externos">11. Requisição de Serviços Externos</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#callbacks-do-action-server">12. Callbacks do Action Server</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#callback-do-sensor">13. Callback do Sensor</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html">manipulation_impl.cpp (Atual v1.1 - Tentativa de recuperação)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#demonstracao">Demonstração</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#construtor-e-configuracao">1. Construtor e Configuração</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#destrutor-limpeza">2. Destrutor (Limpeza)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#carregamento-de-parametros-yaml">3. Carregamento de Parâmetros (YAML)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#inicializacao-tardia-movegroup">4. Inicialização Tardia (MoveGroup)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#posicao-de-seguranca-ready">5. Posição de Segurança (Ready)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#controle-da-garra">6. Controle da Garra</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#planejamento-de-movimento">7. Planejamento de Movimento</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#logica-central-pick-place-e-retry">8. Lógica Central: Pick, Place e Retry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#gerenciamento-de-colisoes">9. Gerenciamento de Colisões</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#servicos-externos">10. Serviços Externos</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#atualizacao-de-pose-novo">11. Atualização de Pose (Novo)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#action-callbacks">12. Action Callbacks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#callback-do-sensor">13. Callback do Sensor</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../manipulation/IsGripperHolding/index.html">IsGripperHolding</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../manipulation/IsGripperHolding/is_gripper_holding_impl_v1.0.html">is_gripper_holding_impl.cpp (Atual v1.0 - Composable Node)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/IsGripperHolding/is_gripper_holding_impl_v1.0.html#integracao-com-servernode-composicao">Integração com ServerNode (Composição)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/IsGripperHolding/is_gripper_holding_impl_v1.0.html#implementacao">Implementação</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../manipulation/AddCollision/index.html">AddCollision</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../manipulation/AddCollision/add_collision_impl_v1.0.html">add_collision_impl.cpp (Atual v1.0)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/AddCollision/add_collision_impl_v1.0.html#inicializacao-e-configuracao">Inicialização e Configuração</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/AddCollision/add_collision_impl_v1.0.html#filtragem-de-objetos-yaml">Filtragem de Objetos (YAML)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/AddCollision/add_collision_impl_v1.0.html#atualizacao-da-cena-moveit-interface">Atualização da Cena (MoveIt Interface)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/AddCollision/add_collision_impl_v1.0.html#logica-de-congelamento-service">Lógica de Congelamento (Service)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/AddCollision/add_collision_impl_v1.0.html#processamento-de-deteccoes">Processamento de Detecções</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../storage_manager/index.html">Storage Manager</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../storage_manager/Organize/index.html">Organize</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../storage_manager/Organize/organize_v1.0.html">organize.cpp (Atual v1.0 - Composable Node)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../storage_manager/Organize/organize_v1.0.html#arquitetura-de-composicao">Arquitetura de Composição</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../storage_manager/Organize/organize_v1.0.html#logica-de-empacotamento-bin-packing">Lógica de Empacotamento (Bin Packing)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../storage_manager/GetStorageInfo/index.html">GetStorageInfo</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../storage_manager/GetStorageInfo/get_storage_info_v1.0.html">get_storage_info.cpp (Atual v1.0 - Composable Node)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../storage_manager/GetStorageInfo/get_storage_info_v1.0.html#arquitetura-de-composicao">Arquitetura de Composição</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../storage_manager/GetStorageInfo/get_storage_info_v1.0.html#logica-de-selecao-best-storage">Lógica de Seleção (Best Storage)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../storage_manager/GetStorageInfo/get_storage_info_v1.0.html#gerenciamento-de-estado">Gerenciamento de Estado</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../storage_manager/GetStorageInfo/get_storage_info_v1.0.html#carregamento-de-dados-yaml">Carregamento de Dados (YAML)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../storage_manager/GetStorageInfo/get_storage_info_v1.0.html#calculo-de-limites">Cálculo de Limites</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Navigation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../AStar/index.html">AStar</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../AStar/a_star_v1.0.html">a_star.cpp (Atual v1.0)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../AStar/a_star_v1.0.html#inicializacao-e-parametros">Inicialização e Parâmetros</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../AStar/a_star_v1.0.html#estruturas-de-dados">Estruturas de Dados</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../AStar/a_star_v1.0.html#mapeamento-e-grid">Mapeamento e Grid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../AStar/a_star_v1.0.html#recuperacao-de-alvo-bfs">Recuperação de Alvo (BFS)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../AStar/a_star_v1.0.html#execucao-do-a-core">Execução do A* (Core)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../AStar/a_star_v1.0.html#poda-de-seguranca-stop-distance">Poda de Segurança (Stop Distance)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../AStar/a_star_v1.0.html#pos-processamento-e-suavizacao">Pós-Processamento e Suavização</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../AStar/a_star_v1.0.html#execucao-e-recalculo-dinamico">Execução e Recálculo Dinâmico</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../AStarSplicing/index.html">AStarSplicing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../AStarSplicing/a_star_splicing_v1.0.html">a_star_splicing.cpp (Legado v1.0 - Planejador Dinâmico)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../AStarSplicing/a_star_splicing_v1.0.html#inicializacao-e-parametros">Inicialização e Parâmetros</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../AStarSplicing/a_star_splicing_v1.0.html#estruturas-de-dados">Estruturas de Dados</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../AStarSplicing/a_star_splicing_v1.0.html#mapeamento-e-grid">Mapeamento e Grid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../AStarSplicing/a_star_splicing_v1.0.html#recuperacao-de-alvo-bfs">Recuperação de Alvo (BFS)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../AStarSplicing/a_star_splicing_v1.0.html#motor-de-busca-a">Motor de Busca (A*)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../AStarSplicing/a_star_splicing_v1.0.html#poda-de-seguranca-stop-distance">Poda de Segurança (Stop Distance)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../AStarSplicing/a_star_splicing_v1.0.html#pos-processamento-e-suavizacao">Pós-Processamento e Suavização</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../AStarSplicing/a_star_splicing_v1.0.html#execucao-dinamica-path-splicing">Execução Dinâmica: Path Splicing</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">OccupancyGridLoader</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">obstacle_graph_with_occupancy_grid.cpp (Atual v1.0)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#inicializacao-e-parametros">Inicialização e Parâmetros</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#estruturas-de-dados-hash-otimizado">Estruturas de Dados (Hash Otimizado)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#funcoes-auxiliares-discretizacao">Funções Auxiliares (Discretização)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#leitura-do-mapa-opencv-yaml">Leitura do Mapa (OpenCV + YAML)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#inflacao-de-obstaculos-safety-padding">Inflação de Obstáculos (Safety Padding)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#publicacao-pointcloud2">Publicação (PointCloud2)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../RobotController/index.html">RobotController</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../RobotController/controller_v1.0.html">controller.cpp (Atual v1.0)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../RobotController/controller_v1.0.html#inicializacao">Inicialização</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../RobotController/controller_v1.0.html#odometria-e-utilitarios">Odometria e Utilitários</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../RobotController/controller_v1.0.html#loop-de-controle-execute">Loop de Controle (Execute)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../mobile_bringup/index.html">Mobile Bringup</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../mobile_bringup/mobile_manipulation.html">Launch File Inteligente (Bringup)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../mobile_bringup/mobile_manipulation.html#funcionamento-da-analise-xml">Funcionamento da Análise XML</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../mobile_bringup/mobile_manipulation.html#configuracao-de-nos-componiveis-servernode">Configuração de Nós Componíveis (ServerNode)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../mobile_bringup/mobile_manipulation.html#carregamento-dinamico-de-processos">Carregamento Dinâmico de Processos</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../mobile_manipulation_interfaces/index.html">Mobile Manipulation Interfaces</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../mobile_manipulation_interfaces/index.html#actions-acoes-assincronas">Actions (Ações Assíncronas)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../mobile_manipulation_interfaces/index.html#pickobject">PickObject</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../mobile_manipulation_interfaces/index.html#path">Path</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../mobile_manipulation_interfaces/index.html#controller">Controller</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../mobile_manipulation_interfaces/index.html#services-servicos-sincronos">Services (Serviços Síncronos)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../mobile_manipulation_interfaces/index.html#mobileobjectcollision">MobileObjectCollision</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Mobile Robot Documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Navigation</a></li>
+          <li class="breadcrumb-item"><a href="index.html">OccupancyGridLoader</a></li>
+      <li class="breadcrumb-item active">obstacle_graph_with_occupancy_grid.cpp (Atual v1.0)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/packages/navigation/ObstacleGraph/obstacle_graph_with_occupancy_grid_v1.0.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="obstacle-graph-with-occupancy-grid-cpp-atual-v1-0">
+<h1>obstacle_graph_with_occupancy_grid.cpp (Atual v1.0)<a class="headerlink" href="#obstacle-graph-with-occupancy-grid-cpp-atual-v1-0" title="Link to this heading"></a></h1>
+<p>O nó <code class="docutils literal notranslate"><span class="pre">OccupancyGridLoader</span></code> é responsável pelo processamento do mapa estático do ambiente e por disponibilizá-lo para os planejadores globais (A* e D*).</p>
+<p>Diferentemente dos nós de navegação padrão que realizam a leitura direta do mapa, a arquitetura implementada converte o mapa de pixels (imagem) em uma <strong>Nuvem de Pontos Discreta</strong>, aplicando-se uma <strong>Margem de Segurança (Inflação)</strong> pré-calculada. Tal abordagem simplifica o funcionamento dos planejadores, sendo necessário apenas verificar se uma coordenada consta no conjunto de obstáculos.</p>
+<section id="inicializacao-e-parametros">
+<h2>Inicialização e Parâmetros<a class="headerlink" href="#inicializacao-e-parametros" title="Link to this heading"></a></h2>
+<p>O nó realiza o carregamento de dois arquivos principais:
+1.  <strong>YAML de Configuração:</strong> Metadados do mapa (resolução, origem).
+2.  <strong>Imagem (PGM/PNG):</strong> A representação visual da ocupação.</p>
+<p>Adicionalmente, são definidas a resolução interna do grafo e a distância de segurança.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="n">OccupancyGridLoader</span><span class="p">()</span>
+<span class="w">        </span><span class="o">:</span><span class="w"> </span><span class="n">rclcpp</span><span class="o">::</span><span class="n">Node</span><span class="p">(</span><span class="s">&quot;occupancy_grid_loader&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Declaração de parâmetros:</span>
+<span class="w">        </span><span class="c1">// map_yaml_file: Caminho para o arquivo de configuração do mapa.</span>
+<span class="w">        </span><span class="c1">// map_image_file: Caminho para a imagem (PGM/PNG) do mapa.</span>
+<span class="w">        </span><span class="c1">// max_security_distance: Raio de inflação dos obstáculos (padding de segurança).</span>
+<span class="w">        </span><span class="c1">// obstacle_graph_resolution: Resolução da discretização (deve bater com a do A*).</span>
+<span class="w">        </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">declare_parameter</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;map_yaml_file&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;map.yaml&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">declare_parameter</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;map_image_file&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;occupancy_grid.png&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">declare_parameter</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;max_security_distance&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">0.30</span><span class="p">);</span>
+<span class="w">        </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">declare_parameter</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;obstacle_graph_resolution&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">0.05</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">yaml_file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_parameter</span><span class="p">(</span><span class="s">&quot;map_yaml_file&quot;</span><span class="p">).</span><span class="n">as_string</span><span class="p">();</span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">image_file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_parameter</span><span class="p">(</span><span class="s">&quot;map_image_file&quot;</span><span class="p">).</span><span class="n">as_string</span><span class="p">();</span>
+<span class="w">        </span><span class="n">maxSecurityDistance_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_parameter</span><span class="p">(</span><span class="s">&quot;max_security_distance&quot;</span><span class="p">).</span><span class="n">get_parameter_value</span><span class="p">().</span><span class="n">get</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">());</span>
+<span class="w">        </span><span class="n">distanceToObstacle_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_parameter</span><span class="p">(</span><span class="s">&quot;obstacle_graph_resolution&quot;</span><span class="p">).</span><span class="n">get_parameter_value</span><span class="p">().</span><span class="n">get</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">());</span>
+
+<span class="w">        </span><span class="n">RCLCPP_INFO</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;YAML file: %s&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">yaml_file</span><span class="p">.</span><span class="n">c_str</span><span class="p">());</span>
+<span class="w">        </span><span class="n">RCLCPP_INFO</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Image file: %s&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">image_file</span><span class="p">.</span><span class="n">c_str</span><span class="p">());</span>
+<span class="w">        </span><span class="n">RCLCPP_INFO</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Safety Margin: %2f&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">maxSecurityDistance_</span><span class="p">);</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="c1">// Calcula casas decimais para evitar erros de ponto flutuante na chave do Hash</span>
+<span class="w">        </span><span class="n">decimals</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">countDecimals</span><span class="p">(</span><span class="n">distanceToObstacle_</span><span class="p">);</span>
+
+<span class="w">        </span><span class="c1">// Carrega e processa o mapa imediatamente na inicialização</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">loadOccupancyGrid</span><span class="p">(</span><span class="n">yaml_file</span><span class="p">,</span><span class="w"> </span><span class="n">image_file</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">RCLCPP_ERROR</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Falha ao carregar o occupancy grid!&quot;</span><span class="p">);</span>
+<span class="w">            </span><span class="k">return</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="n">RCLCPP_INFO</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Total de pontos ocupados (inflados): %zu&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">occupied_points_</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+
+<span class="w">        </span><span class="c1">// Publisher para visualizar os obstáculos no RViz e alimentar o Planner</span>
+<span class="w">        </span><span class="n">publisher_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">create_publisher</span><span class="o">&lt;</span><span class="n">sensor_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">PointCloud2</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;/obstacles_vertices&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">);</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="c1">// Timer para publicar periodicamente a nuvem de pontos estática (Latched topic seria melhor, mas timer garante recebimento)</span>
+<span class="w">        </span><span class="n">timer_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">create_wall_timer</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">milliseconds</span><span class="p">(</span><span class="mi">200</span><span class="p">),</span>
+<span class="w">                                         </span><span class="n">std</span><span class="o">::</span><span class="n">bind</span><span class="p">(</span><span class="o">&amp;</span><span class="n">OccupancyGridLoader</span><span class="o">::</span><span class="n">publishPointCloud</span><span class="p">,</span><span class="w"> </span><span class="k">this</span><span class="p">));</span>
+<span class="w">    </span><span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="estruturas-de-dados-hash-otimizado">
+<h2>Estruturas de Dados (Hash Otimizado)<a class="headerlink" href="#estruturas-de-dados-hash-otimizado" title="Link to this heading"></a></h2>
+<p>Visando garantir performance máxima (O(1)) na verificação de colisões durante o planejamento de caminho, utiliza-se um <cite>std::unordered_set</cite> com um <em>Hasher</em> customizado para pares de coordenadas float.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Estrutura de Hash personalizada para permitir o uso de std::pair&lt;float, float&gt;</span>
+<span class="c1">// como chave em unordered_map e unordered_set.</span>
+<span class="c1">// Utiliza a combinação de bits (XOR e Shift) para gerar um hash único para coordenadas 2D.</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">PairHash</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="w"> </span><span class="nf">operator</span><span class="p">()(</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">float</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">p</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">noexcept</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">auto</span><span class="w"> </span><span class="n">h1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">hash</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">{}(</span><span class="n">p</span><span class="p">.</span><span class="n">first</span><span class="p">);</span>
+<span class="w">        </span><span class="k">auto</span><span class="w"> </span><span class="n">h2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">hash</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">{}(</span><span class="n">p</span><span class="p">.</span><span class="n">second</span><span class="p">);</span>
+<span class="w">        </span><span class="c1">// Algoritmo de combinação de hash para reduzir colisões</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">h1</span><span class="w"> </span><span class="o">^</span><span class="w"> </span><span class="p">(</span><span class="n">h2</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</section>
+<section id="funcoes-auxiliares-discretizacao">
+<h2>Funções Auxiliares (Discretização)<a class="headerlink" href="#funcoes-auxiliares-discretizacao" title="Link to this heading"></a></h2>
+<p>Os planejadores operam sobre um grid discreto. As funções auxiliares asseguram que as coordenadas contínuas sejam “encaixadas” corretamente nos nós desse grid.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="c1">// Conta casas decimais para ajuste de precisão</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="nf">countDecimals</span><span class="p">(</span><span class="kt">float</span><span class="w"> </span><span class="n">number</span><span class="p">)</span><span class="w"> </span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">fractional</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">fabs</span><span class="p">(</span><span class="n">number</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">floor</span><span class="p">(</span><span class="n">number</span><span class="p">));</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">decimals</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">epsilon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1e-9</span><span class="p">;</span><span class="w"> </span>
+<span class="w">    </span>
+<span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">fractional</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">epsilon</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">decimals</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">20</span><span class="p">)</span><span class="w"> </span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="n">fractional</span><span class="w"> </span><span class="o">*=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+<span class="w">            </span><span class="n">fractional</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">floor</span><span class="p">(</span><span class="n">fractional</span><span class="p">);</span>
+<span class="w">            </span><span class="n">decimals</span><span class="o">++</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">decimals</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Função crítica: Discretiza coordenadas contínuas para o grid.</span>
+<span class="w">    </span><span class="c1">// Ex: Se resolution = 0.05, 1.03 vira 1.05.</span>
+<span class="w">    </span><span class="c1">// Isso garante que pontos próximos caiam na mesma chave do Hash.</span>
+<span class="w">    </span><span class="kr">inline</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="nf">round_to_multiple</span><span class="p">(</span><span class="kt">float</span><span class="w"> </span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">multiple</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">decimals</span><span class="p">)</span><span class="w"> </span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">multiple</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">value</span><span class="p">;</span><span class="w"> </span>
+<span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">round</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">multiple</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">multiple</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">float</span><span class="w"> </span><span class="n">factor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">pow</span><span class="p">(</span><span class="mf">10.0f</span><span class="p">,</span><span class="w"> </span><span class="n">decimals</span><span class="p">);</span>
+<span class="w">        </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">round</span><span class="p">(</span><span class="n">result</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">factor</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">factor</span><span class="p">;</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">result</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="leitura-do-mapa-opencv-yaml">
+<h2>Leitura do Mapa (OpenCV + YAML)<a class="headerlink" href="#leitura-do-mapa-opencv-yaml" title="Link to this heading"></a></h2>
+<p>Esta função executa a fusão de dados: a geometria é lida do arquivo de imagem e projetada no sistema de coordenadas do mundo real, utilizando-se a origem e a resolução definidas no YAML.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="c1">// Carrega o arquivo de Mapa (formato ROS Standard)</span>
+<span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="nf">loadOccupancyGrid</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span><span class="w"> </span><span class="n">yaml_path</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span><span class="w"> </span><span class="n">image_path</span><span class="p">)</span><span class="w"> </span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// 1. Lê metadados do YAML (Resolução, Origem)</span>
+<span class="w">        </span><span class="n">YAML</span><span class="o">::</span><span class="n">Node</span><span class="w"> </span><span class="n">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">YAML</span><span class="o">::</span><span class="n">LoadFile</span><span class="p">(</span><span class="n">yaml_path</span><span class="p">);</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">config</span><span class="p">[</span><span class="s">&quot;resolution&quot;</span><span class="p">]</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">!</span><span class="n">config</span><span class="p">[</span><span class="s">&quot;origin&quot;</span><span class="p">])</span><span class="w"> </span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">cerr</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;YAML inválido, precisa ter &#39;resolution&#39; e &#39;origin&#39;.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="kt">double</span><span class="w"> </span><span class="n">resolution</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">config</span><span class="p">[</span><span class="s">&quot;resolution&quot;</span><span class="p">].</span><span class="n">as</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="w"> </span><span class="n">origin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">config</span><span class="p">[</span><span class="s">&quot;origin&quot;</span><span class="p">].</span><span class="n">as</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;&gt;</span><span class="p">();</span>
+<span class="w">        </span><span class="kt">double</span><span class="w"> </span><span class="n">origin_x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">origin</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+<span class="w">        </span><span class="kt">double</span><span class="w"> </span><span class="n">origin_y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">origin</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+
+<span class="w">        </span><span class="c1">// 2. Lê a imagem usando OpenCV (Grayscale)</span>
+<span class="w">        </span><span class="n">cv</span><span class="o">::</span><span class="n">Mat</span><span class="w"> </span><span class="n">image</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cv</span><span class="o">::</span><span class="n">imread</span><span class="p">(</span><span class="n">image_path</span><span class="p">,</span><span class="w"> </span><span class="n">cv</span><span class="o">::</span><span class="n">IMREAD_GRAYSCALE</span><span class="p">);</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">image</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span><span class="w"> </span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">cerr</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Erro ao carregar imagem: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">image_path</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">image</span><span class="p">.</span><span class="n">cols</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">image</span><span class="p">.</span><span class="n">rows</span><span class="p">;</span>
+
+<span class="w">        </span><span class="c1">// 3. Itera sobre cada pixel da imagem</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">height</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">y</span><span class="p">)</span><span class="w"> </span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">width</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">x</span><span class="p">)</span><span class="w"> </span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span><span class="c1">// No formato ROS map_server:</span>
+<span class="w">                </span><span class="c1">// 0 = Livre (255 na imagem), 100 = Ocupado (0 na imagem)</span>
+<span class="w">                </span><span class="c1">// Pixel &lt; 50 é considerado obstáculo (Preto/Cinza escuro)</span>
+<span class="w">                </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="n">pixel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">image</span><span class="p">.</span><span class="n">at</span><span class="o">&lt;</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">char</span><span class="o">&gt;</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">);</span>
+
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">pixel</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">50</span><span class="p">)</span><span class="w"> </span>
+<span class="w">                </span><span class="p">{</span>
+<span class="w">                    </span><span class="c1">// Converte índice de pixel para Coordenada de Mundo (Metros)</span>
+<span class="w">                    </span><span class="c1">// Nota: Y na imagem cresce para baixo, no ROS cresce para cima (inversão)</span>
+<span class="w">                    </span><span class="kt">float</span><span class="w"> </span><span class="n">wx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="n">origin_x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">resolution</span><span class="p">);</span>
+<span class="w">                    </span><span class="kt">float</span><span class="w"> </span><span class="n">wy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="n">origin_y</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">height</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">resolution</span><span class="p">);</span><span class="w"> </span>
+
+<span class="w">                    </span><span class="c1">// Arredonda para a resolução do nosso grafo de navegação</span>
+<span class="w">                    </span><span class="kt">float</span><span class="w"> </span><span class="n">rx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">round_to_multiple</span><span class="p">(</span><span class="n">wx</span><span class="p">,</span><span class="w"> </span><span class="mf">0.05</span><span class="p">,</span><span class="w"> </span><span class="n">decimals</span><span class="p">);</span>
+<span class="w">                    </span><span class="kt">float</span><span class="w"> </span><span class="n">ry</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">round_to_multiple</span><span class="p">(</span><span class="n">wy</span><span class="p">,</span><span class="w"> </span><span class="mf">0.05</span><span class="p">,</span><span class="w"> </span><span class="n">decimals</span><span class="p">);</span>
+
+<span class="w">                    </span><span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">float</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="o">&gt;</span><span class="w"> </span><span class="n">index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_pair</span><span class="p">(</span><span class="n">rx</span><span class="p">,</span><span class="w"> </span><span class="n">ry</span><span class="p">);</span>
+
+<span class="w">                    </span><span class="c1">// Insere no mapa de vértices brutos</span>
+<span class="w">                    </span><span class="k">if</span><span class="p">(</span><span class="n">verticesCloudMap</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">index</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">verticesCloudMap</span><span class="p">.</span><span class="n">end</span><span class="p">())</span>
+<span class="w">                    </span><span class="p">{</span>
+<span class="w">                        </span><span class="n">verticesCloudMap</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span><span class="w"> </span><span class="c1">// &#39;false&#39; = ainda não inflado</span>
+<span class="w">                        </span><span class="n">occupied_points_</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">index</span><span class="p">);</span>
+<span class="w">                    </span><span class="p">}</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="c1">// 4. Aplica a inflação de obstáculos</span>
+<span class="w">        </span><span class="n">createGraphFromPointCloud</span><span class="p">();</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="inflacao-de-obstaculos-safety-padding">
+<h2>Inflação de Obstáculos (Safety Padding)<a class="headerlink" href="#inflacao-de-obstaculos-safety-padding" title="Link to this heading"></a></h2>
+<p>Trata-se da lógica central de segurança. Dado que o robô possui largura e não é um ponto adimensional, expandem-se matematicamente todos os obstáculos para evitar colisões com as paredes. O algoritmo gera camadas quadradas concêntricas ao redor de cada ponto ocupado até que se atinja a <cite>max_security_distance</cite>.</p>
+<p>Dessa forma, o planejador A* pode tratar o robô como um ponto único, uma vez que o espaço físico ocupado pelo robô já foi “subtraído” do espaço livre no mapa.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="c1">// Algoritmo de Inflação de Obstáculos (Security Distance Expansion).</span>
+<span class="w">    </span><span class="c1">// Para cada ponto de obstáculo real, cria camadas de &quot;obstáculos virtuais&quot; ao redor</span>
+<span class="w">    </span><span class="c1">// até atingir a distância de segurança definida.</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">createGraphFromPointCloud</span><span class="p">()</span><span class="w"> </span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="k">for</span><span class="p">(</span><span class="k">auto</span><span class="w"> </span><span class="n">it</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">verticesCloudMap</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span><span class="w"> </span><span class="n">it</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">verticesCloudMap</span><span class="p">.</span><span class="n">end</span><span class="p">();</span><span class="w"> </span><span class="n">it</span><span class="o">++</span><span class="p">)</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="c1">// Se o ponto ainda não foi processado</span>
+<span class="w">            </span><span class="k">if</span><span class="p">(</span><span class="n">it</span><span class="o">-&gt;</span><span class="n">second</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">false</span><span class="p">)</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span><span class="n">it</span><span class="o">-&gt;</span><span class="n">second</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span><span class="w"> </span><span class="c1">// Marca como visitado</span>
+<span class="w">                </span>
+<span class="w">                </span><span class="kt">float</span><span class="w"> </span><span class="n">current_radius</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0</span><span class="p">;</span>
+<span class="w">                </span><span class="kt">int</span><span class="w"> </span><span class="n">layer_index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="c1">// Índice da camada de expansão</span>
+<span class="w">              </span>
+<span class="w">                </span><span class="c1">// Expande em camadas quadradas concêntricas</span>
+<span class="w">                </span><span class="k">while</span><span class="p">(</span><span class="n">current_radius</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">maxSecurityDistance_</span><span class="p">)</span>
+<span class="w">                </span><span class="p">{</span>
+<span class="w">                    </span><span class="c1">// Itera pelo perímetro do quadrado atual</span>
+<span class="w">                    </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">step</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">step</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">layer_index</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"> </span><span class="n">step</span><span class="o">++</span><span class="p">)</span>
+<span class="w">                    </span><span class="p">{</span><span class="w">   </span>
+<span class="w">                        </span><span class="c1">// Calcula os 4 lados do quadrado de expansão</span>
+<span class="w">                        </span><span class="c1">// Lado Direito/Cima</span>
+<span class="w">                        </span><span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">float</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="o">&gt;</span><span class="w"> </span><span class="n">p1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_pair</span><span class="p">(</span>
+<span class="w">                            </span><span class="n">round_to_multiple</span><span class="p">((</span><span class="n">std</span><span class="o">::</span><span class="n">get</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="n">it</span><span class="o">-&gt;</span><span class="n">first</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">current_radius</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="n">distanceToObstacle_</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">step</span><span class="p">),</span><span class="w"> </span><span class="n">distanceToObstacle_</span><span class="p">,</span><span class="w"> </span><span class="n">decimals</span><span class="p">),</span><span class="w"> </span>
+<span class="w">                            </span><span class="n">round_to_multiple</span><span class="p">((</span><span class="n">std</span><span class="o">::</span><span class="n">get</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">it</span><span class="o">-&gt;</span><span class="n">first</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">current_radius</span><span class="p">),</span><span class="w"> </span><span class="n">distanceToObstacle_</span><span class="p">,</span><span class="w"> </span><span class="n">decimals</span><span class="p">)</span>
+<span class="w">                        </span><span class="p">);</span>
+<span class="w">                        </span>
+<span class="w">                        </span><span class="c1">// Lado Direito/Baixo</span>
+<span class="w">                        </span><span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">float</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="o">&gt;</span><span class="w"> </span><span class="n">p2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_pair</span><span class="p">(</span>
+<span class="w">                            </span><span class="n">round_to_multiple</span><span class="p">((</span><span class="n">std</span><span class="o">::</span><span class="n">get</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="n">it</span><span class="o">-&gt;</span><span class="n">first</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">current_radius</span><span class="p">),</span><span class="w"> </span><span class="n">distanceToObstacle_</span><span class="p">,</span><span class="w"> </span><span class="n">decimals</span><span class="p">),</span><span class="w"> </span>
+<span class="w">                            </span><span class="n">round_to_multiple</span><span class="p">((</span><span class="n">std</span><span class="o">::</span><span class="n">get</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">it</span><span class="o">-&gt;</span><span class="n">first</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">current_radius</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="n">distanceToObstacle_</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">step</span><span class="p">),</span><span class="w"> </span><span class="n">distanceToObstacle_</span><span class="p">,</span><span class="w"> </span><span class="n">decimals</span><span class="p">)</span>
+<span class="w">                        </span><span class="p">);</span>
+<span class="w">                        </span>
+<span class="w">                        </span><span class="c1">// Lado Esquerdo/Baixo</span>
+<span class="w">                        </span><span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">float</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="o">&gt;</span><span class="w"> </span><span class="n">p3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_pair</span><span class="p">(</span>
+<span class="w">                            </span><span class="n">round_to_multiple</span><span class="p">((</span><span class="n">std</span><span class="o">::</span><span class="n">get</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="n">it</span><span class="o">-&gt;</span><span class="n">first</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">current_radius</span><span class="p">),</span><span class="w"> </span><span class="n">distanceToObstacle_</span><span class="p">,</span><span class="w"> </span><span class="n">decimals</span><span class="p">),</span><span class="w"> </span>
+<span class="w">                            </span><span class="n">round_to_multiple</span><span class="p">((</span><span class="n">std</span><span class="o">::</span><span class="n">get</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">it</span><span class="o">-&gt;</span><span class="n">first</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">current_radius</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">distanceToObstacle_</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">step</span><span class="p">),</span><span class="w"> </span><span class="n">distanceToObstacle_</span><span class="p">,</span><span class="w"> </span><span class="n">decimals</span><span class="p">)</span>
+<span class="w">                        </span><span class="p">);</span>
+
+<span class="w">                        </span><span class="c1">// Lado Esquerdo/Cima</span>
+<span class="w">                        </span><span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">float</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="o">&gt;</span><span class="w"> </span><span class="n">p4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_pair</span><span class="p">(</span>
+<span class="w">                            </span><span class="n">round_to_multiple</span><span class="p">((</span><span class="n">std</span><span class="o">::</span><span class="n">get</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">(</span><span class="n">it</span><span class="o">-&gt;</span><span class="n">first</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">current_radius</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">distanceToObstacle_</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">step</span><span class="p">),</span><span class="w"> </span><span class="n">distanceToObstacle_</span><span class="p">,</span><span class="w"> </span><span class="n">decimals</span><span class="p">),</span><span class="w"> </span>
+<span class="w">                            </span><span class="n">round_to_multiple</span><span class="p">((</span><span class="n">std</span><span class="o">::</span><span class="n">get</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">(</span><span class="n">it</span><span class="o">-&gt;</span><span class="n">first</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">current_radius</span><span class="p">),</span><span class="w"> </span><span class="n">distanceToObstacle_</span><span class="p">,</span><span class="w"> </span><span class="n">decimals</span><span class="p">)</span>
+<span class="w">                        </span><span class="p">);</span>
+<span class="w">                        </span>
+<span class="w">                        </span><span class="c1">// Adiciona os pontos calculados ao conjunto de bloqueio</span>
+<span class="w">                        </span><span class="n">occupied_points_</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">p1</span><span class="p">);</span>
+<span class="w">                        </span><span class="n">occupied_points_</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">p2</span><span class="p">);</span>
+<span class="w">                        </span><span class="n">occupied_points_</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">p3</span><span class="p">);</span>
+<span class="w">                        </span><span class="n">occupied_points_</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">p4</span><span class="p">);</span>
+<span class="w">                    </span><span class="p">}</span>
+
+<span class="w">                    </span><span class="n">layer_index</span><span class="o">++</span><span class="p">;</span>
+<span class="w">                    </span><span class="n">current_radius</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">distanceToObstacle_</span><span class="p">;</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="publicacao-pointcloud2">
+<h2>Publicação (PointCloud2)<a class="headerlink" href="#publicacao-pointcloud2" title="Link to this heading"></a></h2>
+<p>O resultado final consiste em uma nuvem de pontos densa contendo todas as coordenadas proibidas. Esta nuvem é publicada no tópico <cite>/obstacles_vertices</cite>.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="c1">// Converte o conjunto de pontos ocupados (Set) em uma mensagem ROS PointCloud2.</span>
+<span class="w">    </span><span class="c1">// Esta mensagem é usada pelo A* para saber onde não pode pisar.</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">publishPointCloud</span><span class="p">()</span><span class="w"> </span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">occupied_points_</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span><span class="w"> </span><span class="k">return</span><span class="p">;</span>
+
+<span class="w">        </span><span class="n">sensor_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">PointCloud2</span><span class="w"> </span><span class="n">cloud</span><span class="p">;</span>
+<span class="w">        </span><span class="n">cloud</span><span class="p">.</span><span class="n">header</span><span class="p">.</span><span class="n">stamp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_clock</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">now</span><span class="p">();</span>
+<span class="w">        </span><span class="n">cloud</span><span class="p">.</span><span class="n">header</span><span class="p">.</span><span class="n">frame_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;world&quot;</span><span class="p">;</span>
+
+<span class="w">        </span><span class="n">cloud</span><span class="p">.</span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">        </span><span class="n">cloud</span><span class="p">.</span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">occupied_points_</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+<span class="w">        </span><span class="n">cloud</span><span class="p">.</span><span class="n">is_dense</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="w">        </span><span class="n">cloud</span><span class="p">.</span><span class="n">is_bigendian</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="c1">// Define estrutura XYZ (float32)</span>
+<span class="w">        </span><span class="n">sensor_msgs</span><span class="o">::</span><span class="n">PointCloud2Modifier</span><span class="w"> </span><span class="n">modifier</span><span class="p">(</span><span class="n">cloud</span><span class="p">);</span>
+<span class="w">        </span><span class="n">modifier</span><span class="p">.</span><span class="n">setPointCloud2FieldsByString</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;xyz&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">modifier</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">cloud</span><span class="p">.</span><span class="n">width</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">sensor_msgs</span><span class="o">::</span><span class="n">PointCloud2Iterator</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="w"> </span><span class="n">iter_x</span><span class="p">(</span><span class="n">cloud</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;x&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">sensor_msgs</span><span class="o">::</span><span class="n">PointCloud2Iterator</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="w"> </span><span class="n">iter_y</span><span class="p">(</span><span class="n">cloud</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;y&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">sensor_msgs</span><span class="o">::</span><span class="n">PointCloud2Iterator</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="w"> </span><span class="n">iter_z</span><span class="p">(</span><span class="n">cloud</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;z&quot;</span><span class="p">);</span>
+
+<span class="w">        </span><span class="c1">// Preenche a mensagem</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">occupied_points_</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="o">*</span><span class="n">iter_x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">first</span><span class="p">;</span>
+<span class="w">            </span><span class="o">*</span><span class="n">iter_y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">second</span><span class="p">;</span>
+<span class="w">            </span><span class="o">*</span><span class="n">iter_z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">;</span><span class="w"> </span><span class="c1">// Mapa 2D, Z=0</span>
+<span class="w">            </span><span class="o">++</span><span class="n">iter_x</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">iter_y</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">iter_z</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="n">publisher_</span><span class="o">-&gt;</span><span class="n">publish</span><span class="p">(</span><span class="n">cloud</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="OccupancyGridLoader" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../RobotController/index.html" class="btn btn-neutral float-right" title="RobotController" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Lucas Momesso.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
