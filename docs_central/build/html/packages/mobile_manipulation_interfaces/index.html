@@ -319,17 +319,6 @@ Estas definições garantem que o <strong>Task Planner</strong> (ServerNode), a 
 </dl>
 </li>
 </ul>
-<div class="literal-block-wrapper docutils container" id="id1">
-<div class="code-block-caption"><span class="caption-text">Definição de PickObject.action</span><a class="headerlink" href="#id1" title="Link to this code"></a></div>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">string obstacle_id</span>
-<span class="l l-Scalar l-Scalar-Plain">bool pick</span>
-<span class="l l-Scalar l-Scalar-Plain">geometry_msgs/Pose pose</span>
-<span class="nn">---</span>
-<span class="l l-Scalar l-Scalar-Plain">bool success</span>
-<span class="nn">---</span>
-</pre></div>
-</div>
-</div>
 </section>
 <section id="path">
 <h3>Path<a class="headerlink" href="#path" title="Link to this heading"></a></h3>
@@ -359,18 +348,6 @@ Estas definições garantem que o <strong>Task Planner</strong> (ServerNode), a 
 </dl>
 </li>
 </ul>
-<div class="literal-block-wrapper docutils container" id="id2">
-<div class="code-block-caption"><span class="caption-text">Definição de Path.action</span><a class="headerlink" href="#id2" title="Link to this code"></a></div>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># Request</span>
-<span class="l l-Scalar l-Scalar-Plain">geometry_msgs/Pose pose</span>
-<span class="nn">---</span>
-<span class="l l-Scalar l-Scalar-Plain">bool success</span>
-<span class="nn">---</span>
-<span class="l l-Scalar l-Scalar-Plain">bool recalculating_path</span>
-<span class="l l-Scalar l-Scalar-Plain">nav_msgs/Path path</span><span class="w">  </span>
-</pre></div>
-</div>
-</div>
 </section>
 <section id="controller">
 <h3>Controller<a class="headerlink" href="#controller" title="Link to this heading"></a></h3>
@@ -399,15 +376,6 @@ Estas definições garantem que o <strong>Task Planner</strong> (ServerNode), a 
 </dl>
 </li>
 </ul>
-<div class="literal-block-wrapper docutils container" id="id3">
-<div class="code-block-caption"><span class="caption-text">Definição de Controller.action</span><a class="headerlink" href="#id3" title="Link to this code"></a></div>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">nav_msgs/Path path</span><span class="w">  </span>
-<span class="nn">---</span>
-<span class="l l-Scalar l-Scalar-Plain">bool success</span>
-<span class="nn">---</span>
-</pre></div>
-</div>
-</div>
 <p>—</p>
 </section>
 </section>
@@ -434,15 +402,6 @@ Estas definições garantem que o <strong>Task Planner</strong> (ServerNode), a 
 </dl>
 </li>
 </ul>
-<div class="literal-block-wrapper docutils container" id="id4">
-<div class="code-block-caption"><span class="caption-text">Definição de MobileObjectCollision.srv</span><a class="headerlink" href="#id4" title="Link to this code"></a></div>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">string obstacle_id</span>
-<span class="l l-Scalar l-Scalar-Plain">bool activate_movement</span>
-<span class="nn">---</span>
-<span class="l l-Scalar l-Scalar-Plain">bool success</span>
-</pre></div>
-</div>
-</div>
 </section>
 </section>
 </section>
