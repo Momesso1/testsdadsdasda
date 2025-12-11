@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Launch File Inteligente (Bringup) &mdash; Mobile Robot Documentation 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=86f27845" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=8f9e6779" />
+
+  
+  
+        <script src="../../_static/jquery.js?v=8dae8fb0"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=f2a433a1"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/clipboard.min.js?v=66b4909c"></script>
+        <script src="../../_static/copybutton.js?v=71494f10"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Mobile Manipulation Interfaces" href="../mobile_manipulation_interfaces/index.html" />
+    <link rel="prev" title="Mobile Bringup" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Mobile Robot Documentation
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Pacotes do Sistema:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../task_planning/index.html">Task Planning</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../task_planning/ServerNode/index.html">ServerNode</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../task_planning/ServerNode/server_node_v1.0.html">server_node.cpp (Atual v1.0)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../task_planning/ServerNode/server_node_v1.0.html#adaptacao-para-behaviortree-cpp">1. Adaptação para BehaviorTree.CPP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../task_planning/ServerNode/server_node_v1.0.html#classe-principal-servernode">2. Classe Principal: ServerNode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../task_planning/ServerNode/server_node_v1.0.html#estruturas-de-dados-e-variaveis-internas">3. Estruturas de Dados e Variáveis Internas</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../task_planning/ServerNode/server_node_v1.0.html#callbacks-de-percepcao-inputs">4. Callbacks de Percepção (Inputs)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../task_planning/ServerNode/server_node_v1.0.html#integracao-com-navegacao">5. Integração com Navegação</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../task_planning/ServerNode/server_node_v1.0.html#integracao-com-manipulacao">6. Integração com Manipulação</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../task_planning/ServerNode/server_node_v1.0.html#analise-de-alcancabilidade-projetada">7. Análise de Alcançabilidade Projetada</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../task_planning/ServerNode/server_node_v1.0.html#utilitarios-e-main">8. Utilitários e Main</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../task_planning/BT/index.html">Referência dos Nós da Behavior Tree</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../task_planning/BT/index.html#indice-rapido">Índice Rápido</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../task_planning/BT/index.html#controle-customizado">Controle Customizado</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../task_planning/BT/index.html#parallelany">ParallelAny</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../task_planning/BT/index.html#condicoes-conditions">Condições (Conditions)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../task_planning/BT/index.html#isrobotnear">IsRobotNear</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../task_planning/BT/index.html#isgripperholdingobject">IsGripperHoldingObject</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../task_planning/BT/index.html#percepcao-e-contexto">Percepção e Contexto</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../task_planning/BT/index.html#detectobject">DetectObject</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../task_planning/BT/index.html#cleartarget">ClearTarget</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../task_planning/BT/index.html#navegacao-navigation-stack">Navegação (Navigation Stack)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../task_planning/BT/index.html#computepath">ComputePath</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../task_planning/BT/index.html#navigateto">NavigateTo</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../task_planning/BT/index.html#manipulacao-moveit-integration">Manipulação (MoveIt Integration)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../task_planning/BT/index.html#pickobject">PickObject</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../task_planning/BT/index.html#placeobject">PlaceObject</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../task_planning/BT/index.html#gerenciamento-de-estoque-storage">Gerenciamento de Estoque (Storage)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../task_planning/BT/index.html#getstorageinfo">GetStorageInfo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../task_planning/BT/index.html#computeposetoorganize">ComputePoseToOrganize</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../task_planning/BT/index.html#computeposetostore">ComputePoseToStore</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../task_planning/BT/index.html#incrementorganizedstorageindexes">IncrementOrganizedStorageIndexes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../task_planning/BT/index.html#decrementstoragecount">DecrementStorageCount</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../manipulation/index.html">Manipulation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../manipulation/SimpleManipulation/index.html">SimpleManipulation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../manipulation/SimpleManipulation/manipulation_impl_v1.0.html">manipulation_impl.cpp (Legado v1.0)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#demonstracao">Demonstração</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#construtor-e-inicializacao">1. Construtor e Inicialização</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#destrutor-cleanup">2. Destrutor (Cleanup)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#carregamento-de-parametros-yaml">3. Carregamento de Parâmetros (YAML)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#inicializacao-do-movegroup">4. Inicialização do MoveGroup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#posicao-de-seguranca-ready">5. Posição de Segurança (Ready)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#controle-da-garra-end-effector">6. Controle da Garra (End-Effector)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#planejamento-cartesiano-linha-reta">7. Planejamento Cartesiano (Linha Reta)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#planejamento-livre-rrtconnect">8. Planejamento Livre (RRTConnect)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#logica-central-pick-place">9. Lógica Central: Pick &amp; Place</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#gerenciamento-de-colisoes-acm">10. Gerenciamento de Colisões (ACM)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#requisicao-de-servicos-externos">11. Requisição de Serviços Externos</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#callbacks-do-action-server">12. Callbacks do Action Server</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#callback-do-sensor">13. Callback do Sensor</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../manipulation/SimpleManipulation/manipulation_impl_v1.1.html">manipulation_impl.cpp (Atual v1.1 - Tentativa de recuperação)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#demonstracao">Demonstração</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#construtor-e-configuracao">1. Construtor e Configuração</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#destrutor-limpeza">2. Destrutor (Limpeza)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#carregamento-de-parametros-yaml">3. Carregamento de Parâmetros (YAML)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#inicializacao-tardia-movegroup">4. Inicialização Tardia (MoveGroup)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#posicao-de-seguranca-ready">5. Posição de Segurança (Ready)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#controle-da-garra">6. Controle da Garra</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#planejamento-de-movimento">7. Planejamento de Movimento</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#logica-central-pick-place-e-retry">8. Lógica Central: Pick, Place e Retry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#gerenciamento-de-colisoes">9. Gerenciamento de Colisões</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#servicos-externos">10. Serviços Externos</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#atualizacao-de-pose-novo">11. Atualização de Pose (Novo)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#action-callbacks">12. Action Callbacks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#callback-do-sensor">13. Callback do Sensor</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../manipulation/IsGripperHolding/index.html">IsGripperHolding</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../manipulation/IsGripperHolding/is_gripper_holding_impl_v1.0.html">is_gripper_holding_impl.cpp (Atual v1.0 - Composable Node)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../manipulation/IsGripperHolding/is_gripper_holding_impl_v1.0.html#integracao-com-servernode-composicao">Integração com ServerNode (Composição)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../manipulation/IsGripperHolding/is_gripper_holding_impl_v1.0.html#implementacao">Implementação</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../manipulation/AddCollision/index.html">AddCollision</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../manipulation/AddCollision/add_collision_impl_v1.0.html">add_collision_impl.cpp (Atual v1.0)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../manipulation/AddCollision/add_collision_impl_v1.0.html#inicializacao-e-configuracao">Inicialização e Configuração</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../manipulation/AddCollision/add_collision_impl_v1.0.html#filtragem-de-objetos-yaml">Filtragem de Objetos (YAML)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../manipulation/AddCollision/add_collision_impl_v1.0.html#atualizacao-da-cena-moveit-interface">Atualização da Cena (MoveIt Interface)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../manipulation/AddCollision/add_collision_impl_v1.0.html#logica-de-congelamento-service">Lógica de Congelamento (Service)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../manipulation/AddCollision/add_collision_impl_v1.0.html#processamento-de-deteccoes">Processamento de Detecções</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../storage_manager/index.html">Storage Manager</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../storage_manager/Organize/index.html">Organize</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../storage_manager/Organize/organize_v1.0.html">organize.cpp (Atual v1.0 - Composable Node)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../storage_manager/Organize/organize_v1.0.html#arquitetura-de-composicao">Arquitetura de Composição</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../storage_manager/Organize/organize_v1.0.html#logica-de-empacotamento-bin-packing">Lógica de Empacotamento (Bin Packing)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../storage_manager/GetStorageInfo/index.html">GetStorageInfo</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../storage_manager/GetStorageInfo/get_storage_info_v1.0.html">get_storage_info.cpp (Atual v1.0 - Composable Node)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../storage_manager/GetStorageInfo/get_storage_info_v1.0.html#arquitetura-de-composicao">Arquitetura de Composição</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../storage_manager/GetStorageInfo/get_storage_info_v1.0.html#logica-de-selecao-best-storage">Lógica de Seleção (Best Storage)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../storage_manager/GetStorageInfo/get_storage_info_v1.0.html#gerenciamento-de-estado">Gerenciamento de Estado</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../storage_manager/GetStorageInfo/get_storage_info_v1.0.html#carregamento-de-dados-yaml">Carregamento de Dados (YAML)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../storage_manager/GetStorageInfo/get_storage_info_v1.0.html#calculo-de-limites">Cálculo de Limites</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../navigation/index.html">Navigation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../navigation/AStar/index.html">AStar</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../navigation/AStar/a_star_v1.0.html">a_star.cpp (Atual v1.0)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../navigation/AStar/a_star_v1.0.html#inicializacao-e-parametros">Inicialização e Parâmetros</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../navigation/AStar/a_star_v1.0.html#estruturas-de-dados">Estruturas de Dados</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../navigation/AStar/a_star_v1.0.html#mapeamento-e-grid">Mapeamento e Grid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../navigation/AStar/a_star_v1.0.html#recuperacao-de-alvo-bfs">Recuperação de Alvo (BFS)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../navigation/AStar/a_star_v1.0.html#execucao-do-a-core">Execução do A* (Core)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../navigation/AStar/a_star_v1.0.html#poda-de-seguranca-stop-distance">Poda de Segurança (Stop Distance)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../navigation/AStar/a_star_v1.0.html#pos-processamento-e-suavizacao">Pós-Processamento e Suavização</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../navigation/AStar/a_star_v1.0.html#execucao-e-recalculo-dinamico">Execução e Recálculo Dinâmico</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../navigation/AStarSplicing/index.html">AStarSplicing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../navigation/AStarSplicing/a_star_splicing_v1.0.html">a_star_splicing.cpp (Legado v1.0 - Planejador Dinâmico)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../navigation/AStarSplicing/a_star_splicing_v1.0.html#inicializacao-e-parametros">Inicialização e Parâmetros</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../navigation/AStarSplicing/a_star_splicing_v1.0.html#estruturas-de-dados">Estruturas de Dados</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../navigation/AStarSplicing/a_star_splicing_v1.0.html#mapeamento-e-grid">Mapeamento e Grid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../navigation/AStarSplicing/a_star_splicing_v1.0.html#recuperacao-de-alvo-bfs">Recuperação de Alvo (BFS)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../navigation/AStarSplicing/a_star_splicing_v1.0.html#motor-de-busca-a">Motor de Busca (A*)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../navigation/AStarSplicing/a_star_splicing_v1.0.html#poda-de-seguranca-stop-distance">Poda de Segurança (Stop Distance)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../navigation/AStarSplicing/a_star_splicing_v1.0.html#pos-processamento-e-suavizacao">Pós-Processamento e Suavização</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../navigation/AStarSplicing/a_star_splicing_v1.0.html#execucao-dinamica-path-splicing">Execução Dinâmica: Path Splicing</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../navigation/ObstacleGraph/index.html">OccupancyGridLoader</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../navigation/ObstacleGraph/obstacle_graph_with_occupancy_grid_v1.0.html">obstacle_graph_with_occupancy_grid.cpp (Atual v1.0)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../navigation/ObstacleGraph/obstacle_graph_with_occupancy_grid_v1.0.html#inicializacao-e-parametros">Inicialização e Parâmetros</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../navigation/ObstacleGraph/obstacle_graph_with_occupancy_grid_v1.0.html#estruturas-de-dados-hash-otimizado">Estruturas de Dados (Hash Otimizado)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../navigation/ObstacleGraph/obstacle_graph_with_occupancy_grid_v1.0.html#funcoes-auxiliares-discretizacao">Funções Auxiliares (Discretização)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../navigation/ObstacleGraph/obstacle_graph_with_occupancy_grid_v1.0.html#leitura-do-mapa-opencv-yaml">Leitura do Mapa (OpenCV + YAML)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../navigation/ObstacleGraph/obstacle_graph_with_occupancy_grid_v1.0.html#inflacao-de-obstaculos-safety-padding">Inflação de Obstáculos (Safety Padding)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../navigation/ObstacleGraph/obstacle_graph_with_occupancy_grid_v1.0.html#publicacao-pointcloud2">Publicação (PointCloud2)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../navigation/RobotController/index.html">RobotController</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../navigation/RobotController/controller_v1.0.html">controller.cpp (Atual v1.0)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../navigation/RobotController/controller_v1.0.html#inicializacao">Inicialização</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../navigation/RobotController/controller_v1.0.html#odometria-e-utilitarios">Odometria e Utilitários</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../navigation/RobotController/controller_v1.0.html#loop-de-controle-execute">Loop de Controle (Execute)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Mobile Bringup</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Launch File Inteligente (Bringup)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#funcionamento-da-analise-xml">Funcionamento da Análise XML</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#configuracao-de-nos-componiveis-servernode">Configuração de Nós Componíveis (ServerNode)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#carregamento-dinamico-de-processos">Carregamento Dinâmico de Processos</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../mobile_manipulation_interfaces/index.html">Mobile Manipulation Interfaces</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../mobile_manipulation_interfaces/index.html#actions-acoes-assincronas">Actions (Ações Assíncronas)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../mobile_manipulation_interfaces/index.html#pickobject">PickObject</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../mobile_manipulation_interfaces/index.html#path">Path</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../mobile_manipulation_interfaces/index.html#controller">Controller</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../mobile_manipulation_interfaces/index.html#services-servicos-sincronos">Services (Serviços Síncronos)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../mobile_manipulation_interfaces/index.html#mobileobjectcollision">MobileObjectCollision</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Mobile Robot Documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Mobile Bringup</a></li>
+      <li class="breadcrumb-item active">Launch File Inteligente (Bringup)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/packages/mobile_bringup/mobile_manipulation.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="launch-file-inteligente-bringup">
+<h1>Launch File Inteligente (Bringup)<a class="headerlink" href="#launch-file-inteligente-bringup" title="Link to this heading"></a></h1>
+<p>O arquivo <code class="docutils literal notranslate"><span class="pre">mobile_manipulation.launch.py</span></code> é o ponto de entrada do sistema.
+Diferente de launch files tradicionais que carregam todos os nós de uma vez, este script implementa uma lógica de <strong>Carregamento Condicional Baseado na Behavior Tree</strong>.</p>
+<section id="funcionamento-da-analise-xml">
+<h2>Funcionamento da Análise XML<a class="headerlink" href="#funcionamento-da-analise-xml" title="Link to this heading"></a></h2>
+<p>Antes de iniciar qualquer nó, o script lê o arquivo <cite>.xml</cite> da Behavior Tree definido no pacote <cite>task_planning</cite>.
+Ele percorre a árvore procurando por tags de <strong>Action</strong> (como <cite>ComputePath</cite>, <cite>PickObject</cite>) e identifica as dependências.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Analisa o arquivo XML da Behavior Tree para descobrir quais habilidades são necessárias.</span>
+<span class="c1"># Retorna:</span>
+<span class="c1"># 1. Um conjunto (set) com os nomes de todas as Actions usadas na árvore.</span>
+<span class="c1"># 2. O algoritmo de planejamento preferido (A* ou D*) se a navegação for usada.</span>
+<span class="k">def</span> <span class="nf">analyze_bt_xml</span><span class="p">(</span><span class="n">xml_path</span><span class="p">):</span>
+    <span class="n">analysis</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;actions&#39;</span><span class="p">:</span> <span class="nb">set</span><span class="p">(),</span>
+        <span class="s1">&#39;planner_type&#39;</span><span class="p">:</span> <span class="s1">&#39;d_star&#39;</span> 
+    <span class="p">}</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[LAUNCH DEBUG] Tentando ler BT em: </span><span class="si">{</span><span class="n">xml_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">xml_path</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[LAUNCH ERROR] ARQUIVO NÃO ENCONTRADO! Verifique se o XML foi instalado corretamente.&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">analysis</span>
+            
+        <span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">xml_path</span><span class="p">)</span>
+        <span class="n">root</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+        
+        <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">iter</span><span class="p">():</span>
+            <span class="n">tag_name</span> <span class="o">=</span> <span class="n">elem</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;}&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;}&#39;</span> <span class="ow">in</span> <span class="n">elem</span><span class="o">.</span><span class="n">tag</span> <span class="k">else</span> <span class="n">elem</span><span class="o">.</span><span class="n">tag</span>
+            <span class="n">analysis</span><span class="p">[</span><span class="s1">&#39;actions&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tag_name</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="s1">&#39;ID&#39;</span> <span class="ow">in</span> <span class="n">elem</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+                <span class="n">analysis</span><span class="p">[</span><span class="s1">&#39;actions&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">elem</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;ID&#39;</span><span class="p">])</span>
+            
+            <span class="k">if</span> <span class="n">tag_name</span> <span class="o">==</span> <span class="s1">&#39;ComputePath&#39;</span> <span class="ow">or</span> <span class="n">elem</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ID&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;ComputePath&#39;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="s1">&#39;planner&#39;</span> <span class="ow">in</span> <span class="n">elem</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+                    <span class="n">analysis</span><span class="p">[</span><span class="s1">&#39;planner_type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">elem</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;planner&#39;</span><span class="p">]</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[LAUNCH] &gt;&gt; Planner definido na BT: &#39;</span><span class="si">{</span><span class="n">analysis</span><span class="p">[</span><span class="s1">&#39;planner_type&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[LAUNCH DEBUG] Actions detectadas: </span><span class="si">{</span><span class="n">analysis</span><span class="p">[</span><span class="s1">&#39;actions&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[LAUNCH ERROR] Erro ao ler BT XML: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">analysis</span>
+</pre></div>
+</div>
+</section>
+<section id="configuracao-de-nos-componiveis-servernode">
+<h2>Configuração de Nós Componíveis (ServerNode)<a class="headerlink" href="#configuracao-de-nos-componiveis-servernode" title="Link to this heading"></a></h2>
+<p>O <code class="docutils literal notranslate"><span class="pre">ServerNode</span></code> é especial: ele não é apenas um nó, mas um <strong>Container</strong>. Dependendo das necessidades da árvore, ele pode instanciar internamente os componentes de <em>Storage</em>, <em>Organização</em> e <em>Gripper</em>.
+O launch file passa argumentos (<cite>–no-storage</cite>, etc.) para controlar essa instanciação, economizando recursos se esses módulos não forem necessários.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="c1"># Preparação dos argumentos para o ServerNode.</span>
+    <span class="c1"># O ServerNode atua como um Container de Componentes. Ele pode carregar internamente</span>
+    <span class="c1"># (via composição) os nós de Storage, Organização e Monitoramento de Garra.</span>
+    <span class="n">server_arguments</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;--ros-args&quot;</span><span class="p">,</span> <span class="s2">&quot;--log-level&quot;</span><span class="p">,</span> <span class="s2">&quot;info&quot;</span><span class="p">]</span>
+    <span class="n">server_arguments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;--&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Lógica de decisão: Se a BT não usa certas actions, passamos flags para</span>
+    <span class="c1"># o ServerNode NÃO instanciar os componentes correspondentes, economizando memória.</span>
+    
+    <span class="k">if</span> <span class="s1">&#39;GetStorageInfo&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">bt_actions</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[LAUNCH] &gt;&gt; &#39;GetStorageInfo&#39; não encontrado. Desativando StorageNode.&quot;</span><span class="p">)</span>
+        <span class="n">server_arguments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;--no-storage&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[LAUNCH] &gt;&gt; &#39;GetStorageInfo&#39; detectado. Ativando StorageNode (Composição).&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="s1">&#39;ComputePoseToOrganize&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">bt_actions</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[LAUNCH] &gt;&gt; &#39;ComputePoseToOrganize&#39; não encontrado. Desativando OrganizeNode.&quot;</span><span class="p">)</span>
+        <span class="n">server_arguments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;--no-organize&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[LAUNCH] &gt;&gt; &#39;Organize&#39; detectado. Ativando OrganizeNode (Composição).&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="s1">&#39;IsGripperHoldingObject&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">bt_actions</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[LAUNCH] &gt;&gt; &#39;IsGripperHoldingObject&#39; não encontrado. Desativando GripperNode.&quot;</span><span class="p">)</span>
+        <span class="n">server_arguments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;--no-gripper&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[LAUNCH] &gt;&gt; &#39;IsGripperHoldingObject&#39; detectado. Ativando GripperNode (Composição).&quot;</span><span class="p">)</span>
+
+    <span class="n">server_node</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span>
+        <span class="n">package</span><span class="o">=</span><span class="s2">&quot;task_planning&quot;</span><span class="p">,</span>
+        <span class="n">executable</span><span class="o">=</span><span class="s2">&quot;server_node&quot;</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;server_node&quot;</span><span class="p">,</span>
+        <span class="n">output</span><span class="o">=</span><span class="s2">&quot;screen&quot;</span><span class="p">,</span>
+        <span class="n">parameters</span><span class="o">=</span><span class="p">[</span>
+            <span class="p">{</span><span class="s1">&#39;yaml_file&#39;</span><span class="p">:</span> <span class="n">pick_place_yaml</span><span class="p">},</span>
+            <span class="p">{</span><span class="s1">&#39;bt_xml_path&#39;</span><span class="p">:</span> <span class="n">bt_file</span><span class="p">},</span>
+            <span class="p">{</span><span class="s2">&quot;use_sim_time&quot;</span><span class="p">:</span> <span class="n">LaunchConfiguration</span><span class="p">(</span><span class="s2">&quot;use_sim_time&quot;</span><span class="p">)},</span>
+            
+            <span class="p">{</span><span class="s1">&#39;label_to_storage_yaml_file&#39;</span><span class="p">:</span> <span class="n">label_to_storage_yaml</span><span class="p">},</span>
+            <span class="p">{</span><span class="s1">&#39;storage_poses_yaml_file&#39;</span><span class="p">:</span> <span class="n">storage_poses_yaml</span><span class="p">},</span>
+        <span class="p">],</span>
+        <span class="n">arguments</span><span class="o">=</span><span class="n">server_arguments</span><span class="p">,</span> <span class="c1"># Passa as flags calculadas acima</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="carregamento-dinamico-de-processos">
+<h2>Carregamento Dinâmico de Processos<a class="headerlink" href="#carregamento-dinamico-de-processos" title="Link to this heading"></a></h2>
+<p>Além dos componentes internos, o sistema decide quais processos externos (Executáveis ROS) devem ser iniciados.</p>
+<ul class="simple">
+<li><p><strong>Navegação:</strong> Se a BT tiver <cite>ComputePath</cite>, carrega o mapa e o planejador (escolhendo entre A* ou D* dependendo do atributo <cite>planner=”d_star”</cite> no XML).</p></li>
+<li><p><strong>Manipulação:</strong> Se tiver <cite>PickObject</cite>, carrega o nó de manipulação e o <cite>add_collision</cite>.</p></li>
+<li><p><strong>Controle:</strong> Se tiver <cite>MapsTo</cite>, carrega o controlador da base.</p></li>
+</ul>
+<p>Se a missão for apenas “Organizar Estoque” (sem mover a base), os nós de navegação nem sequer são iniciados, economizando CPU e RAM.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="c1"># Carregamento Dinâmico de Nós Externos</span>
+    <span class="c1"># Aqui decidimos quais processos externos (Executáveis) precisam ser iniciados.</span>
+    
+    <span class="k">if</span> <span class="s1">&#39;ComputePath&#39;</span> <span class="ow">in</span> <span class="n">bt_actions</span> <span class="ow">or</span> <span class="s1">&#39;ComputePathToPose&#39;</span> <span class="ow">in</span> <span class="n">bt_actions</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[LAUNCH] &gt;&gt; Navegação detectada na BT. Algoritmo escolhido: </span><span class="si">{</span><span class="n">planner_choice</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">planner_choice</span> <span class="o">==</span> <span class="s1">&#39;a_star&#39;</span><span class="p">:</span>
+            <span class="n">final_launch_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">a_star</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">planner_choice</span> <span class="o">==</span> <span class="s1">&#39;d_star&#39;</span><span class="p">:</span>
+            <span class="n">final_launch_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d_star</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">final_launch_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d_star</span><span class="p">)</span>
+
+        <span class="n">final_launch_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obstacle_graph_with_occupancy_grid</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="s1">&#39;PickObject&#39;</span> <span class="ow">in</span> <span class="n">bt_actions</span> <span class="ow">or</span> <span class="s1">&#39;PlaceObject&#39;</span> <span class="ow">in</span> <span class="n">bt_actions</span> <span class="ow">or</span> <span class="s1">&#39;DetectObject&#39;</span> <span class="ow">in</span> <span class="n">bt_actions</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[LAUNCH] &gt;&gt; Manipulação (Pick/Place/Detect) detectada na BT.&quot;</span><span class="p">)</span>
+        <span class="n">final_launch_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">manipulation</span><span class="p">)</span>
+        <span class="n">final_launch_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">add_collision</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="s1">&#39;NavigateTo&#39;</span> <span class="ow">in</span> <span class="n">bt_actions</span> <span class="ow">or</span> <span class="s1">&#39;FollowPath&#39;</span> <span class="ow">in</span> <span class="n">bt_actions</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[LAUNCH] &gt;&gt; Controlador de caminho (NavigateTo) detectado.&quot;</span><span class="p">)</span>
+        <span class="n">final_launch_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">controller</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Mobile Bringup" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../mobile_manipulation_interfaces/index.html" class="btn btn-neutral float-right" title="Mobile Manipulation Interfaces" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Lucas Momesso.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
