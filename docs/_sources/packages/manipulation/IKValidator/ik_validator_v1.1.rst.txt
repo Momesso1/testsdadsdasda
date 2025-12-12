@@ -1,0 +1,89 @@
+ik_validator.cpp (Atual v1.1)
+=============================
+
+O nó ``IKValidator`` v1.1 evolui seu predecessor ao introduzir **memória e persistência de estado**.
+Enquanto a versão 1.0 apenas calculava e retornava um ponto, a versão 1.1 **lembra** qual decisão tomou.
+Isso é fundamental para comportamentos reativos (Reactive Behavior Trees), permitindo que o robô verifique continuamente se o plano traçado milissegundos atrás ainda é válido diante de mudanças dinâmicas no ambiente (ex: uma pessoa entrando na frente do robô), sem o custo computacional de recalcular tudo do zero.
+
+.. note::
+   **Novidade Principal:**: :ref:`revalidacao_reativa_v1_1`.
+
+---
+
+1. Inicialização Assíncrona
+---------------------------
+
+O padrão de *Delayed Init* é mantido para evitar o bloqueio do *spin* do ROS durante o carregamento pesado do MoveIt (URDF/SRDF).
+Na versão 1.1, o tempo de espera inicial foi ajustado para garantir maior estabilidade na subida dos serviços de transformação (TF).
+
+.. literalinclude:: ../../../../../docs_central/legacy_src/manipulation/IKValidator/ik_validator_v1.1.cpp
+   :language: cpp
+   :start-after: // DOC-START: delayed_init
+   :end-before: // DOC-END: delayed_init
+
+---
+
+2. O Cálculo Principal com Persistência (Find Best Base)
+--------------------------------------------------------
+
+A função ``find_best_base_position`` realiza a busca pesada. Ela itera sobre dezenas de candidatos, verifica colisões 2D, colisões 3D, limites de juntas e cinemática inversa.
+
+A grande mudança na v1.1 está no final da função: **o salvamento do contexto**.
+Ao encontrar uma solução válida, o nó não apenas a retorna para a Behavior Tree, mas armazena internamente:
+1.  ``selected_ik_position``: Onde o robô decidiu parar.
+2.  ``last_target``: Qual era o objeto alvo.
+3.  ``last_authorized_collision``: Qual objeto o robô tem permissão de tocar.
+
+Isso prepara o terreno para a função de monitoramento rápido (veja a seção abaixo).
+
+.. literalinclude:: ../../../../../docs_central/legacy_src/manipulation/IKValidator/ik_validator_v1.1.cpp
+   :language: cpp
+   :start-after: // DOC-START: find_best_base_position
+   :end-before: // DOC-END: find_best_base_position
+
+---
+
+.. _revalidacao_reativa_v1_1:
+
+3. Revalidação Reativa (Is Still Reachable)
+-------------------------------------------
+
+Esta é a principal inovação da versão 1.1.
+Projetada para rodar dentro de nós condicionais como ``<IsStillReachable/>`` em alta frequência (ex: 50Hz), esta função precisa ser extremamente rápida e leve.
+
+O Problema das Variáveis Globais (Membros)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Para que ``is_still_reachable`` funcione sem receber todos os parâmetros novamente da Behavior Tree (o que poluiria o XML e causaria overhead), ela depende totalmente do **Estado Interno** (Variáveis Membro) da classe.
+Ela acessa as variáveis salvas anteriormente (`selected_ik_position`, etc.) para reconstruir a cena de simulação exata da decisão original sem precisar recalculá-la.
+
+Lógica de Execução:
+^^^^^^^^^^^^^^^^^^^
+
+1.  **Check de Sobrevivência (Fail-Fast):** Se o nó ainda não calculou nada (`selected_ik_position` vazio), retorna falso imediatamente.
+2.  **Validação 2D Instantânea:** Verifica se a posição *salva* da base agora está ocupada no mapa dinâmico (`graph_provider_node`). Se um obstáculo apareceu onde o robô está (ou vai estar), aborta.
+3.  **Reconstrução de Cena:** Recria o ambiente MoveIt, reaplicando a matriz de colisões (ACM) usando ``last_authorized_collision``.
+4.  **Verificação Cinemática Pontual:** Diferente da função anterior que testava N pontos, esta testa **apenas um**: a posição salva.
+    * Ela move o "robô fantasma" para a posição salva.
+    * Tenta resolver o IK para o ``last_target``.
+    * Verifica colisões 3D atualizadas.
+
+Se esta função retornar ``false``, a Behavior Tree saberá instantaneamente que o plano atual falhou e acionará o ``halt()`` da navegação.
+
+.. literalinclude:: ../../../../../docs_central/legacy_src/manipulation/IKValidator/ik_validator_v1.1.cpp
+   :language: cpp
+   :start-after: // DOC-START: is_still_reachable
+   :end-before: // DOC-END: is_still_reachable
+
+---
+
+4. Vídeo do comportamento reativo.
+----------------------------------
+
+.. raw:: html
+
+   <div style="text-align: center; margin-bottom: 20px; border: 1px solid #ccc;">
+       <video width="100%" height="auto" controls autoplay loop muted>
+           <source src="../../../_static/manipulation/ik_validator_v1.1.webm" type="video/webm">
+           Seu navegador não suporta vídeos HTML5.
+       </video>
+   </div>
