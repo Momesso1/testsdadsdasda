@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Generate Scan Poses (Visão Computacional) &mdash; Mobile Robot Documentation 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=86f27845" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=8f9e6779" />
+
+  
+  
+        <script src="../../../_static/jquery.js?v=8dae8fb0"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../../_static/clipboard.min.js?v=66b4909c"></script>
+        <script src="../../../_static/copybutton.js?v=71494f10"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="ObjectMapping" href="../ObjectMapping/index.html" />
+    <link rel="prev" title="GenerateScanPoses" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Mobile Robot Documentation
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Pacotes do Sistema:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../task_planning/index.html">Task Planning</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../task_planning/ServerNode/index.html">ServerNode</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.0.html">server_node.cpp (Legado v1.0)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.0.html#adaptacao-para-behaviortree-cpp">1. Adaptação para BehaviorTree.CPP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.0.html#classe-principal-servernode">2. Classe Principal: ServerNode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.0.html#estruturas-de-dados-e-variaveis-internas">3. Estruturas de Dados e Variáveis Internas</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.0.html#callbacks-de-percepcao-inputs">4. Callbacks de Percepção (Inputs)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.0.html#integracao-com-navegacao">5. Integração com Navegação</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.0.html#integracao-com-manipulacao">6. Integração com Manipulação</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.0.html#analise-de-alcancabilidade-projetada">7. Análise de Alcançabilidade Projetada</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.0.html#utilitarios-e-main">8. Utilitários e Main</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.1.html">Server Node (Planejador de Tarefas v1.1)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.1.html#novidades-da-versao-1-1">1. Novidades da Versão 1.1</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.1.html#estrutura-e-inicializacao">2. Estrutura e Inicialização</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.1.html#logica-da-behavior-tree">3. Lógica da Behavior Tree</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.1.html#fluxo-de-dados-de-percepcao">4. Fluxo de Dados de Percepção</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.1.html#evolucao-arquitetural-v1-0-vs-v1-1">5. Evolução Arquitetural (v1.0 vs v1.1)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../task_planning/ServerNodeWithLLMs/index.html">ServerNodeWithLLMs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../task_planning/ServerNodeWithLLMs/server_node_with_llms_v1.0.html">Server Node With LLMs (Task Planner)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNodeWithLLMs/server_node_with_llms_v1.0.html#arquitetura-de-componentes">Arquitetura de Componentes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNodeWithLLMs/server_node_with_llms_v1.0.html#geracao-dinamica-via-llms-phi-3-5">Geração Dinâmica via LLMs (Phi 3.5)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNodeWithLLMs/server_node_with_llms_v1.0.html#gerenciamento-da-behavior-tree">Gerenciamento da Behavior Tree</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNodeWithLLMs/server_node_with_llms_v1.0.html#integracao-com-banco-de-dados-e-estoque">Integração com Banco de Dados e Estoque</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNodeWithLLMs/server_node_with_llms_v1.0.html#integracao-com-graspnet">Integração com GraspNet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNodeWithLLMs/server_node_with_llms_v1.0.html#seguranca-e-navegacao-reativa">Segurança e Navegação Reativa</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNodeWithLLMs/server_node_with_llms_v1.0.html#parametros-principais">Parâmetros Principais</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../task_planning/BT/index.html">BT</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../task_planning/BT/bt_v1.0.html">Referência dos Nós da Behavior Tree (Legado v1.0)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.0.html#indice-rapido">Índice Rápido</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.0.html#controle-customizado">Controle Customizado</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.0.html#condicoes-conditions">Condições (Conditions)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.0.html#percepcao-e-contexto">Percepção e Contexto</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.0.html#navegacao-navigation-stack">Navegação (Navigation Stack)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.0.html#manipulacao-moveit-integration">Manipulação (MoveIt Integration)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.0.html#gerenciamento-de-estoque-storage">Gerenciamento de Estoque (Storage)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../task_planning/BT/bt_v1.1.html">Referência dos Nós da Behavior Tree (v1.1)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.1.html#indice-rapido">Índice Rápido</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.1.html#controle-customizado">Controle Customizado</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.1.html#condicoes-conditions">Condições (Conditions)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.1.html#percepcao-e-contexto">Percepção e Contexto</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.1.html#navegacao-navigation-stack">Navegação (Navigation Stack)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.1.html#manipulacao">Manipulação</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.1.html#gerenciamento-de-estoque-storage">Gerenciamento de Estoque (Storage)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../manipulation/index.html">Manipulation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../manipulation/SimpleManipulation/index.html">SimpleManipulation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html">manipulation_impl.cpp (Legado v1.0)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#demonstracao">Demonstração</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#construtor-e-inicializacao">1. Construtor e Inicialização</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#destrutor-cleanup">2. Destrutor (Cleanup)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#carregamento-de-parametros-yaml">3. Carregamento de Parâmetros (YAML)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#inicializacao-do-movegroup">4. Inicialização do MoveGroup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#posicao-de-seguranca-ready">5. Posição de Segurança (Ready)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#controle-da-garra-end-effector">6. Controle da Garra (End-Effector)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#planejamento-cartesiano-linha-reta">7. Planejamento Cartesiano (Linha Reta)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#planejamento-livre-rrtconnect">8. Planejamento Livre (RRTConnect)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#logica-central-pick-place">9. Lógica Central: Pick &amp; Place</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#gerenciamento-de-colisoes-acm">10. Gerenciamento de Colisões (ACM)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#requisicao-de-servicos-externos">11. Requisição de Serviços Externos</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#callbacks-do-action-server">12. Callbacks do Action Server</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#callback-do-sensor">13. Callback do Sensor</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html">manipulation_impl.cpp (Legado v1.1 - Tentativa de recuperação)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#demonstracao">Demonstração</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#construtor-e-configuracao">1. Construtor e Configuração</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#destrutor-limpeza">2. Destrutor (Limpeza)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#carregamento-de-parametros-yaml">3. Carregamento de Parâmetros (YAML)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#inicializacao-tardia-movegroup">4. Inicialização Tardia (MoveGroup)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#posicao-de-seguranca-ready">5. Posição de Segurança (Ready)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#controle-da-garra">6. Controle da Garra</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#planejamento-de-movimento">7. Planejamento de Movimento</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#logica-central-pick-place-e-retry">8. Lógica Central: Pick, Place e Retry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#gerenciamento-de-colisoes">9. Gerenciamento de Colisões</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#servicos-externos">10. Serviços Externos</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#atualizacao-de-pose-novo">11. Atualização de Pose (Novo)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#action-callbacks">12. Action Callbacks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#callback-do-sensor">13. Callback do Sensor</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.2.html">manipulation_impl.cpp (Atual v1.2)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.2.html#novidade-principal-seguimento-de-caminho-follow-path">1. Novidade Principal: Seguimento de Caminho (Follow Path)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.2.html#novidade-principal-integracao-com-graspnet">2. Novidade Principal: Integração com GraspNet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.2.html#logica-de-execucao-da-action-atualizada">3. Lógica de Execução da Action (Atualizada)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.2.html#componentes-base-heranca-v1-1">4. Componentes Base (Herança v1.1)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../manipulation/IsGripperHolding/index.html">IsGripperHolding</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../manipulation/IsGripperHolding/is_gripper_holding_impl_v1.0.html">is_gripper_holding_impl.cpp (Atual v1.0 - Composable Node)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/IsGripperHolding/is_gripper_holding_impl_v1.0.html#integracao-com-servernode-composicao">Integração com ServerNode (Composição)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/IsGripperHolding/is_gripper_holding_impl_v1.0.html#implementacao">Implementação</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../manipulation/AddCollision/index.html">AddCollision</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../manipulation/AddCollision/add_collision_impl_v1.0.html">add_collision_impl.cpp (Atual v1.0)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/AddCollision/add_collision_impl_v1.0.html#inicializacao-e-configuracao">Inicialização e Configuração</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/AddCollision/add_collision_impl_v1.0.html#filtragem-de-objetos-yaml">Filtragem de Objetos (YAML)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/AddCollision/add_collision_impl_v1.0.html#atualizacao-da-cena-moveit-interface">Atualização da Cena (MoveIt Interface)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/AddCollision/add_collision_impl_v1.0.html#logica-de-congelamento-service">Lógica de Congelamento (Service)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/AddCollision/add_collision_impl_v1.0.html#processamento-de-deteccoes">Processamento de Detecções</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../manipulation/ProjectedReachabilityAnalysis/index.html">ProjectedReachabilityAnalysis</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../manipulation/ProjectedReachabilityAnalysis/projected_reachability_analysis_v1.0.html">projected_reachability_analysis.cpp (Atual v1.0)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/ProjectedReachabilityAnalysis/projected_reachability_analysis_v1.0.html#matematica-da-projecao-3d-2d">1. Matemática da Projeção 3D -&gt; 2D</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/ProjectedReachabilityAnalysis/projected_reachability_analysis_v1.0.html#parametros-e-inicializacao">2. Parâmetros e Inicialização</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/ProjectedReachabilityAnalysis/projected_reachability_analysis_v1.0.html#algoritmo-de-expansao-bfs">3. Algoritmo de Expansão (BFS)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../manipulation/IKValidator/index.html">IKValidator</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../manipulation/IKValidator/ik_validator_v1.0.html">IK Validator (v1.0 - Legado)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/IKValidator/ik_validator_v1.0.html#inicializacao-assincrona-e-monitoramento-de-cena">1. Inicialização Assíncrona e Monitoramento de Cena</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/IKValidator/ik_validator_v1.0.html#o-algoritmo-de-validacao">2. O Algoritmo de Validação</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/IKValidator/ik_validator_v1.0.html#demonstracao-visual">3. Demonstração Visual</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../manipulation/IKValidator/ik_validator_v1.1.html">IKValidator (v1.1 - Legado)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/IKValidator/ik_validator_v1.1.html#inicializacao-assincrona">1. Inicialização Assíncrona</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/IKValidator/ik_validator_v1.1.html#o-calculo-principal-com-persistencia">2. O Cálculo Principal com Persistência</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/IKValidator/ik_validator_v1.1.html#revalidacao-reativa-monitoramento">3. Revalidação Reativa (Monitoramento)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/IKValidator/ik_validator_v1.1.html#demonstracao-visual">4. Demonstração Visual</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../manipulation/IKValidator/ik_validator_v1.2.html">ik_validator.cpp (v1.2 - Atual)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/IKValidator/ik_validator_v1.2.html#inicializacao-e-configuracao">1. Inicialização e Configuração</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/IKValidator/ik_validator_v1.2.html#o-calculo-principal-find-best-base">2. O Cálculo Principal (Find Best Base)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/IKValidator/ik_validator_v1.2.html#validacao-multi-alvo-find-valid-targets">3. Validação Multi-Alvo (Find Valid Targets)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/IKValidator/ik_validator_v1.2.html#revalidacao-reativa-is-still-reachable">4. Revalidação Reativa (Is Still Reachable)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/IKValidator/ik_validator_v1.2.html#demonstracao-visual">5. Demonstração Visual</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../storage_manager/index.html">Storage Manager</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../storage_manager/Organize/index.html">Organize</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../storage_manager/Organize/organize_v1.0.html">organize.cpp (Atual v1.0 - Composable Node)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../storage_manager/Organize/organize_v1.0.html#arquitetura-de-composicao">Arquitetura de Composição</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../storage_manager/Organize/organize_v1.0.html#logica-de-empacotamento-bin-packing">Lógica de Empacotamento (Bin Packing)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../storage_manager/GetStorageInfo/index.html">GetStorageInfo</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../storage_manager/GetStorageInfo/get_storage_info_v1.0.html">get_storage_info.cpp (Atual v1.0 - Composable Node)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../storage_manager/GetStorageInfo/get_storage_info_v1.0.html#arquitetura-de-composicao">Arquitetura de Composição</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../storage_manager/GetStorageInfo/get_storage_info_v1.0.html#logica-de-selecao-best-storage">Lógica de Seleção (Best Storage)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../storage_manager/GetStorageInfo/get_storage_info_v1.0.html#gerenciamento-de-estado">Gerenciamento de Estado</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../storage_manager/GetStorageInfo/get_storage_info_v1.0.html#carregamento-de-dados-yaml">Carregamento de Dados (YAML)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../storage_manager/GetStorageInfo/get_storage_info_v1.0.html#calculo-de-limites">Cálculo de Limites</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../navigation/index.html">Navigation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../navigation/AStar/index.html">AStar</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../navigation/AStar/a_star_v1.0.html">a_star.cpp (Legado v1.0)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.0.html#inicializacao-e-parametros">Inicialização e Parâmetros</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.0.html#estruturas-de-dados">Estruturas de Dados</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.0.html#mapeamento-e-grid">Mapeamento e Grid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.0.html#recuperacao-de-alvo-bfs">Recuperação de Alvo (BFS)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.0.html#execucao-do-a-core">Execução do A* (Core)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.0.html#poda-de-seguranca-stop-distance">Poda de Segurança (Stop Distance)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.0.html#pos-processamento-e-suavizacao">Pós-Processamento e Suavização</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.0.html#execucao-e-recalculo-dinamico">Execução e Recálculo Dinâmico</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../navigation/AStar/a_star_v1.1.html">Planejador A* (Versão 1.1)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.1.html#mudancas-criticas-v1-0-vs-v1-1">1. Mudanças Críticas: v1.0 vs v1.1</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.1.html#parametros-e-inicializacao">2. Parâmetros e Inicialização</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.1.html#nucleo-do-algoritmo-a-com-otimizacao-de-raio">3. Núcleo do Algoritmo: A* com Otimização de Raio</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.1.html#pos-processamento-filtro-e-orientacao">4. Pós-Processamento: Filtro e Orientação</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.1.html#fluxo-de-execucao">5. Fluxo de Execução</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../navigation/ObstacleGraph/index.html">OccupancyGridLoader</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../navigation/ObstacleGraph/obstacle_graph_with_occupancy_grid_v1.0.html">obstacle_graph_with_occupancy_grid.cpp (Atual v1.0)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/ObstacleGraph/obstacle_graph_with_occupancy_grid_v1.0.html#inicializacao-e-parametros">Inicialização e Parâmetros</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/ObstacleGraph/obstacle_graph_with_occupancy_grid_v1.0.html#estruturas-de-dados-hash-otimizado">Estruturas de Dados (Hash Otimizado)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/ObstacleGraph/obstacle_graph_with_occupancy_grid_v1.0.html#funcoes-auxiliares-discretizacao">Funções Auxiliares (Discretização)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/ObstacleGraph/obstacle_graph_with_occupancy_grid_v1.0.html#leitura-do-mapa-opencv-yaml">Leitura do Mapa (OpenCV + YAML)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/ObstacleGraph/obstacle_graph_with_occupancy_grid_v1.0.html#inflacao-de-obstaculos-safety-padding">Inflação de Obstáculos (Safety Padding)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/ObstacleGraph/obstacle_graph_with_occupancy_grid_v1.0.html#publicacao-pointcloud2">Publicação (PointCloud2)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../navigation/RobotController/index.html">RobotController</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../navigation/RobotController/controller_v1.0.html">controller.cpp (Atual v1.0)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/RobotController/controller_v1.0.html#inicializacao">Inicialização</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/RobotController/controller_v1.0.html#odometria-e-utilitarios">Odometria e Utilitários</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/RobotController/controller_v1.0.html#loop-de-controle-execute">Loop de Controle (Execute)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../navigation/SharedObstacleGraph/index.html">SharedObstacleGraph</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../navigation/SharedObstacleGraph/shared_obstacle_graph_v1.0.html">Shared Obstacle Graph</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/SharedObstacleGraph/shared_obstacle_graph_v1.0.html#estrategia-de-concorrencia-double-buffering">1. Estratégia de Concorrência (Double Buffering)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/SharedObstacleGraph/shared_obstacle_graph_v1.0.html#acesso-aos-dados">2. Acesso aos Dados</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/SharedObstacleGraph/shared_obstacle_graph_v1.0.html#discretizacao-e-hashing">3. Discretização e Hashing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/SharedObstacleGraph/shared_obstacle_graph_v1.0.html#inicializacao-e-parametros">4. Inicialização e Parâmetros</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../mobile_bringup/index.html">Mobile Bringup</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../mobile_bringup/mobile_manipulation.html">Launch File Inteligente (Bringup)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../mobile_bringup/mobile_manipulation.html#funcionamento-da-analise-xml">Funcionamento da Análise XML</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../mobile_bringup/mobile_manipulation.html#configuracao-de-nos-componiveis-servernode">Configuração de Nós Componíveis (ServerNode)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../mobile_bringup/mobile_manipulation.html#carregamento-dinamico-de-processos">Carregamento Dinâmico de Processos</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../mobile_manipulation_interfaces/index.html">Mobile Manipulation Interfaces</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../mobile_manipulation_interfaces/index.html#actions-acoes-assincronas">Actions (Ações Assíncronas)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../mobile_manipulation_interfaces/index.html#pickobject">PickObject</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../mobile_manipulation_interfaces/index.html#path">Path</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../mobile_manipulation_interfaces/index.html#controller">Controller</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../mobile_manipulation_interfaces/index.html#services-servicos-sincronos">Services (Serviços Síncronos)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../mobile_manipulation_interfaces/index.html#mobileobjectcollision">MobileObjectCollision</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../drl_to_pick_cpp/index.html">drl_to_pick_cpp</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../drl_to_pick_cpp/BridgeToInference/index.html">BridgeToInference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../drl_to_pick_cpp/BridgeToInference/bridge_to_inference_v1.0.html">Bridge To Inference (v1.0 - Atual)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../drl_to_pick_cpp/BridgeToInference/bridge_to_inference_v1.0.html#arquitetura-de-componente-composable-node">Arquitetura de Componente (Composable Node)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../drl_to_pick_cpp/BridgeToInference/bridge_to_inference_v1.0.html#parametros-de-configuracao">Parâmetros de Configuração</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../drl_to_pick_cpp/BridgeToInference/bridge_to_inference_v1.0.html#api-publica-thread-safe">API Pública (Thread-Safe)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../drl_to_pick_cpp/BridgeToInference/bridge_to_inference_v1.0.html#fluxo-de-dados-e-processamento">Fluxo de Dados e Processamento</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../drl_to_pick_cpp/BridgeToInference/bridge_to_inference_v1.0.html#protocolo-de-comunicacao-tcp-msgpack">Protocolo de Comunicação (TCP/MsgPack)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../llms/index.html">LLMs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../llms/BridgeToPhi3_5/index.html">BridgeToPhi3.5</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../llms/BridgeToPhi3_5/bridge_to_phi_v1.0.html">Brain Node (LLM Adapter)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../llms/BridgeToPhi3_5/bridge_to_phi_v1.0.html#fluxo-de-dados">Fluxo de Dados</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../llms/BridgeToPhi3_5/bridge_to_phi_v1.0.html#protocolo-json-da-llm">Protocolo JSON da LLM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../llms/BridgeToPhi3_5/bridge_to_phi_v1.0.html#geracao-de-xml-parsing">Geração de XML (Parsing)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../llms/BridgeToPhi3_5/bridge_to_phi_v1.0.html#skills-suportadas">Skills Suportadas</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../llms/OllamaClient/index.html">OllamaClient</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../llms/OllamaClient/ollama_client_v1.0.html">Ollama Client (LLM Interface)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../llms/OllamaClient/ollama_client_v1.0.html#prompt-inicial">Prompt inicial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../llms/OllamaClient/ollama_client_v1.0.html#configuracao-da-inferencia">Configuração da Inferência</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../llms/OllamaClient/ollama_client_v1.0.html#parsing-de-resposta">Parsing de Resposta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../llms/OllamaClient/ollama_client_v1.0.html#ciclo-de-vida-curl">Ciclo de Vida (cURL)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../llms/WorldStateNode/index.html">WorldStateNode</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../llms/WorldStateNode/world_state_node_v1.0.html">World State Node (Database Persistence)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../llms/WorldStateNode/world_state_node_v1.0.html#configuracao-e-inicializacao">Configuração e Inicialização</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../llms/WorldStateNode/world_state_node_v1.0.html#schema-do-banco-de-dados">Schema do Banco de Dados</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../llms/WorldStateNode/world_state_node_v1.0.html#processamento-de-deteccoes">Processamento de Detecções</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../llms/WorldStateNode/world_state_node_v1.0.html#estrategia-de-upsert-atomic-update">Estratégia de Upsert (Atomic Update)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Vision</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../CombinedSemanticPcl/index.html">CombinedSemanticPcl</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../CombinedSemanticPcl/combined_semantic_pcl_v1.0.html">Combined Semantic PCL</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../CombinedSemanticPcl/combined_semantic_pcl_v1.0.html#integracao-com-isaac-sim-semantic-labels">Integração com Isaac Sim (Semantic Labels)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../CombinedSemanticPcl/combined_semantic_pcl_v1.0.html#sincronizacao-de-sensores">Sincronização de Sensores</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../CombinedSemanticPcl/combined_semantic_pcl_v1.0.html#fusao-e-projecao-3d">Fusão e Projeção 3D</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../CombinedSemanticPcl/combined_semantic_pcl_v1.0.html#saidas-do-no-publishers">Saídas do Nó (Publishers)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">GenerateScanPoses</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Generate Scan Poses (Visão Computacional)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#demonstracao-visual">Demonstração Visual</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api-publica-e-integracao-com-server-node">API Pública e Integração com Server Node</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parametros-principais">Parâmetros Principais</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#discretizacao-da-superficie-alvo">Discretização da Superfície (Alvo)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#geracao-de-candidatos-espaco-de-busca">Geração de Candidatos (Espaço de Busca)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#verificacao-de-visibilidade-e-oclusao">Verificação de Visibilidade e Oclusão</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#otimizacao-de-cobertura-greedy-set-cover">Otimização de Cobertura (Greedy Set Cover)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#matematica-auxiliar-lookat">Matemática Auxiliar (LookAt)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../ObjectMapping/index.html">ObjectMapping</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../ObjectMapping/object_mapping_v1.0.html">Object Mapping (Reconstrução 3D)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../ObjectMapping/object_mapping_v1.0.html#demonstracao-visual">Demonstração Visual</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../ObjectMapping/object_mapping_v1.0.html#controle-de-estabilidade-stop-and-scan">Controle de Estabilidade (Stop-and-Scan)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../ObjectMapping/object_mapping_v1.0.html#api-publica-e-controle-de-alvo">API Pública e Controle de Alvo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../ObjectMapping/object_mapping_v1.0.html#processo-de-acumulacao">Processo de Acumulação</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../ObjectMapping/object_mapping_v1.0.html#visualizacao-e-saida">Visualização e Saída</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Mobile Robot Documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Vision</a></li>
+          <li class="breadcrumb-item"><a href="index.html">GenerateScanPoses</a></li>
+      <li class="breadcrumb-item active">Generate Scan Poses (Visão Computacional)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/packages/vision/GenerateScanPoses/generate_scan_poses_v1.0.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="generate-scan-poses-visao-computacional">
+<h1>Generate Scan Poses (Visão Computacional)<a class="headerlink" href="#generate-scan-poses-visao-computacional" title="Link to this heading"></a></h1>
+<p>O nó <code class="docutils literal notranslate"><span class="pre">GenerateScanPoses</span></code> implementa um algoritmo de <strong>Planejamento de Next-Best-View (NBV)</strong>.
+Seu objetivo é calcular um conjunto mínimo e otimizado de posições para a câmera (acoplada ao braço robótico) de modo a escanear a superfície de um objeto desconhecido para posterior processamento.</p>
+<p>Diferente de abordagens que fazem o robô girar cegamente ao redor do objeto, este nó utiliza geometria computacional para garantir que as poses escolhidas realmente “vejam” o objeto, respeitando limitações de FOV e oclusões.</p>
+<section id="demonstracao-visual">
+<h2>Demonstração Visual<a class="headerlink" href="#demonstracao-visual" title="Link to this heading"></a></h2>
+<div style="text-align: center; margin-bottom: 20px; border: 1px solid #ccc; padding: 10px;">
+    <p><em>Demonstração do cálculo de poses e cobertura.</em></p>
+
+    <video width="100%" height="auto" controls autoplay loop muted>
+        <source src="../../../_static/vision/demo_scan_and_map.webm" type="video/webm">
+        Seu navegador não suporta a tag de vídeo.
+    </video>
+
+    <p style="font-size: 0.9em; color: #555; margin-top: 10px;">
+        <strong>Legenda:</strong> As <strong>setas verdes</strong> indicam as poses de câmera otimizadas geradas por este nó (GenerateScanPoses).
+        O <strong>objeto verde</strong> sendo formado no centro é o resultado do processamento feito pelo nó
+        <a href="../ObjectMapping/object_mapping_v1.0.html">ObjectMapping</a>.
+    </p>
+</div></section>
+<section id="api-publica-e-integracao-com-server-node">
+<h2>API Pública e Integração com Server Node<a class="headerlink" href="#api-publica-e-integracao-com-server-node" title="Link to this heading"></a></h2>
+<p>Este nó foi projetado como um componente de alto desempenho para ser consumido diretamente pelo <strong>Server Node</strong>. Ele expõe duas funções públicas críticas que permitem ao planejador de tarefas orquestrar a sequência de escaneamento de forma eficiente.</p>
+<p>O fluxo de dados entre o <em>Server Node</em> e este componente é o seguinte:</p>
+<ol class="arabic simple">
+<li><p><strong>Etapa de Geração (SortedCandidates):</strong>
+O <em>Server Node</em> chama <code class="docutils literal notranslate"><span class="pre">getSortedScanPoses</span></code> passando o ID do objeto alvo (ex: “box_01”).
+* Esta função gera centenas de poses candidatas ao redor do objeto (um “grid” esférico).
+* Ordena essas poses pela proximidade da posição atual do robô para minimizar o movimento da base.
+* Retorna as poses brutas e a posição atual do robô.</p></li>
+<li><p><strong>Etapa de Validação Cinemática (IK Check):</strong>
+O <em>Server Node</em> (externamente) pega essas poses candidatas e as submete ao <code class="docutils literal notranslate"><span class="pre">IKValidator</span></code>. Isso remove poses que são fisicamente inalcançáveis pelo braço robótico devido a limitações de juntas ou colisão.</p></li>
+<li><p><strong>Etapa de Otimização (OptimizedScanPoses):</strong>
+O <em>Server Node</em> chama <code class="docutils literal notranslate"><span class="pre">getOptimizedScanPoses</span></code> passando a lista filtrada de poses válidas (que sobreviveram ao IK).
+* Esta função executa o algoritmo de cobertura gulosa (<em>Set Cover</em>).
+* Ela seleciona o <strong>menor número de poses</strong> necessário para ver a maior área possível do objeto.
+* O resultado final é uma lista enxuta (geralmente 3 a 5 poses) pronta para execução.</p></li>
+</ol>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">optional</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">geometry_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Pose</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">tf2</span><span class="o">::</span><span class="n">Vector3</span><span class="o">&gt;&gt;</span><span class="w"> </span>
+<span class="n">GenerateScanPoses</span><span class="o">::</span><span class="n">getSortedScanPoses</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span><span class="w"> </span><span class="n">label</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">tf2</span><span class="o">::</span><span class="n">Vector3</span><span class="w"> </span><span class="n">robot_pos</span><span class="p">;</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">lock_guard</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span><span class="w"> </span><span class="n">lock</span><span class="p">(</span><span class="n">robot_pos_mutex_</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">robot_pos_received_</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">nullopt</span><span class="p">;</span><span class="w"> </span>
+<span class="w">        </span><span class="n">robot_pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">robot_position_</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">lock_guard</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span><span class="w"> </span><span class="n">lock</span><span class="p">(</span><span class="n">objects_mutex_</span><span class="p">);</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">it</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">detected_objects_</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">label</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">it</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">detected_objects_</span><span class="p">.</span><span class="n">end</span><span class="p">())</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">nullopt</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">obj_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">it</span><span class="o">-&gt;</span><span class="n">second</span><span class="p">;</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">ScanPoint</span><span class="o">&gt;</span><span class="w"> </span><span class="n">pending_points</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">obj_data</span><span class="p">.</span><span class="n">valid_scan_grid</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">pending_points</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">nullopt</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">geometry_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Pose</span><span class="o">&gt;</span><span class="w"> </span><span class="n">sorted_candidates</span><span class="p">;</span>
+<span class="w">    </span><span class="n">sorted_candidates</span><span class="p">.</span><span class="n">reserve</span><span class="p">(</span><span class="n">pending_points</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+
+<span class="w">  </span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">start_it</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">min_element</span><span class="p">(</span><span class="n">pending_points</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="w"> </span><span class="n">pending_points</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span>
+<span class="w">        </span><span class="p">[</span><span class="o">&amp;</span><span class="p">](</span><span class="k">const</span><span class="w"> </span><span class="n">ScanPoint</span><span class="o">&amp;</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">ScanPoint</span><span class="o">&amp;</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">position</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">robot_pos</span><span class="p">).</span><span class="n">length2</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="p">(</span><span class="n">b</span><span class="p">.</span><span class="n">position</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">robot_pos</span><span class="p">).</span><span class="n">length2</span><span class="p">();</span>
+<span class="w">        </span><span class="p">});</span>
+
+<span class="w">    </span>
+<span class="w">    </span><span class="n">tf2</span><span class="o">::</span><span class="n">Vector3</span><span class="w"> </span><span class="n">current_pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">start_it</span><span class="o">-&gt;</span><span class="n">position</span><span class="p">;</span>
+<span class="w">    </span><span class="n">sorted_candidates</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">createPoseLookingAt</span><span class="p">(</span><span class="n">start_it</span><span class="o">-&gt;</span><span class="n">position</span><span class="p">,</span><span class="w"> </span><span class="n">start_it</span><span class="o">-&gt;</span><span class="n">target_center</span><span class="p">));</span>
+<span class="w">    </span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">pending_points</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="n">start_it</span><span class="p">);</span>
+
+<span class="w">    </span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">pending_points</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="k">auto</span><span class="w"> </span><span class="n">nearest_it</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">min_element</span><span class="p">(</span><span class="n">pending_points</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="w"> </span><span class="n">pending_points</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span>
+<span class="w">            </span><span class="p">[</span><span class="o">&amp;</span><span class="p">](</span><span class="k">const</span><span class="w"> </span><span class="n">ScanPoint</span><span class="o">&amp;</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">ScanPoint</span><span class="o">&amp;</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">position</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">current_pos</span><span class="p">).</span><span class="n">length2</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="p">(</span><span class="n">b</span><span class="p">.</span><span class="n">position</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">current_pos</span><span class="p">).</span><span class="n">length2</span><span class="p">();</span>
+<span class="w">            </span><span class="p">});</span>
+
+<span class="w">        </span>
+<span class="w">        </span><span class="n">current_pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nearest_it</span><span class="o">-&gt;</span><span class="n">position</span><span class="p">;</span>
+<span class="w">        </span>
+<span class="w">       </span>
+<span class="w">        </span><span class="n">sorted_candidates</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">createPoseLookingAt</span><span class="p">(</span><span class="n">nearest_it</span><span class="o">-&gt;</span><span class="n">position</span><span class="p">,</span><span class="w"> </span><span class="n">nearest_it</span><span class="o">-&gt;</span><span class="n">target_center</span><span class="p">));</span>
+
+<span class="w">        </span>
+<span class="w">        </span><span class="n">pending_points</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="n">nearest_it</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_pair</span><span class="p">(</span><span class="n">sorted_candidates</span><span class="p">,</span><span class="w"> </span><span class="n">robot_pos</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">geometry_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Pose</span><span class="o">&gt;</span><span class="w"> </span><span class="n">GenerateScanPoses</span><span class="o">::</span><span class="n">getOptimizedScanPoses</span><span class="p">(</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">geometry_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Pose</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">input_poses</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span><span class="w"> </span><span class="n">label</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">tf2</span><span class="o">::</span><span class="n">Vector3</span><span class="w"> </span><span class="n">robot_pos</span><span class="p">;</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">lock_guard</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span><span class="w"> </span><span class="n">lock</span><span class="p">(</span><span class="n">robot_pos_mutex_</span><span class="p">);</span>
+<span class="w">        </span><span class="n">robot_pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">robot_pos_received_</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">robot_position_</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">tf2</span><span class="o">::</span><span class="n">Vector3</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">lock_guard</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span><span class="w"> </span><span class="n">lock</span><span class="p">(</span><span class="n">objects_mutex_</span><span class="p">);</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">it</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">detected_objects_</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">label</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">it</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">detected_objects_</span><span class="p">.</span><span class="n">end</span><span class="p">())</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="p">{};</span>
+
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">obj_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">it</span><span class="o">-&gt;</span><span class="n">second</span><span class="p">;</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">points</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">obj_data</span><span class="p">.</span><span class="n">valid_scan_grid</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">points</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">input_poses</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="p">{};</span>
+
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">map</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">ScanPoint</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">face_map</span><span class="p">;</span>
+<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">points</span><span class="p">)</span><span class="w"> </span><span class="n">face_map</span><span class="p">[</span><span class="n">p</span><span class="p">.</span><span class="n">face_id</span><span class="p">].</span><span class="n">push_back</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">face_order</span><span class="p">;</span>
+<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="k">auto</span><span class="w"> </span><span class="k">const</span><span class="o">&amp;</span><span class="w"> </span><span class="p">[</span><span class="n">fid</span><span class="p">,</span><span class="w"> </span><span class="n">_</span><span class="p">]</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">face_map</span><span class="p">)</span><span class="w"> </span><span class="n">face_order</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">fid</span><span class="p">);</span>
+<span class="w">    </span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">sort</span><span class="p">(</span><span class="n">face_order</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="w"> </span><span class="n">face_order</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span><span class="w"> </span><span class="p">[</span><span class="o">&amp;</span><span class="p">](</span><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">b</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="n">face_map</span><span class="p">[</span><span class="n">a</span><span class="p">][</span><span class="mi">0</span><span class="p">].</span><span class="n">position</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">robot_pos</span><span class="p">).</span><span class="n">length</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="p">(</span><span class="n">face_map</span><span class="p">[</span><span class="n">b</span><span class="p">][</span><span class="mi">0</span><span class="p">].</span><span class="n">position</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">robot_pos</span><span class="p">).</span><span class="n">length</span><span class="p">();</span>
+<span class="w">    </span><span class="p">});</span>
+
+<span class="w">   </span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">geometry_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Pose</span><span class="o">&gt;</span><span class="w"> </span><span class="n">reordered_poses</span><span class="p">;</span>
+<span class="w">    </span><span class="n">reordered_poses</span><span class="p">.</span><span class="n">reserve</span><span class="p">(</span><span class="n">input_poses</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+
+<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">fid</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">face_order</span><span class="p">)</span><span class="w"> </span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">pts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">face_map</span><span class="p">[</span><span class="n">fid</span><span class="p">];</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">sort</span><span class="p">(</span><span class="n">pts</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="w"> </span><span class="n">pts</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span><span class="w"> </span><span class="p">[</span><span class="o">&amp;</span><span class="p">](</span><span class="k">const</span><span class="w"> </span><span class="n">ScanPoint</span><span class="o">&amp;</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">ScanPoint</span><span class="o">&amp;</span><span class="w"> </span><span class="n">b</span><span class="p">)</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">position</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">robot_pos</span><span class="p">).</span><span class="n">length2</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="p">(</span><span class="n">b</span><span class="p">.</span><span class="n">position</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">robot_pos</span><span class="p">).</span><span class="n">length2</span><span class="p">();</span>
+<span class="w">        </span><span class="p">});</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="k">for</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">pts</span><span class="p">)</span><span class="w"> </span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span>
+<span class="w">            </span><span class="n">geometry_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Pose</span><span class="w"> </span><span class="n">candidate_pose</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">createPoseLookingAt</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">position</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">target_center</span><span class="p">);</span>
+
+<span class="w">          </span>
+<span class="w">            </span><span class="kt">bool</span><span class="w"> </span><span class="n">exists_in_input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="w">            </span><span class="k">for</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">in_pose</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">input_poses</span><span class="p">)</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">               </span>
+<span class="w">                </span><span class="kt">double</span><span class="w"> </span><span class="n">dist_sq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">pow</span><span class="p">(</span><span class="n">in_pose</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">candidate_pose</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">                                 </span><span class="n">std</span><span class="o">::</span><span class="n">pow</span><span class="p">(</span><span class="n">in_pose</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">y</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">candidate_pose</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">                                 </span><span class="n">std</span><span class="o">::</span><span class="n">pow</span><span class="p">(</span><span class="n">in_pose</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">z</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">candidate_pose</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">z</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span>
+<span class="w">                </span>
+<span class="w">                </span><span class="k">if</span><span class="p">(</span><span class="n">dist_sq</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">0.0001</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">                    </span><span class="n">exists_in_input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="w">                    </span><span class="k">break</span><span class="p">;</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">            </span><span class="p">}</span>
+
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">exists_in_input</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">reordered_poses</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">candidate_pose</span><span class="p">);</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">   </span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">TargetVoxel</span><span class="o">&gt;</span><span class="w"> </span><span class="n">targets</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">generateTargetVoxels</span><span class="p">(</span><span class="n">obj_data</span><span class="p">.</span><span class="n">detection</span><span class="p">);</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">geometry_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Pose</span><span class="o">&gt;</span><span class="w"> </span><span class="n">optimized_poses</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">filterPosesByCoverage</span><span class="p">(</span><span class="n">reordered_poses</span><span class="p">,</span><span class="w"> </span><span class="n">targets</span><span class="p">);</span>
+<span class="w">    </span><span class="n">debug_voxels_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">targets</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">optimized_poses</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="parametros-principais">
+<h2>Parâmetros Principais<a class="headerlink" href="#parametros-principais" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ray_length</span></code> (double, 0.25): Distância ideal da câmera até a superfície do objeto.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">grid_resolution</span></code> (double, 0.04): Espaçamento entre os pontos candidatos de escaneamento ao redor do objeto.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">voxel_map_resolution</span></code> (double, 0.02): Tamanho do voxel para o mapa de oclusão global.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">target_surface_res</span></code> (double, 0.005): Resolução da discretização da superfície do objeto alvo (voxels alvo).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">min_coverage_percent</span></code> (double, 0.6): Porcentagem mínima da superfície do objeto que deve ser coberta pelo conjunto de poses retornado.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">max_incidence_angle_deg</span></code> (double, 80.0): Ângulo máximo entre a normal da superfície e o vetor de visão da câmera para considerar um ponto como “visível”.</p></li>
+</ul>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">GenerateScanPoses</span><span class="o">::</span><span class="n">GenerateScanPoses</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">rclcpp</span><span class="o">::</span><span class="n">NodeOptions</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">options</span><span class="p">)</span>
+<span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Node</span><span class="p">(</span><span class="s">&quot;generate_scan_poses_visualizer&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">options</span><span class="p">),</span>
+<span class="w">   </span><span class="n">robot_position_</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">),</span>
+<span class="w">   </span><span class="n">robot_pos_received_</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">declare_parameter</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;target_frame&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;world&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">declare_parameter</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;odom_topic&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/odom&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">declare_parameter</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;ray_length&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">0.25</span><span class="p">);</span><span class="w"> </span>
+<span class="w">    </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">declare_parameter</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;grid_resolution&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">0.04</span><span class="p">);</span><span class="w"> </span>
+<span class="w">    </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">declare_parameter</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;voxel_map_resolution&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">0.02</span><span class="p">);</span><span class="w"> </span>
+<span class="w">    </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">declare_parameter</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;ray_step_size&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">0.01</span><span class="p">);</span><span class="w">       </span>
+<span class="w">    </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">declare_parameter</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;target_object_id&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">declare_parameter</span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;publish_markers&quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">true</span><span class="p">);</span><span class="w"> </span>
+
+<span class="w">    </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">declare_parameter</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;camera_fov_h_deg&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">60.0</span><span class="p">);</span>
+<span class="w">    </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">declare_parameter</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;camera_fov_v_deg&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">40.0</span><span class="p">);</span>
+<span class="w">    </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">declare_parameter</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;target_surface_res&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">0.005</span><span class="p">);</span>
+<span class="w">    </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">declare_parameter</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;min_coverage_percent&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">0.6</span><span class="p">);</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">declare_parameter</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;max_incidence_angle_deg&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">80.0</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">target_frame_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_parameter</span><span class="p">(</span><span class="s">&quot;target_frame&quot;</span><span class="p">).</span><span class="n">as_string</span><span class="p">();</span>
+<span class="w">    </span><span class="n">odom_topic_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_parameter</span><span class="p">(</span><span class="s">&quot;odom_topic&quot;</span><span class="p">).</span><span class="n">as_string</span><span class="p">();</span>
+<span class="w">    </span><span class="n">ray_length_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_parameter</span><span class="p">(</span><span class="s">&quot;ray_length&quot;</span><span class="p">).</span><span class="n">as_double</span><span class="p">();</span>
+<span class="w">    </span><span class="n">grid_resolution_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_parameter</span><span class="p">(</span><span class="s">&quot;grid_resolution&quot;</span><span class="p">).</span><span class="n">as_double</span><span class="p">();</span>
+<span class="w">    </span><span class="n">voxel_map_resolution_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_parameter</span><span class="p">(</span><span class="s">&quot;voxel_map_resolution&quot;</span><span class="p">).</span><span class="n">as_double</span><span class="p">();</span>
+<span class="w">    </span><span class="n">ray_step_size_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_parameter</span><span class="p">(</span><span class="s">&quot;ray_step_size&quot;</span><span class="p">).</span><span class="n">as_double</span><span class="p">();</span>
+<span class="w">    </span><span class="n">target_object_id_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_parameter</span><span class="p">(</span><span class="s">&quot;target_object_id&quot;</span><span class="p">).</span><span class="n">as_string</span><span class="p">();</span>
+<span class="w">    </span><span class="n">publish_markers_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_parameter</span><span class="p">(</span><span class="s">&quot;publish_markers&quot;</span><span class="p">).</span><span class="n">as_bool</span><span class="p">();</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">fov_h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_parameter</span><span class="p">(</span><span class="s">&quot;camera_fov_h_deg&quot;</span><span class="p">).</span><span class="n">as_double</span><span class="p">();</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">fov_v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_parameter</span><span class="p">(</span><span class="s">&quot;camera_fov_v_deg&quot;</span><span class="p">).</span><span class="n">as_double</span><span class="p">();</span>
+<span class="w">    </span><span class="n">camera_fov_h_rad_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fov_h</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">M_PI</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">180.0</span><span class="p">);</span>
+<span class="w">    </span><span class="n">camera_fov_v_rad_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fov_v</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">M_PI</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">180.0</span><span class="p">);</span>
+<span class="w">    </span><span class="n">target_surface_res_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_parameter</span><span class="p">(</span><span class="s">&quot;target_surface_res&quot;</span><span class="p">).</span><span class="n">as_double</span><span class="p">();</span>
+<span class="w">    </span><span class="n">min_coverage_percent_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_parameter</span><span class="p">(</span><span class="s">&quot;min_coverage_percent&quot;</span><span class="p">).</span><span class="n">as_double</span><span class="p">();</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">max_inc_deg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_parameter</span><span class="p">(</span><span class="s">&quot;max_incidence_angle_deg&quot;</span><span class="p">).</span><span class="n">as_double</span><span class="p">();</span>
+<span class="w">    </span><span class="n">max_incidence_angle_rad_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">max_inc_deg</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">M_PI</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">180.0</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">sub_detections_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">create_subscription</span><span class="o">&lt;</span><span class="n">vision_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Detection3DArray</span><span class="o">&gt;</span><span class="p">(</span>
+<span class="w">        </span><span class="s">&quot;/bbox_3d_with_labels&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">bind</span><span class="p">(</span><span class="o">&amp;</span><span class="n">GenerateScanPoses</span><span class="o">::</span><span class="n">detectionCallback</span><span class="p">,</span><span class="w"> </span><span class="k">this</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">placeholders</span><span class="o">::</span><span class="n">_1</span><span class="p">));</span>
+
+<span class="w">    </span><span class="n">sub_semantic_pcl_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">create_subscription</span><span class="o">&lt;</span><span class="n">mobile_manipulation_interfaces</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">SemanticPcl</span><span class="o">&gt;</span><span class="p">(</span>
+<span class="w">        </span><span class="s">&quot;/semantic_pcl_array&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">bind</span><span class="p">(</span><span class="o">&amp;</span><span class="n">GenerateScanPoses</span><span class="o">::</span><span class="n">semanticPclCallback</span><span class="p">,</span><span class="w"> </span><span class="k">this</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">placeholders</span><span class="o">::</span><span class="n">_1</span><span class="p">));</span>
+
+<span class="w">    </span><span class="n">sub_odometry_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">create_subscription</span><span class="o">&lt;</span><span class="n">nav_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Odometry</span><span class="o">&gt;</span><span class="p">(</span>
+<span class="w">        </span><span class="n">odom_topic_</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">bind</span><span class="p">(</span><span class="o">&amp;</span><span class="n">GenerateScanPoses</span><span class="o">::</span><span class="n">odometryCallback</span><span class="p">,</span><span class="w"> </span><span class="k">this</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">placeholders</span><span class="o">::</span><span class="n">_1</span><span class="p">));</span>
+
+<span class="w">    </span><span class="n">marker_pub_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">create_publisher</span><span class="o">&lt;</span><span class="n">visualization_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">MarkerArray</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;/visualization_marker_array&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">);</span>
+<span class="w">    </span><span class="n">animation_timer_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">create_wall_timer</span><span class="p">(</span><span class="mi">200</span><span class="n">ms</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">bind</span><span class="p">(</span><span class="o">&amp;</span><span class="n">GenerateScanPoses</span><span class="o">::</span><span class="n">animationTimerCallback</span><span class="p">,</span><span class="w"> </span><span class="k">this</span><span class="p">));</span>
+
+<span class="w">    </span><span class="n">RCLCPP_INFO</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;GenerateScanPoses: Modo Greedy Online (2 Passadas) Iniciado.&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="discretizacao-da-superficie-alvo">
+<h2>Discretização da Superfície (Alvo)<a class="headerlink" href="#discretizacao-da-superficie-alvo" title="Link to this heading"></a></h2>
+<p>Para quantificar o quanto do objeto foi “visto”, o algoritmo primeiro discretiza a Bounding Box do objeto em uma nuvem densa de pontos superficiais (voxels alvo), cada um contendo sua posição e vetor normal.</p>
+<p>O método varre as 5 faces visíveis da caixa (±X, ±Y, +Z), ignorando a base (-Z) que está em contato com a mesa.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">TargetVoxel</span><span class="o">&gt;</span><span class="w"> </span><span class="n">GenerateScanPoses</span><span class="o">::</span><span class="n">generateTargetVoxels</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">vision_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Detection3D</span><span class="o">&amp;</span><span class="w"> </span><span class="n">detection</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">TargetVoxel</span><span class="o">&gt;</span><span class="w"> </span><span class="n">targets</span><span class="p">;</span>
+<span class="w">    </span><span class="n">tf2</span><span class="o">::</span><span class="n">Vector3</span><span class="w"> </span><span class="nf">center</span><span class="p">(</span><span class="n">detection</span><span class="p">.</span><span class="n">bbox</span><span class="p">.</span><span class="n">center</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">detection</span><span class="p">.</span><span class="n">bbox</span><span class="p">.</span><span class="n">center</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">detection</span><span class="p">.</span><span class="n">bbox</span><span class="p">.</span><span class="n">center</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">z</span><span class="p">);</span>
+<span class="w">    </span><span class="n">tf2</span><span class="o">::</span><span class="n">Quaternion</span><span class="w"> </span><span class="nf">q</span><span class="p">(</span><span class="n">detection</span><span class="p">.</span><span class="n">bbox</span><span class="p">.</span><span class="n">center</span><span class="p">.</span><span class="n">orientation</span><span class="p">.</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">detection</span><span class="p">.</span><span class="n">bbox</span><span class="p">.</span><span class="n">center</span><span class="p">.</span><span class="n">orientation</span><span class="p">.</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">detection</span><span class="p">.</span><span class="n">bbox</span><span class="p">.</span><span class="n">center</span><span class="p">.</span><span class="n">orientation</span><span class="p">.</span><span class="n">z</span><span class="p">,</span><span class="w"> </span><span class="n">detection</span><span class="p">.</span><span class="n">bbox</span><span class="p">.</span><span class="n">center</span><span class="p">.</span><span class="n">orientation</span><span class="p">.</span><span class="n">w</span><span class="p">);</span>
+<span class="w">    </span><span class="n">tf2</span><span class="o">::</span><span class="n">Matrix3x3</span><span class="w"> </span><span class="nf">rot</span><span class="p">(</span><span class="n">q</span><span class="p">);</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">sx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">detection</span><span class="p">.</span><span class="n">bbox</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">sy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">detection</span><span class="p">.</span><span class="n">bbox</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">y</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">target_surface_res_</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">fill_face</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="o">&amp;</span><span class="p">](</span><span class="n">tf2</span><span class="o">::</span><span class="n">Vector3</span><span class="w"> </span><span class="n">normal</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">offset</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">len_u</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">len_v</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">tf2</span><span class="o">::</span><span class="n">Vector3</span><span class="w"> </span><span class="n">world_normal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rot</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">normal</span><span class="p">;</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">world_normal</span><span class="p">.</span><span class="n">z</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">-0.5</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span><span class="w"> </span>
+
+<span class="w">        </span><span class="k">for</span><span class="p">(</span><span class="kt">double</span><span class="w"> </span><span class="n">u</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">len_u</span><span class="o">/</span><span class="mf">2.0</span><span class="p">;</span><span class="w"> </span><span class="n">u</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">len_u</span><span class="o">/</span><span class="mf">2.0</span><span class="p">;</span><span class="w"> </span><span class="n">u</span><span class="o">+=</span><span class="n">res</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">for</span><span class="p">(</span><span class="kt">double</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">len_v</span><span class="o">/</span><span class="mf">2.0</span><span class="p">;</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">len_v</span><span class="o">/</span><span class="mf">2.0</span><span class="p">;</span><span class="w"> </span><span class="n">v</span><span class="o">+=</span><span class="n">res</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">tf2</span><span class="o">::</span><span class="n">Vector3</span><span class="w"> </span><span class="n">local_pt</span><span class="p">;</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">normal</span><span class="p">.</span><span class="n">x</span><span class="p">()</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="n">local_pt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tf2</span><span class="o">::</span><span class="n">Vector3</span><span class="p">(</span><span class="n">offset</span><span class="p">,</span><span class="w"> </span><span class="n">u</span><span class="p">,</span><span class="w"> </span><span class="n">v</span><span class="p">);</span>
+<span class="w">                </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">normal</span><span class="p">.</span><span class="n">y</span><span class="p">()</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="n">local_pt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tf2</span><span class="o">::</span><span class="n">Vector3</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="w"> </span><span class="n">offset</span><span class="p">,</span><span class="w"> </span><span class="n">v</span><span class="p">);</span>
+<span class="w">                </span><span class="k">else</span><span class="w"> </span><span class="n">local_pt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tf2</span><span class="o">::</span><span class="n">Vector3</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="w"> </span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="n">offset</span><span class="p">);</span>
+<span class="w">                </span><span class="n">targets</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="n">center</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">rot</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">local_pt</span><span class="p">),</span><span class="w"> </span><span class="n">world_normal</span><span class="p">,</span><span class="w"> </span><span class="nb">false</span><span class="p">});</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">};</span>
+<span class="w">    </span><span class="n">fill_face</span><span class="p">({</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">},</span><span class="w"> </span><span class="n">sx</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">sy</span><span class="p">,</span><span class="w"> </span><span class="n">detection</span><span class="p">.</span><span class="n">bbox</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">z</span><span class="p">);</span><span class="w">   </span><span class="c1">// +X</span>
+<span class="w">    </span><span class="n">fill_face</span><span class="p">({</span><span class="mi">-1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">},</span><span class="w"> </span><span class="o">-</span><span class="n">sx</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">sy</span><span class="p">,</span><span class="w"> </span><span class="n">detection</span><span class="p">.</span><span class="n">bbox</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">z</span><span class="p">);</span><span class="w"> </span><span class="c1">// -X</span>
+<span class="w">    </span><span class="n">fill_face</span><span class="p">({</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">},</span><span class="w"> </span><span class="n">sy</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">sx</span><span class="p">,</span><span class="w"> </span><span class="n">detection</span><span class="p">.</span><span class="n">bbox</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">z</span><span class="p">);</span><span class="w">   </span><span class="c1">// +Y</span>
+<span class="w">    </span><span class="n">fill_face</span><span class="p">({</span><span class="mi">0</span><span class="p">,</span><span class="mi">-1</span><span class="p">,</span><span class="mi">0</span><span class="p">},</span><span class="w"> </span><span class="o">-</span><span class="n">sy</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">sx</span><span class="p">,</span><span class="w"> </span><span class="n">detection</span><span class="p">.</span><span class="n">bbox</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">z</span><span class="p">);</span><span class="w"> </span><span class="c1">// -Y</span>
+<span class="w">    </span><span class="n">fill_face</span><span class="p">({</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">},</span><span class="w"> </span><span class="n">detection</span><span class="p">.</span><span class="n">bbox</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">z</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">sx</span><span class="p">,</span><span class="w"> </span><span class="n">sy</span><span class="p">);</span><span class="w">   </span><span class="c1">// +Z</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">targets</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="geracao-de-candidatos-espaco-de-busca">
+<h2>Geração de Candidatos (Espaço de Busca)<a class="headerlink" href="#geracao-de-candidatos-espaco-de-busca" title="Link to this heading"></a></h2>
+<p>O algoritmo gera um “grid de escaneamento” ao redor do objeto. Imagine uma caixa maior envolvendo o objeto; os pontos desse grid são posições potenciais para a câmera.</p>
+<p>Para cada ponto no grid, uma pose é calculada usando <code class="docutils literal notranslate"><span class="pre">createPoseLookingAt</span></code>, garantindo que o eixo Z da câmera aponte para o centro do objeto e o eixo Y (Up) seja consistente com o mundo.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">ScanPoint</span><span class="o">&gt;</span><span class="w"> </span><span class="n">GenerateScanPoses</span><span class="o">::</span><span class="n">computeValidScanningGrid</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">geometry_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Pose</span><span class="o">&amp;</span><span class="w"> </span><span class="n">p</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">geometry_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Vector3</span><span class="o">&amp;</span><span class="w"> </span><span class="n">s</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span><span class="w"> </span><span class="n">l</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">ScanPoint</span><span class="o">&gt;</span><span class="w"> </span><span class="n">pts</span><span class="p">;</span>
+<span class="w">    </span><span class="n">tf2</span><span class="o">::</span><span class="n">Vector3</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">z</span><span class="p">);</span>
+<span class="w">    </span><span class="n">tf2</span><span class="o">::</span><span class="n">Quaternion</span><span class="w"> </span><span class="nf">q</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">orientation</span><span class="p">.</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">orientation</span><span class="p">.</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">orientation</span><span class="p">.</span><span class="n">z</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">orientation</span><span class="p">.</span><span class="n">w</span><span class="p">);</span>
+<span class="w">    </span><span class="n">tf2</span><span class="o">::</span><span class="n">Matrix3x3</span><span class="w"> </span><span class="nf">m</span><span class="p">(</span><span class="n">q</span><span class="p">);</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">dx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">x</span><span class="o">/</span><span class="mf">2.0</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ray_length_</span><span class="p">,</span><span class="w"> </span><span class="n">dy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">y</span><span class="o">/</span><span class="mf">2.0</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ray_length_</span><span class="p">,</span><span class="w"> </span><span class="n">dz</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">z</span><span class="o">/</span><span class="mf">2.0</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ray_length_</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">object_base_z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">z</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">z</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">2.0</span><span class="p">);</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">min_safe_height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">object_base_z</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">0.05</span><span class="p">;</span><span class="w"> </span>
+
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">F</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">tf2</span><span class="o">::</span><span class="n">Vector3</span><span class="w"> </span><span class="n">o</span><span class="p">,</span><span class="w"> </span><span class="n">u</span><span class="p">,</span><span class="w"> </span><span class="n">v</span><span class="p">;</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">ul</span><span class="p">,</span><span class="w"> </span><span class="n">vl</span><span class="p">;</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">id</span><span class="p">;</span><span class="w"> </span><span class="p">};</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">F</span><span class="o">&gt;</span><span class="w"> </span><span class="n">fs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="p">{{</span><span class="n">dx</span><span class="p">,</span><span class="o">-</span><span class="n">dy</span><span class="p">,</span><span class="o">-</span><span class="n">dz</span><span class="p">},{</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">},{</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">},</span><span class="mi">2</span><span class="o">*</span><span class="n">dy</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">dz</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">},</span><span class="w"> </span>
+<span class="w">        </span><span class="p">{{</span><span class="o">-</span><span class="n">dx</span><span class="p">,</span><span class="o">-</span><span class="n">dy</span><span class="p">,</span><span class="o">-</span><span class="n">dz</span><span class="p">},{</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">},{</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">},</span><span class="mi">2</span><span class="o">*</span><span class="n">dy</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">dz</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">},</span>
+<span class="w">        </span><span class="p">{{</span><span class="o">-</span><span class="n">dx</span><span class="p">,</span><span class="n">dy</span><span class="p">,</span><span class="o">-</span><span class="n">dz</span><span class="p">},{</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">},{</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">},</span><span class="mi">2</span><span class="o">*</span><span class="n">dx</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">dz</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">},</span><span class="w"> </span>
+<span class="w">        </span><span class="p">{{</span><span class="o">-</span><span class="n">dx</span><span class="p">,</span><span class="o">-</span><span class="n">dy</span><span class="p">,</span><span class="o">-</span><span class="n">dz</span><span class="p">},{</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">},{</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">},</span><span class="mi">2</span><span class="o">*</span><span class="n">dx</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">dz</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">},</span><span class="w"> </span>
+<span class="w">        </span><span class="p">{{</span><span class="o">-</span><span class="n">dx</span><span class="p">,</span><span class="o">-</span><span class="n">dy</span><span class="p">,</span><span class="n">dz</span><span class="p">},{</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">},{</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">},</span><span class="mi">2</span><span class="o">*</span><span class="n">dx</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">dy</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">}</span>
+<span class="w">    </span><span class="p">};</span>
+
+<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">fs</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">for</span><span class="p">(</span><span class="kt">double</span><span class="w"> </span><span class="n">u</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">u</span><span class="o">&lt;=</span><span class="n">f</span><span class="p">.</span><span class="n">ul</span><span class="o">+</span><span class="mf">1e-4</span><span class="p">;</span><span class="w"> </span><span class="n">u</span><span class="o">+=</span><span class="n">grid_resolution_</span><span class="p">)</span><span class="w"> </span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="k">for</span><span class="p">(</span><span class="kt">double</span><span class="w"> </span><span class="n">v</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">v</span><span class="o">&lt;=</span><span class="n">f</span><span class="p">.</span><span class="n">vl</span><span class="o">+</span><span class="mf">1e-4</span><span class="p">;</span><span class="w"> </span><span class="n">v</span><span class="o">+=</span><span class="n">grid_resolution_</span><span class="p">)</span><span class="w"> </span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span><span class="n">tf2</span><span class="o">::</span><span class="n">Vector3</span><span class="w"> </span><span class="n">pw</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">f</span><span class="p">.</span><span class="n">o</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">f</span><span class="p">.</span><span class="n">u</span><span class="o">*</span><span class="n">u</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">f</span><span class="p">.</span><span class="n">v</span><span class="o">*</span><span class="n">v</span><span class="p">);</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">pw</span><span class="p">.</span><span class="n">z</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">min_safe_height</span><span class="p">)</span><span class="w"> </span><span class="k">continue</span><span class="p">;</span>
+<span class="w">                </span><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">isRayBlocked</span><span class="p">(</span><span class="n">pw</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">,</span><span class="w"> </span><span class="n">l</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="n">ScanPoint</span><span class="w"> </span><span class="n">sp</span><span class="p">;</span>
+<span class="w">                    </span><span class="n">sp</span><span class="p">.</span><span class="n">position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pw</span><span class="p">;</span>
+<span class="w">                    </span><span class="n">sp</span><span class="p">.</span><span class="n">target_center</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">c</span><span class="p">;</span>
+<span class="w">                    </span><span class="n">sp</span><span class="p">.</span><span class="n">face_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="p">.</span><span class="n">id</span><span class="p">;</span>
+<span class="w">                    </span><span class="n">sp</span><span class="p">.</span><span class="n">pose</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">createPoseLookingAt</span><span class="p">(</span><span class="n">pw</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">);</span>
+<span class="w">                    </span><span class="n">pts</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">sp</span><span class="p">);</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">pts</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="verificacao-de-visibilidade-e-oclusao">
+<h2>Verificação de Visibilidade e Oclusão<a class="headerlink" href="#verificacao-de-visibilidade-e-oclusao" title="Link to this heading"></a></h2>
+<p>Uma pose candidata só é válida se tiver linha de visão desobstruída até o objeto.
+O nó utiliza um <strong>Raycasting Voxelizado</strong> no mapa semântico global (construído a partir do <code class="docutils literal notranslate"><span class="pre">CombinedSemanticPCL</span></code>). Se o raio entre a câmera e o objeto interceptar um voxel com rótulo diferente do alvo (ex: outro obstáculo na frente), a pose é descartada.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">bool</span><span class="w"> </span><span class="nf">GenerateScanPoses::isRayBlocked</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">tf2</span><span class="o">::</span><span class="n">Vector3</span><span class="o">&amp;</span><span class="w"> </span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">tf2</span><span class="o">::</span><span class="n">Vector3</span><span class="o">&amp;</span><span class="w"> </span><span class="n">e</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span><span class="w"> </span><span class="n">l</span><span class="p">)</span><span class="w"> </span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">lock_guard</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span><span class="w"> </span><span class="n">lock</span><span class="p">(</span><span class="n">voxel_mutex_</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">voxel_grid_</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">tf2</span><span class="o">::</span><span class="n">Vector3</span><span class="w"> </span><span class="n">dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">e</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">s</span><span class="p">;</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">len</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dir</span><span class="p">.</span><span class="n">length</span><span class="p">();</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">len</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">1e-4</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span><span class="w"> </span>
+
+<span class="w">    </span><span class="n">dir</span><span class="p">.</span><span class="n">normalize</span><span class="p">();</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">double</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0</span><span class="p">;</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="p">(</span><span class="n">len</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">0.05</span><span class="p">);</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">ray_step_size_</span><span class="p">)</span><span class="w"> </span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="k">auto</span><span class="w"> </span><span class="n">it</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">voxel_grid_</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">pointToVoxel</span><span class="p">(</span><span class="n">s</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">dir</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">d</span><span class="p">));</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">it</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">voxel_grid_</span><span class="p">.</span><span class="n">end</span><span class="p">()</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">it</span><span class="o">-&gt;</span><span class="n">second</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">l</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Além da oclusão física, verifica-se a <strong>Visibilidade Matemática</strong>:
+1. O ponto está dentro do <em>Frustum</em> (FOV Horizontal e Vertical) da câmera?
+2. O ângulo de incidência é aceitável? (Câmeras de profundidade falham em ângulos muito rasos).</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">bool</span><span class="w"> </span><span class="nf">GenerateScanPoses::isVoxelVisible</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">geometry_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Pose</span><span class="o">&amp;</span><span class="w"> </span><span class="n">pose</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">TargetVoxel</span><span class="o">&amp;</span><span class="w"> </span><span class="n">voxel</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">tf2</span><span class="o">::</span><span class="n">Transform</span><span class="w"> </span><span class="n">tf_cam</span><span class="p">;</span><span class="w"> </span>
+<span class="w">    </span><span class="n">tf2</span><span class="o">::</span><span class="n">fromMsg</span><span class="p">(</span><span class="n">pose</span><span class="p">,</span><span class="w"> </span><span class="n">tf_cam</span><span class="p">);</span>
+<span class="w">    </span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">tf2</span><span class="o">::</span><span class="n">Vector3</span><span class="w"> </span><span class="n">pt_cam</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tf_cam</span><span class="p">.</span><span class="n">inverse</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">voxel</span><span class="p">.</span><span class="n">position</span><span class="p">;</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">depth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pt_cam</span><span class="p">.</span><span class="n">x</span><span class="p">();</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">depth</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">0.05</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">depth</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">ray_length_</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">2.5</span><span class="p">))</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">angle_h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">atan2</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">abs</span><span class="p">(</span><span class="n">pt_cam</span><span class="p">.</span><span class="n">y</span><span class="p">()),</span><span class="w"> </span><span class="n">depth</span><span class="p">);</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">angle_v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">atan2</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">abs</span><span class="p">(</span><span class="n">pt_cam</span><span class="p">.</span><span class="n">z</span><span class="p">()),</span><span class="w"> </span><span class="n">depth</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">angle_h</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">camera_fov_h_rad_</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">2.0</span><span class="p">))</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">angle_v</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">camera_fov_v_rad_</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">2.0</span><span class="p">))</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">tf2</span><span class="o">::</span><span class="n">Vector3</span><span class="w"> </span><span class="n">cam_pos</span><span class="p">(</span><span class="n">pose</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">pose</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">pose</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">z</span><span class="p">);</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">tf2</span><span class="o">::</span><span class="n">Vector3</span><span class="w"> </span><span class="n">voxel_to_cam</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">cam_pos</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">voxel</span><span class="p">.</span><span class="n">position</span><span class="p">).</span><span class="n">normalize</span><span class="p">();</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">dot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">voxel_to_cam</span><span class="p">.</span><span class="n">dot</span><span class="p">(</span><span class="n">voxel</span><span class="p">.</span><span class="n">normal</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">dot</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">0.0</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">acos</span><span class="p">(</span><span class="n">dot</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">max_incidence_angle_rad_</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="otimizacao-de-cobertura-greedy-set-cover">
+<h2>Otimização de Cobertura (Greedy Set Cover)<a class="headerlink" href="#otimizacao-de-cobertura-greedy-set-cover" title="Link to this heading"></a></h2>
+<p>Dado um conjunto de poses candidatas válidas, qual o menor subconjunto que vê a maior parte do objeto?
+Este é um problema clássico de <em>Set Cover</em>. O nó implementa uma heurística gulosa (<em>Greedy</em>) em duas passadas:</p>
+<ol class="arabic simple">
+<li><p><strong>Passada 1 (Maximização):</strong> Itera escolhendo a pose que visualiza o maior número de voxels <em>ainda não vistos</em>.</p></li>
+<li><p><strong>Passada 2 (Refinamento):</strong> Adiciona poses que veem voxels restantes, mesmo que poucos, para fechar buracos na cobertura.</p></li>
+</ol>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">geometry_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Pose</span><span class="o">&gt;</span><span class="w"> </span><span class="n">GenerateScanPoses</span><span class="o">::</span><span class="n">filterPosesByCoverage</span><span class="p">(</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">geometry_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Pose</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">candidates</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">TargetVoxel</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">targets</span><span class="p">)</span><span class="w"> </span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">targets</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">candidates</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="p">{};</span>
+
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">geometry_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Pose</span><span class="o">&gt;</span><span class="w"> </span><span class="n">final_poses</span><span class="p">;</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;</span><span class="w"> </span><span class="n">pose_used</span><span class="p">(</span><span class="n">candidates</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span><span class="w"> </span><span class="nb">false</span><span class="p">);</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">total_covered</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">total_targets</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">targets</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+
+<span class="w">    </span><span class="c1">// Passada 1: Greedy (maximizar cobertura nova)</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">candidates</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="kt">double</span><span class="p">)</span><span class="n">total_covered</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">total_targets</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">min_coverage_percent_</span><span class="p">)</span><span class="w"> </span><span class="k">break</span><span class="p">;</span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">newly_seen_indices</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">bool</span><span class="w"> </span><span class="n">sees_old</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">targets</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="w"> </span><span class="o">++</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">isVoxelVisible</span><span class="p">(</span><span class="n">candidates</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="n">targets</span><span class="p">[</span><span class="n">j</span><span class="p">]))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">targets</span><span class="p">[</span><span class="n">j</span><span class="p">].</span><span class="n">covered</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">sees_old</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span><span class="w"> </span><span class="k">break</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">                </span><span class="k">else</span><span class="w"> </span><span class="n">newly_seen_indices</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">j</span><span class="p">);</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">newly_seen_indices</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">!</span><span class="n">sees_old</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">final_poses</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">candidates</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<span class="w">            </span><span class="n">pose_used</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">idx</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">newly_seen_indices</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">targets</span><span class="p">[</span><span class="n">idx</span><span class="p">].</span><span class="n">covered</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="w">                </span><span class="n">total_covered</span><span class="o">++</span><span class="p">;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Passada 2: Limpeza (pegar o resto)</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">candidates</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">pose_used</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="w"> </span><span class="k">continue</span><span class="p">;</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="kt">double</span><span class="p">)</span><span class="n">total_covered</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">total_targets</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">min_coverage_percent_</span><span class="p">)</span><span class="w"> </span><span class="k">break</span><span class="p">;</span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">newly_seen_indices</span><span class="p">;</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">targets</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="w"> </span><span class="o">++</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">targets</span><span class="p">[</span><span class="n">j</span><span class="p">].</span><span class="n">covered</span><span class="p">)</span><span class="w"> </span><span class="k">continue</span><span class="p">;</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">isVoxelVisible</span><span class="p">(</span><span class="n">candidates</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="n">targets</span><span class="p">[</span><span class="n">j</span><span class="p">]))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">newly_seen_indices</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">j</span><span class="p">);</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">newly_seen_indices</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">final_poses</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">candidates</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<span class="w">            </span><span class="n">pose_used</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">idx</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">newly_seen_indices</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">targets</span><span class="p">[</span><span class="n">idx</span><span class="p">].</span><span class="n">covered</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="w">                </span><span class="n">total_covered</span><span class="o">++</span><span class="p">;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">RCLCPP_INFO</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Filtro 2-Passadas: %lu -&gt; %lu poses. Cobertura: %.1f%%&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">        </span><span class="n">candidates</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span><span class="w"> </span><span class="n">final_poses</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span><span class="w"> </span><span class="p">((</span><span class="kt">double</span><span class="p">)</span><span class="n">total_covered</span><span class="o">/</span><span class="n">total_targets</span><span class="p">)</span><span class="o">*</span><span class="mf">100.0</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">final_poses</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="matematica-auxiliar-lookat">
+<h2>Matemática Auxiliar (LookAt)<a class="headerlink" href="#matematica-auxiliar-lookat" title="Link to this heading"></a></h2>
+<p>Função utilitária que calcula a orientação (Quaternion) necessária para que um objeto na posição <cite>origin</cite> olhe para <cite>target</cite>, mantendo o vetor <em>Up</em> alinhado com o eixo Z do mundo sempre que possível (evitando <em>roll</em> excessivo da câmera).</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">geometry_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Pose</span><span class="w"> </span><span class="nf">createPoseLookingAt</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">tf2</span><span class="o">::</span><span class="n">Vector3</span><span class="o">&amp;</span><span class="w"> </span><span class="n">origin</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">tf2</span><span class="o">::</span><span class="n">Vector3</span><span class="o">&amp;</span><span class="w"> </span><span class="n">target</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">geometry_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Pose</span><span class="w"> </span><span class="n">pose</span><span class="p">;</span>
+<span class="w">    </span><span class="n">pose</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">origin</span><span class="p">.</span><span class="n">x</span><span class="p">();</span>
+<span class="w">    </span><span class="n">pose</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">origin</span><span class="p">.</span><span class="n">y</span><span class="p">();</span>
+<span class="w">    </span><span class="n">pose</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">origin</span><span class="p">.</span><span class="n">z</span><span class="p">();</span>
+
+<span class="w">    </span><span class="n">tf2</span><span class="o">::</span><span class="n">Vector3</span><span class="w"> </span><span class="n">forward</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">target</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">origin</span><span class="p">).</span><span class="n">normalize</span><span class="p">();</span>
+<span class="w">    </span><span class="n">tf2</span><span class="o">::</span><span class="n">Vector3</span><span class="w"> </span><span class="n">world_up</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">    </span><span class="n">tf2</span><span class="o">::</span><span class="n">Vector3</span><span class="w"> </span><span class="n">right</span><span class="p">;</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">abs</span><span class="p">(</span><span class="n">forward</span><span class="p">.</span><span class="n">dot</span><span class="p">(</span><span class="n">world_up</span><span class="p">))</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">0.99</span><span class="p">)</span><span class="w"> </span><span class="n">right</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tf2</span><span class="o">::</span><span class="n">Vector3</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">).</span><span class="n">cross</span><span class="p">(</span><span class="n">forward</span><span class="p">).</span><span class="n">normalize</span><span class="p">();</span>
+<span class="w">    </span><span class="k">else</span><span class="w"> </span><span class="n">right</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">world_up</span><span class="p">.</span><span class="n">cross</span><span class="p">(</span><span class="n">forward</span><span class="p">).</span><span class="n">normalize</span><span class="p">();</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">tf2</span><span class="o">::</span><span class="n">Vector3</span><span class="w"> </span><span class="n">up</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">forward</span><span class="p">.</span><span class="n">cross</span><span class="p">(</span><span class="n">right</span><span class="p">).</span><span class="n">normalize</span><span class="p">();</span>
+<span class="w">    </span><span class="n">tf2</span><span class="o">::</span><span class="n">Matrix3x3</span><span class="w"> </span><span class="n">rot_mat</span><span class="p">;</span>
+<span class="w">    </span><span class="n">rot_mat</span><span class="p">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">forward</span><span class="p">.</span><span class="n">x</span><span class="p">(),</span><span class="w"> </span><span class="n">right</span><span class="p">.</span><span class="n">x</span><span class="p">(),</span><span class="w"> </span><span class="n">up</span><span class="p">.</span><span class="n">x</span><span class="p">(),</span><span class="w"> </span><span class="n">forward</span><span class="p">.</span><span class="n">y</span><span class="p">(),</span><span class="w"> </span><span class="n">right</span><span class="p">.</span><span class="n">y</span><span class="p">(),</span><span class="w"> </span><span class="n">up</span><span class="p">.</span><span class="n">y</span><span class="p">(),</span><span class="w"> </span><span class="n">forward</span><span class="p">.</span><span class="n">z</span><span class="p">(),</span><span class="w"> </span><span class="n">right</span><span class="p">.</span><span class="n">z</span><span class="p">(),</span><span class="w"> </span><span class="n">up</span><span class="p">.</span><span class="n">z</span><span class="p">());</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">tf2</span><span class="o">::</span><span class="n">Quaternion</span><span class="w"> </span><span class="n">q</span><span class="p">;</span><span class="w"> </span><span class="n">rot_mat</span><span class="p">.</span><span class="n">getRotation</span><span class="p">(</span><span class="n">q</span><span class="p">);</span>
+<span class="w">    </span><span class="n">pose</span><span class="p">.</span><span class="n">orientation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tf2</span><span class="o">::</span><span class="n">toMsg</span><span class="p">(</span><span class="n">q</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">pose</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="GenerateScanPoses" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../ObjectMapping/index.html" class="btn btn-neutral float-right" title="ObjectMapping" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Lucas Momesso.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bridge To Inference (v1.0 - Atual) &mdash; Mobile Robot Documentation 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=86f27845" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=8f9e6779" />
+
+  
+  
+        <script src="../../../_static/jquery.js?v=8dae8fb0"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../../_static/clipboard.min.js?v=66b4909c"></script>
+        <script src="../../../_static/copybutton.js?v=71494f10"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="LLMs" href="../../llms/index.html" />
+    <link rel="prev" title="BridgeToInference" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Mobile Robot Documentation
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Pacotes do Sistema:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../task_planning/index.html">Task Planning</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../task_planning/ServerNode/index.html">ServerNode</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.0.html">server_node.cpp (Legado v1.0)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.0.html#adaptacao-para-behaviortree-cpp">1. Adaptação para BehaviorTree.CPP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.0.html#classe-principal-servernode">2. Classe Principal: ServerNode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.0.html#estruturas-de-dados-e-variaveis-internas">3. Estruturas de Dados e Variáveis Internas</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.0.html#callbacks-de-percepcao-inputs">4. Callbacks de Percepção (Inputs)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.0.html#integracao-com-navegacao">5. Integração com Navegação</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.0.html#integracao-com-manipulacao">6. Integração com Manipulação</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.0.html#analise-de-alcancabilidade-projetada">7. Análise de Alcançabilidade Projetada</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.0.html#utilitarios-e-main">8. Utilitários e Main</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.1.html">Server Node (Planejador de Tarefas v1.1)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.1.html#novidades-da-versao-1-1">1. Novidades da Versão 1.1</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.1.html#estrutura-e-inicializacao">2. Estrutura e Inicialização</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.1.html#logica-da-behavior-tree">3. Lógica da Behavior Tree</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.1.html#fluxo-de-dados-de-percepcao">4. Fluxo de Dados de Percepção</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.1.html#evolucao-arquitetural-v1-0-vs-v1-1">5. Evolução Arquitetural (v1.0 vs v1.1)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../task_planning/ServerNodeWithLLMs/index.html">ServerNodeWithLLMs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../task_planning/ServerNodeWithLLMs/server_node_with_llms_v1.0.html">Server Node With LLMs (Task Planner)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNodeWithLLMs/server_node_with_llms_v1.0.html#arquitetura-de-componentes">Arquitetura de Componentes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNodeWithLLMs/server_node_with_llms_v1.0.html#geracao-dinamica-via-llms-phi-3-5">Geração Dinâmica via LLMs (Phi 3.5)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNodeWithLLMs/server_node_with_llms_v1.0.html#gerenciamento-da-behavior-tree">Gerenciamento da Behavior Tree</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNodeWithLLMs/server_node_with_llms_v1.0.html#integracao-com-banco-de-dados-e-estoque">Integração com Banco de Dados e Estoque</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNodeWithLLMs/server_node_with_llms_v1.0.html#integracao-com-graspnet">Integração com GraspNet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNodeWithLLMs/server_node_with_llms_v1.0.html#seguranca-e-navegacao-reativa">Segurança e Navegação Reativa</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNodeWithLLMs/server_node_with_llms_v1.0.html#parametros-principais">Parâmetros Principais</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../task_planning/BT/index.html">BT</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../task_planning/BT/bt_v1.0.html">Referência dos Nós da Behavior Tree (Legado v1.0)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.0.html#indice-rapido">Índice Rápido</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.0.html#controle-customizado">Controle Customizado</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.0.html#condicoes-conditions">Condições (Conditions)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.0.html#percepcao-e-contexto">Percepção e Contexto</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.0.html#navegacao-navigation-stack">Navegação (Navigation Stack)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.0.html#manipulacao-moveit-integration">Manipulação (MoveIt Integration)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.0.html#gerenciamento-de-estoque-storage">Gerenciamento de Estoque (Storage)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../task_planning/BT/bt_v1.1.html">Referência dos Nós da Behavior Tree (v1.1)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.1.html#indice-rapido">Índice Rápido</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.1.html#controle-customizado">Controle Customizado</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.1.html#condicoes-conditions">Condições (Conditions)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.1.html#percepcao-e-contexto">Percepção e Contexto</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.1.html#navegacao-navigation-stack">Navegação (Navigation Stack)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.1.html#manipulacao">Manipulação</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.1.html#gerenciamento-de-estoque-storage">Gerenciamento de Estoque (Storage)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../manipulation/index.html">Manipulation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../manipulation/SimpleManipulation/index.html">SimpleManipulation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html">manipulation_impl.cpp (Legado v1.0)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#demonstracao">Demonstração</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#construtor-e-inicializacao">1. Construtor e Inicialização</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#destrutor-cleanup">2. Destrutor (Cleanup)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#carregamento-de-parametros-yaml">3. Carregamento de Parâmetros (YAML)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#inicializacao-do-movegroup">4. Inicialização do MoveGroup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#posicao-de-seguranca-ready">5. Posição de Segurança (Ready)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#controle-da-garra-end-effector">6. Controle da Garra (End-Effector)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#planejamento-cartesiano-linha-reta">7. Planejamento Cartesiano (Linha Reta)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#planejamento-livre-rrtconnect">8. Planejamento Livre (RRTConnect)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#logica-central-pick-place">9. Lógica Central: Pick &amp; Place</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#gerenciamento-de-colisoes-acm">10. Gerenciamento de Colisões (ACM)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#requisicao-de-servicos-externos">11. Requisição de Serviços Externos</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#callbacks-do-action-server">12. Callbacks do Action Server</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#callback-do-sensor">13. Callback do Sensor</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html">manipulation_impl.cpp (Legado v1.1 - Tentativa de recuperação)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#demonstracao">Demonstração</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#construtor-e-configuracao">1. Construtor e Configuração</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#destrutor-limpeza">2. Destrutor (Limpeza)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#carregamento-de-parametros-yaml">3. Carregamento de Parâmetros (YAML)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#inicializacao-tardia-movegroup">4. Inicialização Tardia (MoveGroup)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#posicao-de-seguranca-ready">5. Posição de Segurança (Ready)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#controle-da-garra">6. Controle da Garra</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#planejamento-de-movimento">7. Planejamento de Movimento</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#logica-central-pick-place-e-retry">8. Lógica Central: Pick, Place e Retry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#gerenciamento-de-colisoes">9. Gerenciamento de Colisões</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#servicos-externos">10. Serviços Externos</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#atualizacao-de-pose-novo">11. Atualização de Pose (Novo)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#action-callbacks">12. Action Callbacks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#callback-do-sensor">13. Callback do Sensor</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.2.html">manipulation_impl.cpp (Atual v1.2)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.2.html#novidade-principal-seguimento-de-caminho-follow-path">1. Novidade Principal: Seguimento de Caminho (Follow Path)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.2.html#novidade-principal-integracao-com-graspnet">2. Novidade Principal: Integração com GraspNet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.2.html#logica-de-execucao-da-action-atualizada">3. Lógica de Execução da Action (Atualizada)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.2.html#componentes-base-heranca-v1-1">4. Componentes Base (Herança v1.1)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../manipulation/IsGripperHolding/index.html">IsGripperHolding</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../manipulation/IsGripperHolding/is_gripper_holding_impl_v1.0.html">is_gripper_holding_impl.cpp (Atual v1.0 - Composable Node)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/IsGripperHolding/is_gripper_holding_impl_v1.0.html#integracao-com-servernode-composicao">Integração com ServerNode (Composição)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/IsGripperHolding/is_gripper_holding_impl_v1.0.html#implementacao">Implementação</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../manipulation/AddCollision/index.html">AddCollision</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../manipulation/AddCollision/add_collision_impl_v1.0.html">add_collision_impl.cpp (Atual v1.0)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/AddCollision/add_collision_impl_v1.0.html#inicializacao-e-configuracao">Inicialização e Configuração</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/AddCollision/add_collision_impl_v1.0.html#filtragem-de-objetos-yaml">Filtragem de Objetos (YAML)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/AddCollision/add_collision_impl_v1.0.html#atualizacao-da-cena-moveit-interface">Atualização da Cena (MoveIt Interface)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/AddCollision/add_collision_impl_v1.0.html#logica-de-congelamento-service">Lógica de Congelamento (Service)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/AddCollision/add_collision_impl_v1.0.html#processamento-de-deteccoes">Processamento de Detecções</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../manipulation/ProjectedReachabilityAnalysis/index.html">ProjectedReachabilityAnalysis</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../manipulation/ProjectedReachabilityAnalysis/projected_reachability_analysis_v1.0.html">projected_reachability_analysis.cpp (Atual v1.0)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/ProjectedReachabilityAnalysis/projected_reachability_analysis_v1.0.html#matematica-da-projecao-3d-2d">1. Matemática da Projeção 3D -&gt; 2D</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/ProjectedReachabilityAnalysis/projected_reachability_analysis_v1.0.html#parametros-e-inicializacao">2. Parâmetros e Inicialização</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/ProjectedReachabilityAnalysis/projected_reachability_analysis_v1.0.html#algoritmo-de-expansao-bfs">3. Algoritmo de Expansão (BFS)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../manipulation/IKValidator/index.html">IKValidator</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../manipulation/IKValidator/ik_validator_v1.0.html">IK Validator (v1.0 - Legado)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/IKValidator/ik_validator_v1.0.html#inicializacao-assincrona-e-monitoramento-de-cena">1. Inicialização Assíncrona e Monitoramento de Cena</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/IKValidator/ik_validator_v1.0.html#o-algoritmo-de-validacao">2. O Algoritmo de Validação</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/IKValidator/ik_validator_v1.0.html#demonstracao-visual">3. Demonstração Visual</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../manipulation/IKValidator/ik_validator_v1.1.html">IKValidator (v1.1 - Legado)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/IKValidator/ik_validator_v1.1.html#inicializacao-assincrona">1. Inicialização Assíncrona</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/IKValidator/ik_validator_v1.1.html#o-calculo-principal-com-persistencia">2. O Cálculo Principal com Persistência</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/IKValidator/ik_validator_v1.1.html#revalidacao-reativa-monitoramento">3. Revalidação Reativa (Monitoramento)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/IKValidator/ik_validator_v1.1.html#demonstracao-visual">4. Demonstração Visual</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../manipulation/IKValidator/ik_validator_v1.2.html">ik_validator.cpp (v1.2 - Atual)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/IKValidator/ik_validator_v1.2.html#inicializacao-e-configuracao">1. Inicialização e Configuração</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/IKValidator/ik_validator_v1.2.html#o-calculo-principal-find-best-base">2. O Cálculo Principal (Find Best Base)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/IKValidator/ik_validator_v1.2.html#validacao-multi-alvo-find-valid-targets">3. Validação Multi-Alvo (Find Valid Targets)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/IKValidator/ik_validator_v1.2.html#revalidacao-reativa-is-still-reachable">4. Revalidação Reativa (Is Still Reachable)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/IKValidator/ik_validator_v1.2.html#demonstracao-visual">5. Demonstração Visual</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../storage_manager/index.html">Storage Manager</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../storage_manager/Organize/index.html">Organize</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../storage_manager/Organize/organize_v1.0.html">organize.cpp (Atual v1.0 - Composable Node)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../storage_manager/Organize/organize_v1.0.html#arquitetura-de-composicao">Arquitetura de Composição</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../storage_manager/Organize/organize_v1.0.html#logica-de-empacotamento-bin-packing">Lógica de Empacotamento (Bin Packing)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../storage_manager/GetStorageInfo/index.html">GetStorageInfo</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../storage_manager/GetStorageInfo/get_storage_info_v1.0.html">get_storage_info.cpp (Atual v1.0 - Composable Node)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../storage_manager/GetStorageInfo/get_storage_info_v1.0.html#arquitetura-de-composicao">Arquitetura de Composição</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../storage_manager/GetStorageInfo/get_storage_info_v1.0.html#logica-de-selecao-best-storage">Lógica de Seleção (Best Storage)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../storage_manager/GetStorageInfo/get_storage_info_v1.0.html#gerenciamento-de-estado">Gerenciamento de Estado</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../storage_manager/GetStorageInfo/get_storage_info_v1.0.html#carregamento-de-dados-yaml">Carregamento de Dados (YAML)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../storage_manager/GetStorageInfo/get_storage_info_v1.0.html#calculo-de-limites">Cálculo de Limites</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../navigation/index.html">Navigation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../navigation/AStar/index.html">AStar</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../navigation/AStar/a_star_v1.0.html">a_star.cpp (Legado v1.0)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.0.html#inicializacao-e-parametros">Inicialização e Parâmetros</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.0.html#estruturas-de-dados">Estruturas de Dados</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.0.html#mapeamento-e-grid">Mapeamento e Grid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.0.html#recuperacao-de-alvo-bfs">Recuperação de Alvo (BFS)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.0.html#execucao-do-a-core">Execução do A* (Core)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.0.html#poda-de-seguranca-stop-distance">Poda de Segurança (Stop Distance)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.0.html#pos-processamento-e-suavizacao">Pós-Processamento e Suavização</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.0.html#execucao-e-recalculo-dinamico">Execução e Recálculo Dinâmico</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../navigation/AStar/a_star_v1.1.html">Planejador A* (Versão 1.1)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.1.html#mudancas-criticas-v1-0-vs-v1-1">1. Mudanças Críticas: v1.0 vs v1.1</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.1.html#parametros-e-inicializacao">2. Parâmetros e Inicialização</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.1.html#nucleo-do-algoritmo-a-com-otimizacao-de-raio">3. Núcleo do Algoritmo: A* com Otimização de Raio</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.1.html#pos-processamento-filtro-e-orientacao">4. Pós-Processamento: Filtro e Orientação</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.1.html#fluxo-de-execucao">5. Fluxo de Execução</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../navigation/ObstacleGraph/index.html">OccupancyGridLoader</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../navigation/ObstacleGraph/obstacle_graph_with_occupancy_grid_v1.0.html">obstacle_graph_with_occupancy_grid.cpp (Atual v1.0)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/ObstacleGraph/obstacle_graph_with_occupancy_grid_v1.0.html#inicializacao-e-parametros">Inicialização e Parâmetros</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/ObstacleGraph/obstacle_graph_with_occupancy_grid_v1.0.html#estruturas-de-dados-hash-otimizado">Estruturas de Dados (Hash Otimizado)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/ObstacleGraph/obstacle_graph_with_occupancy_grid_v1.0.html#funcoes-auxiliares-discretizacao">Funções Auxiliares (Discretização)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/ObstacleGraph/obstacle_graph_with_occupancy_grid_v1.0.html#leitura-do-mapa-opencv-yaml">Leitura do Mapa (OpenCV + YAML)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/ObstacleGraph/obstacle_graph_with_occupancy_grid_v1.0.html#inflacao-de-obstaculos-safety-padding">Inflação de Obstáculos (Safety Padding)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/ObstacleGraph/obstacle_graph_with_occupancy_grid_v1.0.html#publicacao-pointcloud2">Publicação (PointCloud2)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../navigation/RobotController/index.html">RobotController</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../navigation/RobotController/controller_v1.0.html">controller.cpp (Atual v1.0)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/RobotController/controller_v1.0.html#inicializacao">Inicialização</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/RobotController/controller_v1.0.html#odometria-e-utilitarios">Odometria e Utilitários</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/RobotController/controller_v1.0.html#loop-de-controle-execute">Loop de Controle (Execute)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../navigation/SharedObstacleGraph/index.html">SharedObstacleGraph</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../navigation/SharedObstacleGraph/shared_obstacle_graph_v1.0.html">Shared Obstacle Graph</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/SharedObstacleGraph/shared_obstacle_graph_v1.0.html#estrategia-de-concorrencia-double-buffering">1. Estratégia de Concorrência (Double Buffering)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/SharedObstacleGraph/shared_obstacle_graph_v1.0.html#acesso-aos-dados">2. Acesso aos Dados</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/SharedObstacleGraph/shared_obstacle_graph_v1.0.html#discretizacao-e-hashing">3. Discretização e Hashing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/SharedObstacleGraph/shared_obstacle_graph_v1.0.html#inicializacao-e-parametros">4. Inicialização e Parâmetros</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../mobile_bringup/index.html">Mobile Bringup</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../mobile_bringup/mobile_manipulation.html">Launch File Inteligente (Bringup)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../mobile_bringup/mobile_manipulation.html#funcionamento-da-analise-xml">Funcionamento da Análise XML</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../mobile_bringup/mobile_manipulation.html#configuracao-de-nos-componiveis-servernode">Configuração de Nós Componíveis (ServerNode)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../mobile_bringup/mobile_manipulation.html#carregamento-dinamico-de-processos">Carregamento Dinâmico de Processos</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../mobile_manipulation_interfaces/index.html">Mobile Manipulation Interfaces</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../mobile_manipulation_interfaces/index.html#actions-acoes-assincronas">Actions (Ações Assíncronas)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../mobile_manipulation_interfaces/index.html#pickobject">PickObject</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../mobile_manipulation_interfaces/index.html#path">Path</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../mobile_manipulation_interfaces/index.html#controller">Controller</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../mobile_manipulation_interfaces/index.html#services-servicos-sincronos">Services (Serviços Síncronos)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../mobile_manipulation_interfaces/index.html#mobileobjectcollision">MobileObjectCollision</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">drl_to_pick_cpp</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">BridgeToInference</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Bridge To Inference (v1.0 - Atual)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#arquitetura-de-componente-composable-node">Arquitetura de Componente (Composable Node)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parametros-de-configuracao">Parâmetros de Configuração</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api-publica-thread-safe">API Pública (Thread-Safe)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fluxo-de-dados-e-processamento">Fluxo de Dados e Processamento</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#protocolo-de-comunicacao-tcp-msgpack">Protocolo de Comunicação (TCP/MsgPack)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../llms/index.html">LLMs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../llms/BridgeToPhi3_5/index.html">BridgeToPhi3.5</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../llms/BridgeToPhi3_5/bridge_to_phi_v1.0.html">Brain Node (LLM Adapter)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../llms/BridgeToPhi3_5/bridge_to_phi_v1.0.html#fluxo-de-dados">Fluxo de Dados</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../llms/BridgeToPhi3_5/bridge_to_phi_v1.0.html#protocolo-json-da-llm">Protocolo JSON da LLM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../llms/BridgeToPhi3_5/bridge_to_phi_v1.0.html#geracao-de-xml-parsing">Geração de XML (Parsing)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../llms/BridgeToPhi3_5/bridge_to_phi_v1.0.html#skills-suportadas">Skills Suportadas</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../llms/OllamaClient/index.html">OllamaClient</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../llms/OllamaClient/ollama_client_v1.0.html">Ollama Client (LLM Interface)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../llms/OllamaClient/ollama_client_v1.0.html#prompt-inicial">Prompt inicial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../llms/OllamaClient/ollama_client_v1.0.html#configuracao-da-inferencia">Configuração da Inferência</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../llms/OllamaClient/ollama_client_v1.0.html#parsing-de-resposta">Parsing de Resposta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../llms/OllamaClient/ollama_client_v1.0.html#ciclo-de-vida-curl">Ciclo de Vida (cURL)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../llms/WorldStateNode/index.html">WorldStateNode</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../llms/WorldStateNode/world_state_node_v1.0.html">World State Node (Database Persistence)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../llms/WorldStateNode/world_state_node_v1.0.html#configuracao-e-inicializacao">Configuração e Inicialização</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../llms/WorldStateNode/world_state_node_v1.0.html#schema-do-banco-de-dados">Schema do Banco de Dados</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../llms/WorldStateNode/world_state_node_v1.0.html#processamento-de-deteccoes">Processamento de Detecções</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../llms/WorldStateNode/world_state_node_v1.0.html#estrategia-de-upsert-atomic-update">Estratégia de Upsert (Atomic Update)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../vision/index.html">Vision</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../vision/CombinedSemanticPcl/index.html">CombinedSemanticPcl</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../vision/CombinedSemanticPcl/combined_semantic_pcl_v1.0.html">Combined Semantic PCL</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../vision/CombinedSemanticPcl/combined_semantic_pcl_v1.0.html#integracao-com-isaac-sim-semantic-labels">Integração com Isaac Sim (Semantic Labels)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../vision/CombinedSemanticPcl/combined_semantic_pcl_v1.0.html#sincronizacao-de-sensores">Sincronização de Sensores</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../vision/CombinedSemanticPcl/combined_semantic_pcl_v1.0.html#fusao-e-projecao-3d">Fusão e Projeção 3D</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../vision/CombinedSemanticPcl/combined_semantic_pcl_v1.0.html#saidas-do-no-publishers">Saídas do Nó (Publishers)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../vision/GenerateScanPoses/index.html">GenerateScanPoses</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../vision/GenerateScanPoses/generate_scan_poses_v1.0.html">Generate Scan Poses (Visão Computacional)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../vision/GenerateScanPoses/generate_scan_poses_v1.0.html#demonstracao-visual">Demonstração Visual</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../vision/GenerateScanPoses/generate_scan_poses_v1.0.html#api-publica-e-integracao-com-server-node">API Pública e Integração com Server Node</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../vision/GenerateScanPoses/generate_scan_poses_v1.0.html#parametros-principais">Parâmetros Principais</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../vision/GenerateScanPoses/generate_scan_poses_v1.0.html#discretizacao-da-superficie-alvo">Discretização da Superfície (Alvo)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../vision/GenerateScanPoses/generate_scan_poses_v1.0.html#geracao-de-candidatos-espaco-de-busca">Geração de Candidatos (Espaço de Busca)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../vision/GenerateScanPoses/generate_scan_poses_v1.0.html#verificacao-de-visibilidade-e-oclusao">Verificação de Visibilidade e Oclusão</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../vision/GenerateScanPoses/generate_scan_poses_v1.0.html#otimizacao-de-cobertura-greedy-set-cover">Otimização de Cobertura (Greedy Set Cover)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../vision/GenerateScanPoses/generate_scan_poses_v1.0.html#matematica-auxiliar-lookat">Matemática Auxiliar (LookAt)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../vision/ObjectMapping/index.html">ObjectMapping</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../vision/ObjectMapping/object_mapping_v1.0.html">Object Mapping (Reconstrução 3D)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../vision/ObjectMapping/object_mapping_v1.0.html#demonstracao-visual">Demonstração Visual</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../vision/ObjectMapping/object_mapping_v1.0.html#controle-de-estabilidade-stop-and-scan">Controle de Estabilidade (Stop-and-Scan)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../vision/ObjectMapping/object_mapping_v1.0.html#api-publica-e-controle-de-alvo">API Pública e Controle de Alvo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../vision/ObjectMapping/object_mapping_v1.0.html#processo-de-acumulacao">Processo de Acumulação</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../vision/ObjectMapping/object_mapping_v1.0.html#visualizacao-e-saida">Visualização e Saída</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Mobile Robot Documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">drl_to_pick_cpp</a></li>
+          <li class="breadcrumb-item"><a href="index.html">BridgeToInference</a></li>
+      <li class="breadcrumb-item active">Bridge To Inference (v1.0 - Atual)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/packages/drl_to_pick_cpp/BridgeToInference/bridge_to_inference_v1.0.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="bridge-to-inference-v1-0-atual">
+<h1>Bridge To Inference (v1.0 - Atual)<a class="headerlink" href="#bridge-to-inference-v1-0-atual" title="Link to this heading"></a></h1>
+<p>O nó <code class="docutils literal notranslate"><span class="pre">BridgeToInference</span></code> atua como uma ponte crítica de alto desempenho entre o ecossistema ROS 2 (C++) e um servidor de inferência externa (geralmente Python/PyTorch).</p>
+<p>Diferente de uma simples troca de mensagens ROS, este nó implementa um cliente TCP customizado utilizando <strong>MessagePack</strong> para serialização binária eficiente de nuvens de pontos. Isso permite latência mínima ao transferir grandes volumes de dados de sensores para redes neurais de geração de grasp (como GraspNet ou Contact-GraspNet).</p>
+<section id="arquitetura-de-componente-composable-node">
+<h2>Arquitetura de Componente (Composable Node)<a class="headerlink" href="#arquitetura-de-componente-composable-node" title="Link to this heading"></a></h2>
+<p>Este nó é desenvolvido como um <strong>Composable Node</strong> do ROS 2.
+Isso significa que ele pode ser instanciado dentro de um <em>Container</em> existente (como o do MoveIt ou do driver da câmera) evitando overhead de comunicação entre processos se necessário, embora sua função primária seja I/O de rede.</p>
+<p>A arquitetura permite que outros componentes C++ (como nós de Behavior Tree) acessem os dados de grasp diretamente via ponteiros de memória (métodos públicos), sem a necessidade de serialização/deserialização de mensagens de tópicos ROS.</p>
+</section>
+<section id="parametros-de-configuracao">
+<h2>Parâmetros de Configuração<a class="headerlink" href="#parametros-de-configuracao" title="Link to this heading"></a></h2>
+<p>Os seguintes parâmetros podem ser definidos no arquivo de lançamento ou via linha de comando:</p>
+<ul class="simple">
+<li><p><strong>server_host</strong> (string, default: “localhost”): Endereço IP do servidor de inferência.</p></li>
+<li><p><strong>server_port</strong> (int, default: 5000): Porta TCP do servidor.</p></li>
+<li><p><strong>score_threshold</strong> (double, default: 0.15): Valor mínimo de confiança para aceitar um grasp.</p></li>
+<li><p><strong>max_grasps</strong> (int, default: 50): Número máximo de grasps a serem retornados e armazenados.</p></li>
+<li><p><strong>target_frame</strong> (string, default: “world”): Frame de referência para publicação (se ativada).</p></li>
+</ul>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">BridgeToInference</span><span class="o">::</span><span class="n">BridgeToInference</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">rclcpp</span><span class="o">::</span><span class="n">NodeOptions</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">options</span><span class="p">)</span>
+<span class="o">:</span><span class="w"> </span><span class="n">Node</span><span class="p">(</span><span class="s">&quot;bridge_to_inference&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">options</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="n">declare_parameter</span><span class="p">(</span><span class="s">&quot;server_host&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;localhost&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="n">declare_parameter</span><span class="p">(</span><span class="s">&quot;server_port&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">5000</span><span class="p">);</span>
+<span class="w">  </span><span class="n">declare_parameter</span><span class="p">(</span><span class="s">&quot;score_threshold&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">0.15</span><span class="p">);</span>
+<span class="w">  </span><span class="n">declare_parameter</span><span class="p">(</span><span class="s">&quot;max_grasps&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">);</span>
+<span class="w">  </span><span class="n">declare_parameter</span><span class="p">(</span><span class="s">&quot;target_frame&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;world&quot;</span><span class="p">);</span>
+
+<span class="w">  </span><span class="n">server_host_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_parameter</span><span class="p">(</span><span class="s">&quot;server_host&quot;</span><span class="p">).</span><span class="n">as_string</span><span class="p">();</span>
+<span class="w">  </span><span class="n">server_port_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_parameter</span><span class="p">(</span><span class="s">&quot;server_port&quot;</span><span class="p">).</span><span class="n">as_int</span><span class="p">();</span>
+<span class="w">  </span><span class="n">score_threshold_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="n">get_parameter</span><span class="p">(</span><span class="s">&quot;score_threshold&quot;</span><span class="p">).</span><span class="n">as_double</span><span class="p">());</span>
+<span class="w">  </span><span class="n">max_grasps_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_parameter</span><span class="p">(</span><span class="s">&quot;max_grasps&quot;</span><span class="p">).</span><span class="n">as_int</span><span class="p">();</span>
+<span class="w">  </span><span class="n">target_frame_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_parameter</span><span class="p">(</span><span class="s">&quot;target_frame&quot;</span><span class="p">).</span><span class="n">as_string</span><span class="p">();</span>
+
+<span class="w">  </span><span class="n">pub_grasps_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">create_publisher</span><span class="o">&lt;</span><span class="n">geometry_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">PoseArray</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;/grasp_poses&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">);</span>
+
+<span class="w">  </span><span class="n">sub_cloud_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">create_subscription</span><span class="o">&lt;</span><span class="n">sensor_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">PointCloud2</span><span class="o">&gt;</span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;/mapped_object&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="mi">10</span><span class="p">,</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">bind</span><span class="p">(</span><span class="o">&amp;</span><span class="n">BridgeToInference</span><span class="o">::</span><span class="n">cloud_callback</span><span class="p">,</span><span class="w"> </span><span class="k">this</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">placeholders</span><span class="o">::</span><span class="n">_1</span><span class="p">));</span>
+
+<span class="w">  </span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="api-publica-thread-safe">
+<h2>API Pública (Thread-Safe)<a class="headerlink" href="#api-publica-thread-safe" title="Link to this heading"></a></h2>
+<p>A principal vantagem deste nó ser um componente é a capacidade de expor métodos públicos para outros nós no mesmo processo.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>O método <code class="docutils literal notranslate"><span class="pre">get_latest_grasps</span></code> é protegido por um <code class="docutils literal notranslate"><span class="pre">std::mutex</span></code>, garantindo que a leitura dos grasps seja segura mesmo enquanto uma nova nuvem de pontos está sendo processada e atualizada na <em>thread</em> de callback.</p>
+</div>
+<p>Isso é ideal para <strong>Behavior Trees</strong> que precisam consultar “Quais são os grasps atuais?” instantaneamente em um nó de <em>Condition</em> ou <em>Action</em>, sem latência de <em>callbacks</em> de tópicos.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">geometry_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Pose</span><span class="o">&gt;</span><span class="w"> </span><span class="n">BridgeToInference</span><span class="o">::</span><span class="n">get_latest_grasps</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">lock_guard</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span><span class="w"> </span><span class="n">lock</span><span class="p">(</span><span class="n">grasp_mutex_</span><span class="p">);</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">latest_grasps_</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="fluxo-de-dados-e-processamento">
+<h2>Fluxo de Dados e Processamento<a class="headerlink" href="#fluxo-de-dados-e-processamento" title="Link to this heading"></a></h2>
+<p>O fluxo de execução é disparado pela recepção de uma <code class="docutils literal notranslate"><span class="pre">sensor_msgs::msg::PointCloud2</span></code> no tópico <code class="docutils literal notranslate"><span class="pre">/mapped_object</span></code>.</p>
+<ol class="arabic simple">
+<li><p><strong>Conversão:</strong> A mensagem ROS é convertida para PCL (Point Cloud Library).</p></li>
+<li><p><strong>Verificação:</strong> Se a nuvem estiver vazia, o cache de grasps é limpo por segurança.</p></li>
+<li><p><strong>Inferência:</strong> A nuvem é enviada ao servidor, que retorna matrizes de transformação.</p></li>
+<li><p><strong>Atualização:</strong> O vetor interno <code class="docutils literal notranslate"><span class="pre">latest_grasps_</span></code> é atualizado atomicamente.</p></li>
+</ol>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">BridgeToInference::cloud_callback</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">sensor_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">PointCloud2</span><span class="o">::</span><span class="n">SharedPtr</span><span class="w"> </span><span class="n">msg</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="c1">// RCLCPP_INFO(get_logger(), &quot;==================================================&quot;);</span>
+<span class="w">  </span><span class="c1">// RCLCPP_INFO(get_logger(), &quot;Recebido PointCloud2. Convertendo...&quot;);</span>
+
+<span class="w">  </span><span class="n">pcl</span><span class="o">::</span><span class="n">PointCloud</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointXYZ</span><span class="o">&gt;::</span><span class="n">Ptr</span><span class="w"> </span><span class="n">cloud</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">pcl</span><span class="o">::</span><span class="n">PointCloud</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointXYZ</span><span class="o">&gt;</span><span class="p">);</span>
+<span class="w">  </span><span class="n">pcl</span><span class="o">::</span><span class="n">fromROSMsg</span><span class="p">(</span><span class="o">*</span><span class="n">msg</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">cloud</span><span class="p">);</span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">cloud</span><span class="o">-&gt;</span><span class="n">empty</span><span class="p">())</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="n">RCLCPP_WARN</span><span class="p">(</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Point cloud vazia recebida no callback!&quot;</span><span class="p">);</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="n">std</span><span class="o">::</span><span class="n">lock_guard</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span><span class="w"> </span><span class="n">lock</span><span class="p">(</span><span class="n">grasp_mutex_</span><span class="p">);</span>
+<span class="w">      </span><span class="n">latest_grasps_</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">geometry_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Pose</span><span class="o">&gt;</span><span class="w"> </span><span class="n">new_grasps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_grasps_from_server</span><span class="p">(</span><span class="n">cloud</span><span class="p">);</span>
+
+<span class="w">  </span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">lock_guard</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span><span class="w"> </span><span class="n">lock</span><span class="p">(</span><span class="n">grasp_mutex_</span><span class="p">);</span>
+<span class="w">    </span><span class="n">latest_grasps_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new_grasps</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span>
+<span class="w">    </span><span class="c1">// if (!new_grasps.empty())</span>
+<span class="w">    </span><span class="c1">// {</span>
+<span class="w">    </span><span class="c1">//   publish_grasps(new_grasps);</span>
+<span class="w">    </span><span class="c1">// }</span>
+<span class="w">    </span><span class="c1">// else</span>
+<span class="w">    </span><span class="c1">// {</span>
+<span class="w">    </span><span class="c1">//   RCLCPP_WARN(get_logger(), &quot;Nenhum grasp retornado pelo servidor.&quot;);</span>
+<span class="w">    </span><span class="c1">// }</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="protocolo-de-comunicacao-tcp-msgpack">
+<h2>Protocolo de Comunicação (TCP/MsgPack)<a class="headerlink" href="#protocolo-de-comunicacao-tcp-msgpack" title="Link to this heading"></a></h2>
+<p>A comunicação com o servidor de inferência segue um protocolo binário rigoroso para garantir velocidade.</p>
+<p><strong>Envio (Request):</strong>
+O nó envia um mapa MsgPack contendo:
+* <code class="docutils literal notranslate"><span class="pre">num_points</span></code>: Inteiro.
+* <code class="docutils literal notranslate"><span class="pre">points</span></code>: Array linear de floats [x, y, z, x, y, z, …].</p>
+<p><strong>Recebimento (Response):</strong>
+O servidor deve responder com um mapa MsgPack contendo:
+* <code class="docutils literal notranslate"><span class="pre">scores</span></code>: Lista de floats (confiabilidade de cada grasp).
+* <code class="docutils literal notranslate"><span class="pre">grasps</span></code>: Lista linear de matrizes 4x4 achatadas (16 floats por grasp).
+* <code class="docutils literal notranslate"><span class="pre">centroid</span></code>: Vetor [x, y, z] do centro do objeto (usado para translação relativa).</p>
+<p>O código abaixo gerencia a abertura do socket, serialização, timeouts e reconstrução das Poses ROS a partir das matrizes recebidas:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">geometry_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Pose</span><span class="o">&gt;</span><span class="w"> </span><span class="n">BridgeToInference</span><span class="o">::</span><span class="n">get_grasps_from_server</span><span class="p">(</span>
+<span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="n">pcl</span><span class="o">::</span><span class="n">PointCloud</span><span class="o">&lt;</span><span class="n">pcl</span><span class="o">::</span><span class="n">PointXYZ</span><span class="o">&gt;::</span><span class="n">Ptr</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">cloud</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="c1">// RCLCPP_INFO(get_logger(), &quot;Enviando %zu pontos para servidor...&quot;, cloud-&gt;size());</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">t0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">steady_clock</span><span class="o">::</span><span class="n">now</span><span class="p">();</span>
+
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">sock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span><span class="w"> </span><span class="n">SOCK_STREAM</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">sock</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="n">RCLCPP_ERROR</span><span class="p">(</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Falha ao criar socket&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">{};</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">timeval</span><span class="w"> </span><span class="n">timeout</span><span class="p">;</span>
+<span class="w">  </span><span class="n">timeout</span><span class="p">.</span><span class="n">tv_sec</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">30</span><span class="p">;</span>
+<span class="w">  </span><span class="n">timeout</span><span class="p">.</span><span class="n">tv_usec</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">  </span><span class="n">setsockopt</span><span class="p">(</span><span class="n">sock</span><span class="p">,</span><span class="w"> </span><span class="n">SOL_SOCKET</span><span class="p">,</span><span class="w"> </span><span class="n">SO_RCVTIMEO</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">timeout</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">timeout</span><span class="p">));</span>
+<span class="w">  </span><span class="n">setsockopt</span><span class="p">(</span><span class="n">sock</span><span class="p">,</span><span class="w"> </span><span class="n">SOL_SOCKET</span><span class="p">,</span><span class="w"> </span><span class="n">SO_SNDTIMEO</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">timeout</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">timeout</span><span class="p">));</span>
+
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">hostent</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">server</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gethostbyname</span><span class="p">(</span><span class="n">server_host_</span><span class="p">.</span><span class="n">c_str</span><span class="p">());</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">server</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="k">nullptr</span><span class="p">)</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="n">RCLCPP_ERROR</span><span class="p">(</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Host não encontrado: %s&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">server_host_</span><span class="p">.</span><span class="n">c_str</span><span class="p">());</span>
+<span class="w">    </span><span class="n">close</span><span class="p">(</span><span class="n">sock</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">{};</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">sockaddr_in</span><span class="w"> </span><span class="n">serv_addr</span><span class="p">;</span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">memset</span><span class="p">(</span><span class="o">&amp;</span><span class="n">serv_addr</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">serv_addr</span><span class="p">));</span>
+<span class="w">  </span><span class="n">serv_addr</span><span class="p">.</span><span class="n">sin_family</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">AF_INET</span><span class="p">;</span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">memcpy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">serv_addr</span><span class="p">.</span><span class="n">sin_addr</span><span class="p">.</span><span class="n">s_addr</span><span class="p">,</span><span class="w"> </span><span class="n">server</span><span class="o">-&gt;</span><span class="n">h_addr</span><span class="p">,</span><span class="w"> </span><span class="n">server</span><span class="o">-&gt;</span><span class="n">h_length</span><span class="p">);</span>
+<span class="w">  </span><span class="n">serv_addr</span><span class="p">.</span><span class="n">sin_port</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">htons</span><span class="p">(</span><span class="n">server_port_</span><span class="p">);</span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">connect</span><span class="p">(</span><span class="n">sock</span><span class="p">,</span><span class="w"> </span><span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="k">struct</span><span class="w"> </span><span class="nc">sockaddr</span><span class="w"> </span><span class="o">*&gt;</span><span class="p">(</span><span class="o">&amp;</span><span class="n">serv_addr</span><span class="p">),</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">serv_addr</span><span class="p">))</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="n">RCLCPP_ERROR</span><span class="p">(</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Conexão recusada - servidor rodando em %s:%d?&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="n">server_host_</span><span class="p">.</span><span class="n">c_str</span><span class="p">(),</span><span class="w"> </span><span class="n">server_port_</span><span class="p">);</span>
+<span class="w">    </span><span class="n">close</span><span class="p">(</span><span class="n">sock</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">{};</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span>
+<span class="w">  </span><span class="n">msgpack</span><span class="o">::</span><span class="n">sbuffer</span><span class="w"> </span><span class="n">sbuf</span><span class="p">;</span>
+<span class="w">  </span><span class="n">msgpack</span><span class="o">::</span><span class="n">packer</span><span class="o">&lt;</span><span class="n">msgpack</span><span class="o">::</span><span class="n">sbuffer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">packer</span><span class="p">(</span><span class="n">sbuf</span><span class="p">);</span>
+
+<span class="w">  </span><span class="n">packer</span><span class="p">.</span><span class="n">pack_map</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+
+<span class="w">  </span><span class="n">packer</span><span class="p">.</span><span class="n">pack</span><span class="p">(</span><span class="s">&quot;num_points&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="n">packer</span><span class="p">.</span><span class="n">pack</span><span class="p">(</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">uint32_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">cloud</span><span class="o">-&gt;</span><span class="n">size</span><span class="p">()));</span>
+
+<span class="w">  </span><span class="n">packer</span><span class="p">.</span><span class="n">pack</span><span class="p">(</span><span class="s">&quot;points&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="n">packer</span><span class="p">.</span><span class="n">pack_array</span><span class="p">(</span><span class="n">cloud</span><span class="o">-&gt;</span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">3</span><span class="p">);</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">cloud</span><span class="o">-&gt;</span><span class="n">points</span><span class="p">)</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="n">packer</span><span class="p">.</span><span class="n">pack</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">x</span><span class="p">);</span>
+<span class="w">    </span><span class="n">packer</span><span class="p">.</span><span class="n">pack</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">y</span><span class="p">);</span>
+<span class="w">    </span><span class="n">packer</span><span class="p">.</span><span class="n">pack</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="n">z</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span>
+<span class="w">  </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">data_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sbuf</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+<span class="w">  </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">data_size_be</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">htobe64</span><span class="p">(</span><span class="n">data_size</span><span class="p">);</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">send</span><span class="p">(</span><span class="n">sock</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">data_size_be</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">8</span><span class="p">)</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="n">RCLCPP_ERROR</span><span class="p">(</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Falha ao enviar tamanho&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">close</span><span class="p">(</span><span class="n">sock</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">{};</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w"> </span>
+<span class="w">  </span><span class="kt">size_t</span><span class="w"> </span><span class="n">total_sent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">total_sent</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">sbuf</span><span class="p">.</span><span class="n">size</span><span class="p">())</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">ssize_t</span><span class="w"> </span><span class="n">sent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">send</span><span class="p">(</span><span class="n">sock</span><span class="p">,</span><span class="w"> </span><span class="n">sbuf</span><span class="p">.</span><span class="n">data</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">total_sent</span><span class="p">,</span><span class="w"> </span><span class="n">sbuf</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">total_sent</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">sent</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="n">RCLCPP_ERROR</span><span class="p">(</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Falha ao enviar dados&quot;</span><span class="p">);</span>
+<span class="w">      </span><span class="n">close</span><span class="p">(</span><span class="n">sock</span><span class="p">);</span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="p">{};</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">total_sent</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">sent</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span>
+<span class="w">  </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">resp_size_be</span><span class="p">;</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">recv</span><span class="p">(</span><span class="n">sock</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">resp_size_be</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="n">MSG_WAITALL</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">8</span><span class="p">)</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="n">RCLCPP_ERROR</span><span class="p">(</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Servidor fechou conexão ou erro no recv header&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">close</span><span class="p">(</span><span class="n">sock</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">{};</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">resp_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">be64toh</span><span class="p">(</span><span class="n">resp_size_be</span><span class="p">);</span>
+
+<span class="w">  </span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;</span><span class="w"> </span><span class="n">resp_data</span><span class="p">(</span><span class="n">resp_size</span><span class="p">);</span>
+<span class="w">  </span><span class="kt">size_t</span><span class="w"> </span><span class="n">total_recv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">total_recv</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">resp_size</span><span class="p">)</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">ssize_t</span><span class="w"> </span><span class="n">received</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">recv</span><span class="p">(</span><span class="n">sock</span><span class="p">,</span><span class="w"> </span><span class="n">resp_data</span><span class="p">.</span><span class="n">data</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">total_recv</span><span class="p">,</span><span class="w"> </span><span class="n">resp_size</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">total_recv</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">received</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="n">RCLCPP_ERROR</span><span class="p">(</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Falha ao receber dados (payload)&quot;</span><span class="p">);</span>
+<span class="w">      </span><span class="n">close</span><span class="p">(</span><span class="n">sock</span><span class="p">);</span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="p">{};</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">total_recv</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">received</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="n">close</span><span class="p">(</span><span class="n">sock</span><span class="p">);</span>
+
+<span class="w">  </span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">geometry_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Pose</span><span class="o">&gt;</span><span class="w"> </span><span class="n">grasps</span><span class="p">;</span>
+
+<span class="w">  </span><span class="k">try</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="n">msgpack</span><span class="o">::</span><span class="n">object_handle</span><span class="w"> </span><span class="n">oh</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">msgpack</span><span class="o">::</span><span class="n">unpack</span><span class="p">(</span><span class="n">resp_data</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span><span class="w"> </span><span class="n">resp_data</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+<span class="w">    </span><span class="n">msgpack</span><span class="o">::</span><span class="n">object</span><span class="w"> </span><span class="n">obj</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">oh</span><span class="p">.</span><span class="n">get</span><span class="p">();</span>
+
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">map</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">,</span><span class="w"> </span><span class="n">msgpack</span><span class="o">::</span><span class="n">object</span><span class="o">&gt;</span><span class="w"> </span><span class="n">response_map</span><span class="p">;</span>
+<span class="w">    </span><span class="n">obj</span><span class="p">.</span><span class="n">convert</span><span class="p">(</span><span class="n">response_map</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="w"> </span><span class="n">scores</span><span class="p">;</span>
+<span class="w">    </span><span class="n">Eigen</span><span class="o">::</span><span class="n">Vector3f</span><span class="w"> </span><span class="n">centroid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Eigen</span><span class="o">::</span><span class="n">Vector3f</span><span class="o">::</span><span class="n">Zero</span><span class="p">();</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">response_map</span><span class="p">.</span><span class="n">count</span><span class="p">(</span><span class="s">&quot;scores&quot;</span><span class="p">))</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="n">response_map</span><span class="p">[</span><span class="s">&quot;scores&quot;</span><span class="p">].</span><span class="n">convert</span><span class="p">(</span><span class="n">scores</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">response_map</span><span class="p">.</span><span class="n">count</span><span class="p">(</span><span class="s">&quot;centroid&quot;</span><span class="p">))</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="w"> </span><span class="n">centroid_vec</span><span class="p">;</span>
+<span class="w">      </span><span class="n">response_map</span><span class="p">[</span><span class="s">&quot;centroid&quot;</span><span class="p">].</span><span class="n">convert</span><span class="p">(</span><span class="n">centroid_vec</span><span class="p">);</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">centroid_vec</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="n">centroid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Eigen</span><span class="o">::</span><span class="n">Vector3f</span><span class="p">(</span><span class="n">centroid_vec</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">centroid_vec</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">centroid_vec</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">response_map</span><span class="p">.</span><span class="n">count</span><span class="p">(</span><span class="s">&quot;grasps&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">!</span><span class="n">scores</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="w"> </span><span class="n">grasps_flat</span><span class="p">;</span>
+<span class="w">      </span><span class="n">response_map</span><span class="p">[</span><span class="s">&quot;grasps&quot;</span><span class="p">].</span><span class="n">convert</span><span class="p">(</span><span class="n">grasps_flat</span><span class="p">);</span>
+
+<span class="w">      </span><span class="kt">size_t</span><span class="w"> </span><span class="n">num_grasps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">grasps_flat</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">16</span><span class="p">;</span>
+
+<span class="w">      </span>
+<span class="w">      </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">float</span><span class="p">,</span><span class="w"> </span><span class="n">geometry_msgs</span><span class="o">::</span><span class="n">msg</span><span class="o">::</span><span class="n">Pose</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">score_pose_pairs</span><span class="p">;</span>
+<span class="w">      </span><span class="n">score_pose_pairs</span><span class="p">.</span><span class="n">reserve</span><span class="p">(</span><span class="n">num_grasps</span><span class="p">);</span>
+
+<span class="w">      </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">num_grasps</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">scores</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">score_threshold_</span><span class="p">)</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">          </span><span class="k">continue</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="n">Eigen</span><span class="o">::</span><span class="n">Matrix4f</span><span class="w"> </span><span class="n">mat</span><span class="p">;</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">r</span><span class="p">)</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">          </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">c</span><span class="p">)</span>
+<span class="w">          </span><span class="p">{</span>
+<span class="w">            </span><span class="n">mat</span><span class="p">(</span><span class="n">r</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">grasps_flat</span><span class="p">[</span><span class="n">i</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">16</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">c</span><span class="p">];</span>
+<span class="w">          </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span>
+<span class="w">        </span><span class="n">mat</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">centroid</span><span class="p">.</span><span class="n">x</span><span class="p">();</span>
+<span class="w">        </span><span class="n">mat</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">centroid</span><span class="p">.</span><span class="n">y</span><span class="p">();</span>
+<span class="w">        </span><span class="n">mat</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">centroid</span><span class="p">.</span><span class="n">z</span><span class="p">();</span>
+
+<span class="w">        </span><span class="n">score_pose_pairs</span><span class="p">.</span><span class="n">emplace_back</span><span class="p">(</span><span class="n">scores</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="n">matrix_to_pose</span><span class="p">(</span><span class="n">mat</span><span class="p">));</span>
+<span class="w">      </span><span class="p">}</span>
+
+<span class="w">      </span>
+<span class="w">      </span><span class="n">std</span><span class="o">::</span><span class="n">sort</span><span class="p">(</span><span class="n">score_pose_pairs</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="w"> </span><span class="n">score_pose_pairs</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span>
+<span class="w">        </span><span class="p">[](</span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="n">first</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">b</span><span class="p">.</span><span class="n">first</span><span class="p">;</span><span class="w"> </span><span class="p">});</span>
+
+<span class="w">      </span>
+<span class="w">      </span><span class="kt">size_t</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">min</span><span class="p">(</span><span class="n">score_pose_pairs</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">size_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">max_grasps_</span><span class="p">));</span>
+
+<span class="w">      </span><span class="n">grasps</span><span class="p">.</span><span class="n">reserve</span><span class="p">(</span><span class="n">count</span><span class="p">);</span>
+<span class="w">      </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">count</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="n">grasps</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">score_pose_pairs</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">second</span><span class="p">);</span>
+
+<span class="w">        </span><span class="c1">// if (i &lt; 5)</span>
+<span class="w">        </span><span class="c1">// {</span>
+<span class="w">        </span><span class="c1">//   const auto &amp; pose = score_pose_pairs[i].second;</span>
+<span class="w">        </span><span class="c1">//   RCLCPP_INFO(get_logger(), &quot;  #%zu: score=%.3f, pos=[%.3f, %.3f, %.3f]&quot;,</span>
+<span class="w">        </span><span class="c1">//     i + 1, score_pose_pairs[i].first,</span>
+<span class="w">        </span><span class="c1">//     pose.position.x, pose.position.y, pose.position.z);</span>
+<span class="w">        </span><span class="c1">// }</span>
+<span class="w">      </span><span class="p">}</span>
+
+<span class="w">      </span><span class="c1">// RCLCPP_INFO(get_logger(), &quot;Grasps válidos: %zu (threshold=%.2f)&quot;, count, score_threshold_);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">exception</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">e</span><span class="p">)</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="n">RCLCPP_ERROR</span><span class="p">(</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Erro ao deserializar: %s&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">what</span><span class="p">());</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">{};</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">t1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">steady_clock</span><span class="o">::</span><span class="n">now</span><span class="p">();</span>
+<span class="w">  </span><span class="kt">double</span><span class="w"> </span><span class="n">dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">duration</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">t1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">t0</span><span class="p">).</span><span class="n">count</span><span class="p">();</span>
+<span class="w">  </span><span class="n">RCLCPP_INFO</span><span class="p">(</span><span class="n">get_logger</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;Recebido %zu grasps em %.2fs&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">grasps</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span><span class="w"> </span><span class="n">dt</span><span class="p">);</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">grasps</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="BridgeToInference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../llms/index.html" class="btn btn-neutral float-right" title="LLMs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Lucas Momesso.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,62 @@
+World State Node (Database Persistence)
+=======================================
+
+O **WorldStateNode** é o componente responsável pela memória de longo prazo do sistema robótico.
+Ele captura informações perceptuais em tempo real e as persiste em um banco de dados **SQLite** embarcado.
+
+Isso permite que outros nós (especialmente o *Brain Node* com a LLM) consultem o estado do mundo de forma assíncrona, respondendo a perguntas como *"Onde está redbox_01?"* mesmo que o objeto não esteja atualmente no campo de visão da câmera.
+
+Configuração e Inicialização
+----------------------------
+
+O nó gerencia automaticamente a criação do arquivo de banco de dados e dos diretórios necessários.
+Ele utiliza o parâmetro ``database_path`` para definir o local de armazenamento.
+
+
+
+.. literalinclude:: ../../../../../docs_central/legacy_src/llms/WorldStateNode/world_state_node_v1.0.cpp
+   :language: cpp
+   :start-after: // DOC-START: Constructor
+   :end-before: // DOC-END: Constructor
+
+Schema do Banco de Dados
+------------------------
+
+O banco é inicializado com uma tabela simples chamada ``objects`` e configurado para alta performance de escrita (*WAL Mode*).
+
+A tabela possui a seguinte estrutura:
+* **id** (TEXT PK): Identificador único do objeto (ex: "bottle_01").
+* **pose** (TEXT): Coordenadas "x;y;z" do centro do objeto.
+* **size** (TEXT): Dimensões "w;h;d" da bounding box.
+* **last_update** (INTEGER): Timestamp UNIX da última vez que o objeto foi visto.
+
+.. literalinclude:: ../../../../../docs_central/legacy_src/llms/WorldStateNode/world_state_node_v1.0.cpp
+   :language: cpp
+   :start-after: // DOC-START: init_database
+   :end-before: // DOC-END: init_database
+
+Processamento de Detecções
+--------------------------
+
+O nó subscreve ao tópico de detecções 3D (``vision_msgs::msg::Detection3DArray``).
+Para cada objeto detectado, ele serializa as informações espaciais e chama a função de atualização do banco.
+
+.. literalinclude:: ../../../../../docs_central/legacy_src/llms/WorldStateNode/world_state_node_v1.0.cpp
+   :language: cpp
+   :start-after: // DOC-START: handle_detections
+   :end-before: // DOC-END: handle_detections
+
+Estratégia de Upsert (Atomic Update)
+------------------------------------
+
+Para garantir consistência e performance, o nó utiliza a cláusula SQL ``ON CONFLICT DO UPDATE``.
+Isso significa que:
+1. Se o objeto é novo (ID não existe), ele é inserido.
+2. Se o objeto já existe (ID já no banco), sua posição e timestamp são atualizados.
+
+Todo o acesso ao banco é protegido por um ``std::mutex``, garantindo segurança em ambientes multithread.
+
+.. literalinclude:: ../../../../../docs_central/legacy_src/llms/WorldStateNode/world_state_node_v1.0.cpp
+   :language: cpp
+   :start-after: // DOC-START: upsert_object
+   :end-before: // DOC-END: upsert_object
