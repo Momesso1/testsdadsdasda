@@ -61,7 +61,6 @@ Diferente da função anterior (que busca uma base para um alvo), esta função:
 
 ---
 
-.. _revalidacao_reativa_v1_1:
 
 4. Revalidação Reativa (Is Still Reachable)
 -------------------------------------------

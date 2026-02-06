@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Documentação Técnica Completa: GenerateGraspPoses (Algoritmo Geométrico) &mdash; Mobile Robot Documentation 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=86f27845" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=8f9e6779" />
+
+  
+  
+        <script src="../../../_static/jquery.js?v=8dae8fb0"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../../_static/clipboard.min.js?v=66b4909c"></script>
+        <script src="../../../_static/copybutton.js?v=71494f10"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="ObjectMapping" href="../ObjectMapping/index.html" />
+    <link rel="prev" title="GenerateGraspPoses" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Mobile Robot Documentation
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Pacotes do Sistema:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../task_planning/index.html">Task Planning</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../task_planning/ServerNode/index.html">ServerNode</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.0.html">server_node.cpp (Legado v1.0)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.0.html#adaptacao-para-behaviortree-cpp">1. Adaptação para BehaviorTree.CPP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.0.html#classe-principal-servernode">2. Classe Principal: ServerNode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.0.html#estruturas-de-dados-e-variaveis-internas">3. Estruturas de Dados e Variáveis Internas</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.0.html#callbacks-de-percepcao-inputs">4. Callbacks de Percepção (Inputs)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.0.html#integracao-com-navegacao">5. Integração com Navegação</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.0.html#integracao-com-manipulacao">6. Integração com Manipulação</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.0.html#analise-de-alcancabilidade-projetada">7. Análise de Alcançabilidade Projetada</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.0.html#utilitarios-e-main">8. Utilitários e Main</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.1.html">Server Node (Planejador de Tarefas v1.1)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.1.html#novidades-da-versao-1-1">1. Novidades da Versão 1.1</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.1.html#estrutura-e-inicializacao">2. Estrutura e Inicialização</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.1.html#logica-da-behavior-tree">3. Lógica da Behavior Tree</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.1.html#fluxo-de-dados-de-percepcao">4. Fluxo de Dados de Percepção</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNode/server_node_v1.1.html#evolucao-arquitetural-v1-0-vs-v1-1">5. Evolução Arquitetural (v1.0 vs v1.1)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../task_planning/ServerNodeWithLLMs/index.html">ServerNodeWithLLMs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../task_planning/ServerNodeWithLLMs/server_node_with_llms_v1.0.html">Server Node With LLMs (Task Planner)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNodeWithLLMs/server_node_with_llms_v1.0.html#arquitetura-de-componentes">Arquitetura de Componentes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNodeWithLLMs/server_node_with_llms_v1.0.html#geracao-dinamica-via-llms-phi-3-5">Geração Dinâmica via LLMs (Phi 3.5)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNodeWithLLMs/server_node_with_llms_v1.0.html#gerenciamento-da-behavior-tree">Gerenciamento da Behavior Tree</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNodeWithLLMs/server_node_with_llms_v1.0.html#integracao-com-banco-de-dados-e-estoque">Integração com Banco de Dados e Estoque</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNodeWithLLMs/server_node_with_llms_v1.0.html#integracao-com-graspnet">Integração com GraspNet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNodeWithLLMs/server_node_with_llms_v1.0.html#seguranca-e-navegacao-reativa">Segurança e Navegação Reativa</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/ServerNodeWithLLMs/server_node_with_llms_v1.0.html#parametros-principais">Parâmetros Principais</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../task_planning/BT/index.html">BT</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../task_planning/BT/bt_v1.0.html">Referência dos Nós da Behavior Tree (Legado v1.0)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.0.html#indice-rapido">Índice Rápido</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.0.html#controle-customizado">Controle Customizado</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.0.html#condicoes-conditions">Condições (Conditions)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.0.html#percepcao-e-contexto">Percepção e Contexto</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.0.html#navegacao-navigation-stack">Navegação (Navigation Stack)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.0.html#manipulacao-moveit-integration">Manipulação (MoveIt Integration)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.0.html#gerenciamento-de-estoque-storage">Gerenciamento de Estoque (Storage)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../task_planning/BT/bt_v1.1.html">Referência dos Nós da Behavior Tree (v1.1)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.1.html#indice-rapido">Índice Rápido</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.1.html#controle-customizado">Controle Customizado</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.1.html#condicoes-conditions">Condições (Conditions)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.1.html#percepcao-e-contexto">Percepção e Contexto</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.1.html#navegacao-navigation-stack">Navegação (Navigation Stack)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.1.html#manipulacao">Manipulação</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../task_planning/BT/bt_v1.1.html#gerenciamento-de-estoque-storage">Gerenciamento de Estoque (Storage)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../manipulation/index.html">Manipulation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../manipulation/SimpleManipulation/index.html">SimpleManipulation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html">manipulation_impl.cpp (Legado v1.0)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#demonstracao">Demonstração</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#construtor-e-inicializacao">1. Construtor e Inicialização</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#destrutor-cleanup">2. Destrutor (Cleanup)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#carregamento-de-parametros-yaml">3. Carregamento de Parâmetros (YAML)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#inicializacao-do-movegroup">4. Inicialização do MoveGroup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#posicao-de-seguranca-ready">5. Posição de Segurança (Ready)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#controle-da-garra-end-effector">6. Controle da Garra (End-Effector)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#planejamento-cartesiano-linha-reta">7. Planejamento Cartesiano (Linha Reta)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#planejamento-livre-rrtconnect">8. Planejamento Livre (RRTConnect)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#logica-central-pick-place">9. Lógica Central: Pick &amp; Place</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#gerenciamento-de-colisoes-acm">10. Gerenciamento de Colisões (ACM)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#requisicao-de-servicos-externos">11. Requisição de Serviços Externos</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#callbacks-do-action-server">12. Callbacks do Action Server</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.0.html#callback-do-sensor">13. Callback do Sensor</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html">manipulation_impl.cpp (Legado v1.1 - Tentativa de recuperação)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#demonstracao">Demonstração</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#construtor-e-configuracao">1. Construtor e Configuração</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#destrutor-limpeza">2. Destrutor (Limpeza)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#carregamento-de-parametros-yaml">3. Carregamento de Parâmetros (YAML)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#inicializacao-tardia-movegroup">4. Inicialização Tardia (MoveGroup)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#posicao-de-seguranca-ready">5. Posição de Segurança (Ready)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#controle-da-garra">6. Controle da Garra</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#planejamento-de-movimento">7. Planejamento de Movimento</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#logica-central-pick-place-e-retry">8. Lógica Central: Pick, Place e Retry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#gerenciamento-de-colisoes">9. Gerenciamento de Colisões</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#servicos-externos">10. Serviços Externos</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#atualizacao-de-pose-novo">11. Atualização de Pose (Novo)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#action-callbacks">12. Action Callbacks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.1.html#callback-do-sensor">13. Callback do Sensor</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.2.html">manipulation_impl.cpp (Atual v1.2)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.2.html#novidade-principal-seguimento-de-caminho-follow-path">1. Novidade Principal: Seguimento de Caminho (Follow Path)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.2.html#novidade-principal-integracao-com-graspnet">2. Novidade Principal: Integração com GraspNet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.2.html#logica-de-execucao-da-action-atualizada">3. Lógica de Execução da Action (Atualizada)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/SimpleManipulation/manipulation_impl_v1.2.html#componentes-base-heranca-v1-1">4. Componentes Base (Herança v1.1)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../manipulation/IsGripperHolding/index.html">IsGripperHolding</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../manipulation/IsGripperHolding/is_gripper_holding_impl_v1.0.html">is_gripper_holding_impl.cpp (Atual v1.0 - Composable Node)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/IsGripperHolding/is_gripper_holding_impl_v1.0.html#integracao-com-servernode-composicao">Integração com ServerNode (Composição)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/IsGripperHolding/is_gripper_holding_impl_v1.0.html#implementacao">Implementação</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../manipulation/AddCollision/index.html">AddCollision</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../manipulation/AddCollision/add_collision_impl_v1.0.html">add_collision_impl.cpp (Atual v1.0)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/AddCollision/add_collision_impl_v1.0.html#inicializacao-e-configuracao">Inicialização e Configuração</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/AddCollision/add_collision_impl_v1.0.html#filtragem-de-objetos-yaml">Filtragem de Objetos (YAML)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/AddCollision/add_collision_impl_v1.0.html#atualizacao-da-cena-moveit-interface">Atualização da Cena (MoveIt Interface)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/AddCollision/add_collision_impl_v1.0.html#logica-de-congelamento-service">Lógica de Congelamento (Service)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/AddCollision/add_collision_impl_v1.0.html#processamento-de-deteccoes">Processamento de Detecções</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../manipulation/ProjectedReachabilityAnalysis/index.html">ProjectedReachabilityAnalysis</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../manipulation/ProjectedReachabilityAnalysis/projected_reachability_analysis_v1.0.html">projected_reachability_analysis.cpp (Atual v1.0)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/ProjectedReachabilityAnalysis/projected_reachability_analysis_v1.0.html#matematica-da-projecao-3d-2d">1. Matemática da Projeção 3D -&gt; 2D</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/ProjectedReachabilityAnalysis/projected_reachability_analysis_v1.0.html#parametros-e-inicializacao">2. Parâmetros e Inicialização</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/ProjectedReachabilityAnalysis/projected_reachability_analysis_v1.0.html#algoritmo-de-expansao-bfs">3. Algoritmo de Expansão (BFS)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../manipulation/IKValidator/index.html">IKValidator</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../manipulation/IKValidator/ik_validator_v1.0.html">IK Validator (v1.0 - Legado)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/IKValidator/ik_validator_v1.0.html#inicializacao-assincrona-e-monitoramento-de-cena">1. Inicialização Assíncrona e Monitoramento de Cena</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/IKValidator/ik_validator_v1.0.html#o-algoritmo-de-validacao">2. O Algoritmo de Validação</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/IKValidator/ik_validator_v1.0.html#demonstracao-visual">3. Demonstração Visual</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../manipulation/IKValidator/ik_validator_v1.1.html">IKValidator (v1.1 - Legado)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/IKValidator/ik_validator_v1.1.html#inicializacao-assincrona">1. Inicialização Assíncrona</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/IKValidator/ik_validator_v1.1.html#o-calculo-principal-com-persistencia">2. O Cálculo Principal com Persistência</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/IKValidator/ik_validator_v1.1.html#revalidacao-reativa-monitoramento">3. Revalidação Reativa (Monitoramento)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/IKValidator/ik_validator_v1.1.html#demonstracao-visual">4. Demonstração Visual</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../manipulation/IKValidator/ik_validator_v1.2.html">ik_validator.cpp (v1.2 - Atual)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/IKValidator/ik_validator_v1.2.html#inicializacao-e-configuracao">1. Inicialização e Configuração</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/IKValidator/ik_validator_v1.2.html#o-calculo-principal-find-best-base">2. O Cálculo Principal (Find Best Base)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/IKValidator/ik_validator_v1.2.html#validacao-multi-alvo-find-valid-targets">3. Validação Multi-Alvo (Find Valid Targets)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/IKValidator/ik_validator_v1.2.html#revalidacao-reativa-is-still-reachable">4. Revalidação Reativa (Is Still Reachable)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../manipulation/IKValidator/ik_validator_v1.2.html#demonstracao-visual">5. Demonstração Visual</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../storage_manager/index.html">Storage Manager</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../storage_manager/Organize/index.html">Organize</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../storage_manager/Organize/organize_v1.0.html">organize.cpp (Atual v1.0 - Composable Node)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../storage_manager/Organize/organize_v1.0.html#arquitetura-de-composicao">Arquitetura de Composição</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../storage_manager/Organize/organize_v1.0.html#logica-de-empacotamento-bin-packing">Lógica de Empacotamento (Bin Packing)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../storage_manager/GetStorageInfo/index.html">GetStorageInfo</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../storage_manager/GetStorageInfo/get_storage_info_v1.0.html">get_storage_info.cpp (Atual v1.0 - Composable Node)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../storage_manager/GetStorageInfo/get_storage_info_v1.0.html#arquitetura-de-composicao">Arquitetura de Composição</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../storage_manager/GetStorageInfo/get_storage_info_v1.0.html#logica-de-selecao-best-storage">Lógica de Seleção (Best Storage)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../storage_manager/GetStorageInfo/get_storage_info_v1.0.html#gerenciamento-de-estado">Gerenciamento de Estado</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../storage_manager/GetStorageInfo/get_storage_info_v1.0.html#carregamento-de-dados-yaml">Carregamento de Dados (YAML)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../storage_manager/GetStorageInfo/get_storage_info_v1.0.html#calculo-de-limites">Cálculo de Limites</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../navigation/index.html">Navigation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../navigation/AStar/index.html">AStar</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../navigation/AStar/a_star_v1.0.html">a_star.cpp (Legado v1.0)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.0.html#inicializacao-e-parametros">Inicialização e Parâmetros</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.0.html#estruturas-de-dados">Estruturas de Dados</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.0.html#mapeamento-e-grid">Mapeamento e Grid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.0.html#recuperacao-de-alvo-bfs">Recuperação de Alvo (BFS)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.0.html#execucao-do-a-core">Execução do A* (Core)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.0.html#poda-de-seguranca-stop-distance">Poda de Segurança (Stop Distance)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.0.html#pos-processamento-e-suavizacao">Pós-Processamento e Suavização</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.0.html#execucao-e-recalculo-dinamico">Execução e Recálculo Dinâmico</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../navigation/AStar/a_star_v1.1.html">Planejador A* (Versão 1.1)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.1.html#mudancas-criticas-v1-0-vs-v1-1">1. Mudanças Críticas: v1.0 vs v1.1</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.1.html#parametros-e-inicializacao">2. Parâmetros e Inicialização</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.1.html#nucleo-do-algoritmo-a-com-otimizacao-de-raio">3. Núcleo do Algoritmo: A* com Otimização de Raio</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.1.html#pos-processamento-filtro-e-orientacao">4. Pós-Processamento: Filtro e Orientação</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/AStar/a_star_v1.1.html#fluxo-de-execucao">5. Fluxo de Execução</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../navigation/ObstacleGraph/index.html">OccupancyGridLoader</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../navigation/ObstacleGraph/obstacle_graph_with_occupancy_grid_v1.0.html">obstacle_graph_with_occupancy_grid.cpp (Atual v1.0)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/ObstacleGraph/obstacle_graph_with_occupancy_grid_v1.0.html#inicializacao-e-parametros">Inicialização e Parâmetros</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/ObstacleGraph/obstacle_graph_with_occupancy_grid_v1.0.html#estruturas-de-dados-hash-otimizado">Estruturas de Dados (Hash Otimizado)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/ObstacleGraph/obstacle_graph_with_occupancy_grid_v1.0.html#funcoes-auxiliares-discretizacao">Funções Auxiliares (Discretização)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/ObstacleGraph/obstacle_graph_with_occupancy_grid_v1.0.html#leitura-do-mapa-opencv-yaml">Leitura do Mapa (OpenCV + YAML)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/ObstacleGraph/obstacle_graph_with_occupancy_grid_v1.0.html#inflacao-de-obstaculos-safety-padding">Inflação de Obstáculos (Safety Padding)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/ObstacleGraph/obstacle_graph_with_occupancy_grid_v1.0.html#publicacao-pointcloud2">Publicação (PointCloud2)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../navigation/RobotController/index.html">RobotController</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../navigation/RobotController/controller_v1.0.html">controller.cpp (Atual v1.0)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/RobotController/controller_v1.0.html#inicializacao">Inicialização</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/RobotController/controller_v1.0.html#odometria-e-utilitarios">Odometria e Utilitários</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/RobotController/controller_v1.0.html#loop-de-controle-execute">Loop de Controle (Execute)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../navigation/SharedObstacleGraph/index.html">SharedObstacleGraph</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../navigation/SharedObstacleGraph/shared_obstacle_graph_v1.0.html">Shared Obstacle Graph</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/SharedObstacleGraph/shared_obstacle_graph_v1.0.html#estrategia-de-concorrencia-double-buffering">1. Estratégia de Concorrência (Double Buffering)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/SharedObstacleGraph/shared_obstacle_graph_v1.0.html#acesso-aos-dados">2. Acesso aos Dados</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/SharedObstacleGraph/shared_obstacle_graph_v1.0.html#discretizacao-e-hashing">3. Discretização e Hashing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../navigation/SharedObstacleGraph/shared_obstacle_graph_v1.0.html#inicializacao-e-parametros">4. Inicialização e Parâmetros</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../mobile_bringup/index.html">Mobile Bringup</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../mobile_bringup/mobile_manipulation.html">Launch File Inteligente (Bringup)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../mobile_bringup/mobile_manipulation.html#funcionamento-da-analise-xml">Funcionamento da Análise XML</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../mobile_bringup/mobile_manipulation.html#configuracao-de-nos-componiveis-servernode">Configuração de Nós Componíveis (ServerNode)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../mobile_bringup/mobile_manipulation.html#carregamento-dinamico-de-processos">Carregamento Dinâmico de Processos</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../mobile_manipulation_interfaces/index.html">Mobile Manipulation Interfaces</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../mobile_manipulation_interfaces/index.html#actions-acoes-assincronas">Actions (Ações Assíncronas)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../mobile_manipulation_interfaces/index.html#pickobject">PickObject</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../mobile_manipulation_interfaces/index.html#path">Path</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../mobile_manipulation_interfaces/index.html#controller">Controller</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../mobile_manipulation_interfaces/index.html#services-servicos-sincronos">Services (Serviços Síncronos)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../mobile_manipulation_interfaces/index.html#mobileobjectcollision">MobileObjectCollision</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../drl_to_pick_cpp/index.html">drl_to_pick_cpp</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../drl_to_pick_cpp/BridgeToInference/index.html">BridgeToInference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../drl_to_pick_cpp/BridgeToInference/bridge_to_inference_v1.0.html">Bridge To Inference (v1.0 - Atual)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../drl_to_pick_cpp/BridgeToInference/bridge_to_inference_v1.0.html#arquitetura-de-componente-composable-node">Arquitetura de Componente (Composable Node)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../drl_to_pick_cpp/BridgeToInference/bridge_to_inference_v1.0.html#parametros-de-configuracao">Parâmetros de Configuração</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../drl_to_pick_cpp/BridgeToInference/bridge_to_inference_v1.0.html#api-publica-thread-safe">API Pública (Thread-Safe)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../drl_to_pick_cpp/BridgeToInference/bridge_to_inference_v1.0.html#fluxo-de-dados-e-processamento">Fluxo de Dados e Processamento</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../drl_to_pick_cpp/BridgeToInference/bridge_to_inference_v1.0.html#protocolo-de-comunicacao-tcp-msgpack">Protocolo de Comunicação (TCP/MsgPack)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../llms/index.html">LLMs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../llms/BridgeToPhi3_5/index.html">BridgeToPhi3.5</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../llms/BridgeToPhi3_5/bridge_to_phi_v1.0.html">Brain Node (LLM Adapter)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../llms/BridgeToPhi3_5/bridge_to_phi_v1.0.html#fluxo-de-dados">Fluxo de Dados</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../llms/BridgeToPhi3_5/bridge_to_phi_v1.0.html#protocolo-json-da-llm">Protocolo JSON da LLM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../llms/BridgeToPhi3_5/bridge_to_phi_v1.0.html#geracao-de-xml-parsing">Geração de XML (Parsing)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../llms/BridgeToPhi3_5/bridge_to_phi_v1.0.html#skills-suportadas">Skills Suportadas</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../llms/OllamaClient/index.html">OllamaClient</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../llms/OllamaClient/ollama_client_v1.0.html">Ollama Client (LLM Interface)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../llms/OllamaClient/ollama_client_v1.0.html#prompt-inicial">Prompt inicial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../llms/OllamaClient/ollama_client_v1.0.html#configuracao-da-inferencia">Configuração da Inferência</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../llms/OllamaClient/ollama_client_v1.0.html#parsing-de-resposta">Parsing de Resposta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../llms/OllamaClient/ollama_client_v1.0.html#ciclo-de-vida-curl">Ciclo de Vida (cURL)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../llms/WorldStateNode/index.html">WorldStateNode</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../llms/WorldStateNode/world_state_node_v1.0.html">World State Node (Database Persistence)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../llms/WorldStateNode/world_state_node_v1.0.html#configuracao-e-inicializacao">Configuração e Inicialização</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../llms/WorldStateNode/world_state_node_v1.0.html#schema-do-banco-de-dados">Schema do Banco de Dados</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../llms/WorldStateNode/world_state_node_v1.0.html#processamento-de-deteccoes">Processamento de Detecções</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../llms/WorldStateNode/world_state_node_v1.0.html#estrategia-de-upsert-atomic-update">Estratégia de Upsert (Atomic Update)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Vision</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../CombinedSemanticPcl/index.html">CombinedSemanticPcl</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../CombinedSemanticPcl/combined_semantic_pcl_v1.0.html">Combined Semantic PCL</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../CombinedSemanticPcl/combined_semantic_pcl_v1.0.html#integracao-com-isaac-sim-semantic-labels">Integração com Isaac Sim (Semantic Labels)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../CombinedSemanticPcl/combined_semantic_pcl_v1.0.html#sincronizacao-de-sensores">Sincronização de Sensores</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../CombinedSemanticPcl/combined_semantic_pcl_v1.0.html#fusao-e-projecao-3d">Fusão e Projeção 3D</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../CombinedSemanticPcl/combined_semantic_pcl_v1.0.html#saidas-do-no-publishers">Saídas do Nó (Publishers)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../GenerateScanPoses/index.html">GenerateScanPoses</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../GenerateScanPoses/generate_scan_poses_v1.0.html">Generate Scan Poses (Visão Computacional)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../GenerateScanPoses/generate_scan_poses_v1.0.html#demonstracao-visual">Demonstração Visual</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../GenerateScanPoses/generate_scan_poses_v1.0.html#api-publica-e-integracao-com-server-node">API Pública e Integração com Server Node</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../GenerateScanPoses/generate_scan_poses_v1.0.html#parametros-principais">Parâmetros Principais</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../GenerateScanPoses/generate_scan_poses_v1.0.html#discretizacao-da-superficie-alvo">Discretização da Superfície (Alvo)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../GenerateScanPoses/generate_scan_poses_v1.0.html#geracao-de-candidatos-espaco-de-busca">Geração de Candidatos (Espaço de Busca)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../GenerateScanPoses/generate_scan_poses_v1.0.html#verificacao-de-visibilidade-e-oclusao">Verificação de Visibilidade e Oclusão</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../GenerateScanPoses/generate_scan_poses_v1.0.html#otimizacao-de-cobertura-greedy-set-cover">Otimização de Cobertura (Greedy Set Cover)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../GenerateScanPoses/generate_scan_poses_v1.0.html#matematica-auxiliar-lookat">Matemática Auxiliar (LookAt)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">GenerateGraspPoses</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Documentação Técnica Completa: GenerateGraspPoses (Algoritmo Geométrico)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#visao-geral-e-fundamentos">1. Visão Geral e Fundamentos</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#geracao-de-hipoteses-varredura-ortogonal-6-faces">2. Geração de Hipóteses: Varredura Ortogonal (6-Faces)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#selecao-de-inliers-e-filtragem-cilindrica">3. Seleção de Inliers e Filtragem Cilíndrica</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#otimizacao-dinamica-alinhamento-e-correcao-de-pivo">4. Otimização Dinâmica: Alinhamento e Correção de Pivô</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#analise-matematica-local">5. Análise Matemática Local</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sistema-de-pontuacao">6. Sistema de Pontuação</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#determinacao-da-orientacao-de-roll">7. Determinação da Orientação de Roll</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#verificacao-de-colisao-detalhada">8. Verificação de Colisão Detalhada</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#analise-de-performance-e-custo-computacional">9. Análise de Performance e Custo Computacional</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../ObjectMapping/index.html">ObjectMapping</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../ObjectMapping/object_mapping_v1.0.html">Object Mapping (Reconstrução 3D)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../ObjectMapping/object_mapping_v1.0.html#demonstracao-visual">Demonstração Visual</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../ObjectMapping/object_mapping_v1.0.html#controle-de-estabilidade-stop-and-scan">Controle de Estabilidade (Stop-and-Scan)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../ObjectMapping/object_mapping_v1.0.html#api-publica-e-controle-de-alvo">API Pública e Controle de Alvo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../ObjectMapping/object_mapping_v1.0.html#processo-de-acumulacao">Processo de Acumulação</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../ObjectMapping/object_mapping_v1.0.html#visualizacao-e-saida">Visualização e Saída</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Mobile Robot Documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Vision</a></li>
+          <li class="breadcrumb-item"><a href="index.html">GenerateGraspPoses</a></li>
+      <li class="breadcrumb-item active">Documentação Técnica Completa: GenerateGraspPoses (Algoritmo Geométrico)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/packages/vision/GenerateGraspPoses/generate_grasp_poses_v1.0.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="documentacao-tecnica-completa-generategraspposes-algoritmo-geometrico">
+<h1>Documentação Técnica Completa: GenerateGraspPoses (Algoritmo Geométrico)<a class="headerlink" href="#documentacao-tecnica-completa-generategraspposes-algoritmo-geometrico" title="Link to this heading"></a></h1>
+<nav class="contents local" id="indice-de-navegacao">
+<p class="topic-title">Índice de Navegação</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#visao-geral-e-fundamentos" id="id3">1. Visão Geral e Fundamentos</a></p></li>
+<li><p><a class="reference internal" href="#geracao-de-hipoteses-varredura-ortogonal-6-faces" id="id4">2. Geração de Hipóteses: Varredura Ortogonal (6-Faces)</a></p>
+<ul>
+<li><p><a class="reference internal" href="#definicao-do-espaco-de-busca" id="id5">Definição do Espaço de Busca</a></p></li>
+<li><p><a class="reference internal" href="#estrategia-de-lancamento-omnidirecional" id="id6">Estratégia de Lançamento (Omnidirecional)</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#selecao-de-inliers-e-filtragem-cilindrica" id="id7">3. Seleção de Inliers e Filtragem Cilíndrica</a></p>
+<ul>
+<li><p><a class="reference internal" href="#estagio-1-hashing-espacial-broad-phase" id="id8">Estágio 1: Hashing Espacial (Broad Phase)</a></p></li>
+<li><p><a class="reference internal" href="#estagio-2-teste-cilindrico-rigoroso" id="id9">Estágio 2: Teste Cilíndrico Rigoroso</a></p></li>
+<li><p><a class="reference internal" href="#definicao-de-contato-t-min-t-max" id="id10">Definição de Contato (<cite>t_min</cite>, <cite>t_max</cite>)</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#otimizacao-dinamica-alinhamento-e-correcao-de-pivo" id="id11">4. Otimização Dinâmica: Alinhamento e Correção de Pivô</a></p>
+<ul>
+<li><p><a class="reference internal" href="#logica-do-loop-de-otimizacao-n-passos" id="id12">Lógica do Loop de Otimização (N passos)</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#analise-matematica-local" id="id13">5. Análise Matemática Local</a></p>
+<ul>
+<li><p><a class="reference internal" href="#a-construcao-do-referencial-local" id="id14">A. Construção do Referencial Local</a></p></li>
+<li><p><a class="reference internal" href="#b-filtragem-volumetrica" id="id15">B. Filtragem Volumétrica</a></p></li>
+<li><p><a class="reference internal" href="#c-histograma-polar-de-simetria-pontuacao-de-simetria" id="id16">C. Histograma Polar de Simetria (Pontuação de Simetria)</a></p></li>
+<li><p><a class="reference internal" href="#d-curvatura-via-pca-pontuacao-de-planaridade" id="id17">D. Curvatura via PCA (Pontuação de Planaridade)</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#sistema-de-pontuacao" id="id18">6. Sistema de Pontuação</a></p>
+<ul>
+<li><p><a class="reference internal" href="#pontuacao-angular-s-ang-a-orientacao" id="id19">1. Pontuação Angular (<span class="math notranslate nohighlight">\(S_{ang}\)</span>) - A Orientação</a></p></li>
+<li><p><a class="reference internal" href="#pontuacao-de-planaridade-s-plan-a-topologia" id="id20">2. Pontuação de Planaridade (<span class="math notranslate nohighlight">\(S_{plan}\)</span>) - A Topologia</a></p></li>
+<li><p><a class="reference internal" href="#pontuacao-de-simetria-s-sym-a-estabilidade" id="id21">3. Pontuação de Simetria (<span class="math notranslate nohighlight">\(S_{sym}\)</span>) - A Estabilidade</a></p></li>
+<li><p><a class="reference internal" href="#formula-de-fusao-e-penalidade-por-curvatura" id="id22">Fórmula de Fusão e Penalidade por Curvatura</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#determinacao-da-orientacao-de-roll" id="id23">7. Determinação da Orientação de Roll</a></p>
+<ul>
+<li><p><a class="reference internal" href="#id1" id="id24">Definição do Espaço de Busca</a></p></li>
+<li><p><a class="reference internal" href="#iteracao-e-pontuacao" id="id25">Iteração e Pontuação</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#verificacao-de-colisao-detalhada" id="id26">8. Verificação de Colisão Detalhada</a></p>
+<ul>
+<li><p><a class="reference internal" href="#a-otimizacao-espacial-busca-radial-na-kd-tree" id="id27">A. Otimização Espacial: Busca Radial na KD-Tree</a></p></li>
+<li><p><a class="reference internal" href="#b-transformacao-inversa" id="id28">B. Transformação Inversa</a></p></li>
+<li><p><a class="reference internal" href="#c-teste-de-pertinencia-em-aabb" id="id29">C. Teste de Pertinência em AABB</a></p></li>
+<li><p><a class="reference internal" href="#d-estrategia-de-recuperacao-try-rotations" id="id30">D. Estratégia de Recuperação (Try Rotations)</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#analise-de-performance-e-custo-computacional" id="id31">9. Análise de Performance e Custo Computacional</a></p></li>
+</ul>
+</nav>
+<section id="visao-geral-e-fundamentos">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">1. Visão Geral e Fundamentos</a><a class="headerlink" href="#visao-geral-e-fundamentos" title="Link to this heading"></a></h2>
+<p>O nó <code class="docutils literal notranslate"><span class="pre">GenerateGraspPoses</span></code> implementa um motor de inferência geométrica determinística para manipulação robótica. Ao contrário de abordagens estocásticas (amostragem aleatória) ou baseadas em aprendizado profundo (caixas pretas), este sistema fundamenta-se na <strong>Teoria de Intersecção de Raios (Ray Casting)</strong> e na <strong>Análise Estatística Local (PCA)</strong>.</p>
+<p>O objetivo consiste em transformar uma nuvem de pontos não estruturada em um conjunto ordenado de poses de 6-DoF (Graus de Liberdade), garantindo matematicamente que a garra esteja:</p>
+<ol class="arabic simple">
+<li><p><strong>Ortogonal</strong> à superfície do objeto (para maximizar atrito).</p></li>
+<li><p><strong>Centralizada</strong> em relação à massa local do objeto.</p></li>
+<li><p><strong>Livre de Colisões</strong> com o ambiente.</p></li>
+</ol>
+</section>
+<section id="geracao-de-hipoteses-varredura-ortogonal-6-faces">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">2. Geração de Hipóteses: Varredura Ortogonal (6-Faces)</a><a class="headerlink" href="#geracao-de-hipoteses-varredura-ortogonal-6-faces" title="Link to this heading"></a></h2>
+<p>A primeira etapa consiste na geração de um campo denso de vetores de aproximação (“Raios”). Para garantir a cobertura total de objetos com geometrias complexas, não convexas ou oclusões parciais, realiza-se uma varredura sistemática das superfícies da Caixa Delimitadora (Bounding Box).</p>
+<section id="definicao-do-espaco-de-busca">
+<h3><a class="toc-backref" href="#id5" role="doc-backlink">Definição do Espaço de Busca</a><a class="headerlink" href="#definicao-do-espaco-de-busca" title="Link to this heading"></a></h3>
+<p>Sejam <span class="math notranslate nohighlight">\(P_{min} = (x_{min}, y_{min}, z_{min})\)</span> e <span class="math notranslate nohighlight">\(P_{max} = (x_{max}, y_{max}, z_{max})\)</span> os vértices extremos da nuvem de pontos processada. O volume de busca é definido por este paralelepípedo.</p>
+</section>
+<section id="estrategia-de-lancamento-omnidirecional">
+<h3><a class="toc-backref" href="#id6" role="doc-backlink">Estratégia de Lançamento (Omnidirecional)</a><a class="headerlink" href="#estrategia-de-lancamento-omnidirecional" title="Link to this heading"></a></h3>
+<p>Itera-se sobre uma grade de resolução <span class="math notranslate nohighlight">\(\delta\)</span> (parâmetro <code class="docutils literal notranslate"><span class="pre">grid_res</span></code>) em cada uma das <strong>6 faces</strong> da Bounding Box, lançando raios normais à face em direção ao interior do volume.</p>
+<p>Isso resulta em 6 conjuntos de raios distintos:</p>
+<ol class="arabic simple">
+<li><p><strong>Face Frontal (+X para -X):</strong> A origem varre o plano YZ em <span class="math notranslate nohighlight">\(x_{max}\)</span>. Direção <span class="math notranslate nohighlight">\(\vec{d} = (-1, 0, 0)\)</span>.</p></li>
+<li><p><strong>Face Traseira (-X para +X):</strong> A origem varre o plano YZ em <span class="math notranslate nohighlight">\(x_{min}\)</span>. Direção <span class="math notranslate nohighlight">\(\vec{d} = (1, 0, 0)\)</span>.</p></li>
+<li><p><strong>Face Esquerda (+Y para -Y):</strong> A origem varre o plano XZ em <span class="math notranslate nohighlight">\(y_{max}\)</span>. Direção <span class="math notranslate nohighlight">\(\vec{d} = (0, -1, 0)\)</span>.</p></li>
+<li><p><strong>Face Direita (-Y para +Y):</strong> A origem varre o plano XZ em <span class="math notranslate nohighlight">\(y_{min}\)</span>. Direção <span class="math notranslate nohighlight">\(\vec{d} = (0, 1, 0)\)</span>.</p></li>
+<li><p><strong>Face Superior (+Z para -Z):</strong> A origem varre o plano XY em <span class="math notranslate nohighlight">\(z_{max}\)</span>. Direção <span class="math notranslate nohighlight">\(\vec{d} = (0, 0, -1)\)</span>.</p></li>
+<li><p><strong>Face Inferior (-Z para +Z):</strong> A origem varre o plano XY em <span class="math notranslate nohighlight">\(z_{min}\)</span>. Direção <span class="math notranslate nohighlight">\(\vec{d} = (0, 0, 1)\)</span>.</p></li>
+</ol>
+<p>Essa abordagem garante que, independentemente da pose do objeto, haverá um conjunto de raios incidindo quase ortogonalmente sobre suas superfícies principais.</p>
+<div style="display: flex; justify-content: center; gap: 15px; margin-bottom: 20px;">
+
+    <div style="flex: 1; text-align: center;">
+        <img src="../../../_static/vision/GenerateGraspPoses/Raios da face X.png" alt="Descrição 1" style="width: 100%; border: 0.1px solid #ddd; padding: 0.1px;">
+        <p style="font-size: 0.8em; color: #666; margin-top: 5px;">Raios vistos pela lateral.</p>
+    </div>
+
+    <div style="flex: 1; text-align: center;">
+        <img src="../../../_static/vision/GenerateGraspPoses/Raios da face X_3.png" alt="Descrição 2" style="width: 100%; border: 0.1px solid #ddd; padding: 0.1px;">
+        <p style="font-size: 0.8em; color: #666; margin-top: 5px;">Objeto que está sendo atingido pelos raios.</p>
+    </div>
+
+    <div style="flex: 1; text-align: center;">
+        <img src="../../../_static/vision/GenerateGraspPoses/Raios da face X_2.png" alt="Descrição 3" style="width: 100%; border: 0.1px solid #ddd; padding: 0.1px;">
+        <p style="font-size: 0.8em; color: #666; margin-top: 5px;">Raios vistos por trás.</p>
+    </div>
+
+</div><p>“Na imagem, apenas os raios projetados de +X para -X são exibidos para facilitar a visualização. A distância entre os raios (grade) foi configurada para 0.0075m.
+Este valor é ajustável: distâncias maiores aumentam a velocidade do algoritmo, mas reduzem a precisão na detecção de superfícies pegáveis.”</p>
+</section>
+</section>
+<section id="selecao-de-inliers-e-filtragem-cilindrica">
+<h2><a class="toc-backref" href="#id7" role="doc-backlink">3. Seleção de Inliers e Filtragem Cilíndrica</a><a class="headerlink" href="#selecao-de-inliers-e-filtragem-cilindrica" title="Link to this heading"></a></h2>
+<p>Para cada raio gerado, deve-se determinar quais pontos da nuvem interagem fisicamente com ele. Testar todos os pontos é computacionalmente proibitivo (<span class="math notranslate nohighlight">\(O(N \cdot R)\)</span>). Utiliza-se, portanto, uma estratégia de dois estágios.</p>
+<section id="estagio-1-hashing-espacial-broad-phase">
+<h3><a class="toc-backref" href="#id8" role="doc-backlink">Estágio 1: Hashing Espacial (Broad Phase)</a><a class="headerlink" href="#estagio-1-hashing-espacial-broad-phase" title="Link to this heading"></a></h3>
+<p>Os pontos da nuvem são pré-processados em um mapa de voxels (Hash Map). O raio percorre matematicamente apenas os voxels que sua linha intercepta. Isso reduz o espaço de busca de <span class="math notranslate nohighlight">\(N\)</span> (total da nuvem) para <span class="math notranslate nohighlight">\(N_{local}\)</span> (pontos próximos à linha).</p>
+</section>
+<section id="estagio-2-teste-cilindrico-rigoroso">
+<h3><a class="toc-backref" href="#id9" role="doc-backlink">Estágio 2: Teste Cilíndrico Rigoroso</a><a class="headerlink" href="#estagio-2-teste-cilindrico-rigoroso" title="Link to this heading"></a></h3>
+<div style="display: flex; justify-content: center; gap: 15px; margin-bottom: 20px;">
+
+    <div style="flex: 1; text-align: center;">
+        <img src="../../../_static/vision/GenerateGraspPoses/Raio original 1.png" alt="Descrição 1" style="width: 100%; border: 0.1px solid #ddd; padding: 0.1px;">
+        <p style="font-size: 0.8em; color: #666; margin-top: 5px;">Raio original visto pela frente.</p>
+    </div>
+
+    <div style="flex: 1; text-align: center;">
+        <img src="../../../_static/vision/GenerateGraspPoses/Raio original 2.png" alt="Descrição 2" style="width: 100%; border: 0.1px solid #ddd; padding: 0.1px;">
+        <p style="font-size: 0.8em; color: #666; margin-top: 5px;">Raio visto pela diagonal.</p>
+    </div>
+
+
+</div><p>Para cada ponto candidato <span class="math notranslate nohighlight">\(P_i\)</span> recuperado, aplica-se um teste geométrico para verificar se ele está dentro do “tubo” virtual do raio (o volume que o dedo ocuparia).</p>
+<p>Dados:
+* <span class="math notranslate nohighlight">\(O\)</span>: Origem do raio.
+* <span class="math notranslate nohighlight">\(\vec{d}\)</span>: Vetor diretor unitário.
+* <span class="math notranslate nohighlight">\(r\)</span>: Raio do cilindro de análise (parâmetro <code class="docutils literal notranslate"><span class="pre">cylinder_radius</span></code>).</p>
+<p>Cálculos Vetoriais:</p>
+<ol class="arabic">
+<li><p><strong>Vetor Relativo:</strong> <span class="math notranslate nohighlight">\(\vec{v} = P_i - O\)</span>.</p></li>
+<li><p><strong>Projeção Axial (:math:`t`):</strong> A distância escalar do ponto projetada na linha do raio.</p>
+<div class="math notranslate nohighlight">
+\[t = \vec{v} \cdot \vec{d}\]</div>
+</li>
+<li><p><strong>Vetor de Rejeição Radial:</strong> O componente do vetor <span class="math notranslate nohighlight">\(\vec{v}\)</span> que é perpendicular ao raio.</p>
+<div class="math notranslate nohighlight">
+\[\vec{v}_{perp} = \vec{v} - (t \cdot \vec{d})\]</div>
+</li>
+<li><p><strong>Critério de Aceitação:</strong></p>
+<div class="math notranslate nohighlight">
+\[||\vec{v}_{perp}||^2 &lt; r^2\]</div>
+</li>
+</ol>
+<p>Se a condição for verdadeira, o ponto <span class="math notranslate nohighlight">\(P_i\)</span> é adicionado à lista de <strong>Inliers</strong>.</p>
+</section>
+<section id="definicao-de-contato-t-min-t-max">
+<h3><a class="toc-backref" href="#id10" role="doc-backlink">Definição de Contato (<cite>t_min</cite>, <cite>t_max</cite>)</a><a class="headerlink" href="#definicao-de-contato-t-min-t-max" title="Link to this heading"></a></h3>
+<p>A partir do conjunto de inliers ordenados por <span class="math notranslate nohighlight">\(t\)</span>:
+* <span class="math notranslate nohighlight">\(t_{min}\)</span>: Representa a “pele” do objeto (ponto de entrada).
+* <span class="math notranslate nohighlight">\(t_{max}\)</span>: Representa a superfície oposta (ponto de saída).
+* A espessura do objeto no local é <span class="math notranslate nohighlight">\(\Delta t = t_{max} - t_{min}\)</span>. Se <span class="math notranslate nohighlight">\(\Delta t &gt;\)</span> abertura máxima da garra, o raio é descartado.</p>
+</section>
+</section>
+<section id="otimizacao-dinamica-alinhamento-e-correcao-de-pivo">
+<h2><a class="toc-backref" href="#id11" role="doc-backlink">4. Otimização Dinâmica: Alinhamento e Correção de Pivô</a><a class="headerlink" href="#otimizacao-dinamica-alinhamento-e-correcao-de-pivo" title="Link to this heading"></a></h2>
+<p>A probabilidade de um raio da grade fixa estar perfeitamente alinhado com a normal da superfície é baixa. Executa-se um processo de refinamento iterativo (default: 12 passos) para corrigir o ângulo de ataque.</p>
+<section id="logica-do-loop-de-otimizacao-n-passos">
+<h3><a class="toc-backref" href="#id12" role="doc-backlink">Lógica do Loop de Otimização (N passos)</a><a class="headerlink" href="#logica-do-loop-de-otimizacao-n-passos" title="Link to this heading"></a></h3>
+<div style="text-align: center; margin-bottom: 20px; border: 1px solid #ccc; padding: 10px;">
+    <p><em>Demonstração do cálculo de poses e cobertura.</em></p>
+
+    <video width="100%" height="auto" controls autoplay loop muted>
+        <source src="../../../_static/vision/GenerateGraspPoses/Mudança dinâmica de orientação dos raios.webm" type="video/webm">
+        Seu navegador não suporta a tag de vídeo.
+    </video>
+
+    <p style="font-size: 0.9em; color: #555; margin-top: 10px; line-height: 1.5; text-align: left;">
+        O <strong>raio e o cilindro roxos</strong> pertencem ao raio original (hipótese inicial).
+        O <strong>raio vermelho</strong> representa a normal da superfície calculada pelo PCA no raio original.
+        O <strong>raio amarelo</strong> indica o raio sendo ajustado dinamicamente para se alinhar à normal.
+        Os <strong>pontos vermelhos</strong> são os pontos da nuvem (<em>inliers</em>) capturados pelo raio,
+        enquanto os <strong>dois cilindros</strong> (um em cada ponta) marcam as posições
+        <span style="font-family: monospace;">t_min</span> e <span style="font-family: monospace;">t_max</span>,
+        locais onde o cálculo do PCA é executado.
+    </p>
+</div><p>O objetivo é rotacionar a garra para que seu vetor de aproximação <span class="math notranslate nohighlight">\(\vec{d}\)</span> se torne antiparalelo à normal da superfície <span class="math notranslate nohighlight">\(\vec{n}_{surf}\)</span>, <strong>sem perder o ponto de contato original</strong>.
+Esse processo será feito até todos os passos acabarem ou até o raio ter pontuação suficiente para encerrar o loop.</p>
+<p>Passo a Passo Matemático:</p>
+<ol class="arabic">
+<li><p><strong>Cálculo da Normal:</strong> Utiliza-se PCA (Autovetores da matriz de covariância) nos inliers locais em torno de <span class="math notranslate nohighlight">\(t_{min}\)</span> para encontrar a normal <span class="math notranslate nohighlight">\(\vec{n}_{surf}\)</span>.</p></li>
+<li><p><strong>Definição do Pivô:</strong> O ponto de contato físico é fixado no espaço 3D. Este é o ponto em torno do qual a garra irá orbitar.</p>
+<div class="math notranslate nohighlight">
+\[P_{pivo} = O_{atual} + (t_{min} \cdot \vec{d}_{atual})\]</div>
+</li>
+<li><p><strong>Interpolação Vetorial (Linearização):</strong>
+Evita-se saltar diretamente para a normal para prevenir instabilidades numéricas em superfícies ruidosas. Mistura-se o vetor atual com o vetor alvo. Seja <span class="math notranslate nohighlight">\(k\)</span> o passo atual e <span class="math notranslate nohighlight">\(N\)</span> o total de passos:</p>
+<div class="math notranslate nohighlight">
+\[\alpha = \frac{k}{N}
+\vec{d}_{target} = -\vec{n}_{surf}
+\vec{d}_{hibrido} = (1 - \alpha)\vec{d}_{inicial} + \alpha(\vec{d}_{target})\]</div>
+</li>
+<li><p><strong>Renormalização:</strong>
+A soma linear de dois vetores unitários não resulta em um vetor unitário. A normalização é necessária para manter a consistência da direção:</p>
+<div class="math notranslate nohighlight">
+\[\vec{d}_{novo} = \frac{\vec{d}_{hibrido}}{||\vec{d}_{hibrido}||}\]</div>
+</li>
+<li><p><strong>Translação da Origem (Correção de Pivô):</strong>
+Esta é a etapa mais crítica. Se a direção <span class="math notranslate nohighlight">\(\vec{d}\)</span> for alterada mantendo a origem <span class="math notranslate nohighlight">\(O\)</span> fixa, o raio não passará mais pelo objeto. A origem deve ser movida para que o novo raio ainda intercepte <span class="math notranslate nohighlight">\(P_{pivo}\)</span> na mesma distância <span class="math notranslate nohighlight">\(t_{min}\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[O_{novo} = P_{pivo} - (t_{min} \cdot \vec{d}_{novo})\]</div>
+</li>
+</ol>
+</section>
+</section>
+<section id="analise-matematica-local">
+<h2><a class="toc-backref" href="#id13" role="doc-backlink">5. Análise Matemática Local</a><a class="headerlink" href="#analise-matematica-local" title="Link to this heading"></a></h2>
+<p>Esta função (chamada para os pontos de entrada e saída) atua como um sensor virtual sofisticado. Analisa-se a topologia dentro do cilindro de contato.</p>
+<section id="a-construcao-do-referencial-local">
+<h3><a class="toc-backref" href="#id14" role="doc-backlink">A. Construção do Referencial Local</a><a class="headerlink" href="#a-construcao-do-referencial-local" title="Link to this heading"></a></h3>
+<p>Para analisar a distribuição radial dos pontos, é necessário um sistema de coordenadas 2D <span class="math notranslate nohighlight">\((u, v)\)</span> perpendicular ao raio <span class="math notranslate nohighlight">\(\vec{d}\)</span>.</p>
+<ol class="arabic simple">
+<li><p>Calcula-se <span class="math notranslate nohighlight">\(\vec{u}\)</span>: Um vetor unitário ortogonal arbitrário a <span class="math notranslate nohighlight">\(\vec{d}\)</span> (usando <cite>unitOrthogonal</cite>).</p></li>
+<li><p>Calcula-se <span class="math notranslate nohighlight">\(\vec{v}\)</span>: O produto vetorial <span class="math notranslate nohighlight">\(\vec{d} \times \vec{u}\)</span>.</p></li>
+</ol>
+<p>Isso forma uma base ortonormal local.</p>
+</section>
+<section id="b-filtragem-volumetrica">
+<h3><a class="toc-backref" href="#id15" role="doc-backlink">B. Filtragem Volumétrica</a><a class="headerlink" href="#b-filtragem-volumetrica" title="Link to this heading"></a></h3>
+<p>Refina-se a nuvem local, descartando pontos que, embora sejam inliers do raio infinito, estão longe do ponto de análise atual (centro).
+* <strong>Corte Axial:</strong> <span class="math notranslate nohighlight">\(|(P - C) \cdot \vec{d}| &lt; \frac{altura}{2}\)</span>
+* <strong>Corte Radial:</strong> <span class="math notranslate nohighlight">\(||(P - C) \times \vec{d}|| &lt; raio\)</span></p>
+</section>
+<section id="c-histograma-polar-de-simetria-pontuacao-de-simetria">
+<h3><a class="toc-backref" href="#id16" role="doc-backlink">C. Histograma Polar de Simetria (Pontuação de Simetria)</a><a class="headerlink" href="#c-histograma-polar-de-simetria-pontuacao-de-simetria" title="Link to this heading"></a></h3>
+<p>Esta etapa detecta se o ponto de contato possui suporte material estável.</p>
+<ol class="arabic">
+<li><p>Projeta-se cada ponto <span class="math notranslate nohighlight">\(P\)</span> no plano <span class="math notranslate nohighlight">\(uv\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[u_{coord} = (P - C) \cdot \vec{u}
+v_{coord} = (P - C) \cdot \vec{v}\]</div>
+</li>
+<li><p>Calcula-se o ângulo polar <span class="math notranslate nohighlight">\(\theta\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\theta = \text{atan2}(v_{coord}, u_{coord})\]</div>
+</li>
+<li><p><strong>Discretização:</strong> O círculo é dividido em <strong>12 setores</strong> de 30 graus. Preenche-se um vetor de contadores, marcando quais setores contêm pontos.</p></li>
+<li><p><strong>Cálculo:</strong> <span class="math notranslate nohighlight">\(S_{sym} = \frac{\text{setores ocupados}}{12}\)</span>.</p></li>
+</ol>
+</section>
+<section id="d-curvatura-via-pca-pontuacao-de-planaridade">
+<h3><a class="toc-backref" href="#id17" role="doc-backlink">D. Curvatura via PCA (Pontuação de Planaridade)</a><a class="headerlink" href="#d-curvatura-via-pca-pontuacao-de-planaridade" title="Link to this heading"></a></h3>
+<p>Calcula-se a matriz de covariância dos pontos locais. A razão entre o menor autovalor (<span class="math notranslate nohighlight">\(\lambda_0\)</span>) e a soma dos autovalores indica a “Surface Variation”.
+* <span class="math notranslate nohighlight">\(\lambda_0 \approx 0\)</span> implica superfície plana (Ideal).
+* <span class="math notranslate nohighlight">\(\lambda_0 &gt; 0\)</span> implica alta curvatura ou ruído.</p>
+</section>
+</section>
+<section id="sistema-de-pontuacao">
+<h2><a class="toc-backref" href="#id18" role="doc-backlink">6. Sistema de Pontuação</a><a class="headerlink" href="#sistema-de-pontuacao" title="Link to this heading"></a></h2>
+<p>A qualidade final de um grasp (<span class="math notranslate nohighlight">\(Score_{total}\)</span>) é uma média ponderada das qualidades dos contatos dos dois dedos. O sistema avalia três métricas fundamentais para cada dedo:</p>
+<section id="pontuacao-angular-s-ang-a-orientacao">
+<h3><a class="toc-backref" href="#id19" role="doc-backlink">1. Pontuação Angular (<span class="math notranslate nohighlight">\(S_{ang}\)</span>) - A Orientação</a><a class="headerlink" href="#pontuacao-angular-s-ang-a-orientacao" title="Link to this heading"></a></h3>
+<p>Mede o <strong>alinhamento</strong> da garra em relação à superfície.
+* <strong>O que avalia:</strong> Penaliza o desvio angular entre o vetor de aproximação da garra (<span class="math notranslate nohighlight">\(\vec{d}\)</span>) e a normal da superfície (<span class="math notranslate nohighlight">\(\vec{n}\)</span>).
+* <strong>Diferença Chave:</strong> Refere-se à <strong>posição relativa</strong> entre o robô e o objeto. Ua pontuação angular baixa significa que o robô está tentando pegar o objeto “de raspão” ou obliquamente, o que gera forças de cisalhamento e deslizamento.
+* <strong>Cálculo:</strong> <span class="math notranslate nohighlight">\(S_{ang} = 1.0 - \frac{\theta_{erro}}{90^{\circ}}\)</span>.</p>
+</section>
+<section id="pontuacao-de-planaridade-s-plan-a-topologia">
+<h3><a class="toc-backref" href="#id20" role="doc-backlink">2. Pontuação de Planaridade (<span class="math notranslate nohighlight">\(S_{plan}\)</span>) - A Topologia</a><a class="headerlink" href="#pontuacao-de-planaridade-s-plan-a-topologia" title="Link to this heading"></a></h3>
+<p>Mede a <strong>qualidade da superfície</strong> em si, independente de como a garra chega nela.
+* <strong>O que avalia:</strong> Penaliza superfícies que são muito curvas, pontiagudas ou ruidosas (alta variação dos autovalores do PCA local).
+* <strong>Diferença Chave:</strong> Refere-se à <strong>geometria intrínseca</strong> do objeto no ponto de toque. Um objeto pontiagudo (ex: a ponta de uma pirâmide) terá uma pontuação de Planaridade ruim, mesmo que a pontuação Angular seja perfeito (garra alinhada com a bissetriz).
+* <strong>Impacto:</strong> Garras paralelas exigem superfícies planas para maximizar a área de contato.</p>
+</section>
+<section id="pontuacao-de-simetria-s-sym-a-estabilidade">
+<h3><a class="toc-backref" href="#id21" role="doc-backlink">3. Pontuação de Simetria (<span class="math notranslate nohighlight">\(S_{sym}\)</span>) - A Estabilidade</a><a class="headerlink" href="#pontuacao-de-simetria-s-sym-a-estabilidade" title="Link to this heading"></a></h3>
+<p>Mede a <strong>distribuição de suporte</strong> ao redor do ponto central.
+* <strong>O que avalia:</strong> Verifica se há material em todas as direções radiais ao redor do contato.
+* <strong>Cenário:</strong> Pegar na borda extrema de um prato pode ter boa pontuação angular e boa pontuação de planaridade, mas terá péssima pontuação de simetria (metade do cilindro de análise estará vazio), indicando instabilidade rotacional.</p>
+</section>
+<section id="formula-de-fusao-e-penalidade-por-curvatura">
+<h3><a class="toc-backref" href="#id22" role="doc-backlink">Fórmula de Fusão e Penalidade por Curvatura</a><a class="headerlink" href="#formula-de-fusao-e-penalidade-por-curvatura" title="Link to this heading"></a></h3>
+<p>O algoritmo não trata as métricas isoladamente. Existe uma interdependência crítica:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}F_{curv} = \begin{cases} 1.0 &amp; \text{se } S_{plan} &gt; 0.3 \text{ (Superfície Plana)} \\ 0.5 &amp; \text{se } S_{plan} \le 0.3 \text{ (Superfície Curva)} \end{cases}\end{split}\]</div>
+<p>Se a superfície for muito curva (<span class="math notranslate nohighlight">\(S_{plan}\)</span> baixo), a confiança na pontuação Angular é reduzida pela metade (<span class="math notranslate nohighlight">\(F_{curv} = 0.5\)</span>).</p>
+<div class="math notranslate nohighlight">
+\[S_{dedo} = (S_{ang} \cdot W_{ori} \cdot F_{curv}) + (S_{sym} \cdot W_{sym})\]</div>
+<div class="math notranslate nohighlight">
+\[Score_{total} = \frac{S_{entrada} + S_{saida}}{2}\]</div>
+<div style="text-align: center; margin-bottom: 20px;">
+
+    <div style="display: flex; justify-content: center; gap: 15px;">
+
+        <div style="flex: 1;">
+            <img src="../../../_static/vision/GenerateGraspPoses/garra pegando objeto 1.png" alt="Grasp 1" style="width: 100%; border: 0.1px solid #ddd; padding: 0.1px;">
+        </div>
+
+        <div style="flex: 1;">
+            <img src="../../../_static/vision/GenerateGraspPoses/garra pegando objeto 2.png" alt="Grasp 2" style="width: 100%; border: 0.1px solid #ddd; padding: 0.1px;">
+        </div>
+
+        <div style="flex: 1;">
+            <img src="../../../_static/vision/GenerateGraspPoses/garra pegando objeto 3.png" alt="Grasp 3" style="width: 100%; border: 0.1px solid #ddd; padding: 0.1px;">
+        </div>
+
+    </div>
+
+    <p style="font-size: 0.8em; color: #666; margin-top: 10px;">
+        Garra se posicionando na melhor pose gerada pelo algoritmo para pegar o objeto.
+    </p>
+
+</div></section>
+</section>
+<section id="determinacao-da-orientacao-de-roll">
+<h2><a class="toc-backref" href="#id23" role="doc-backlink">7. Determinação da Orientação de Roll</a><a class="headerlink" href="#determinacao-da-orientacao-de-roll" title="Link to this heading"></a></h2>
+<p>Até o momento, o algoritmo determinou a <strong>posição</strong> (<span class="math notranslate nohighlight">\(P_{centro}\)</span>) e o <strong>vetor de aproximação</strong> (<span class="math notranslate nohighlight">\(\vec{z}_{garra}\)</span>). No entanto, ainda existe um grau de liberdade rotacional livre: o ângulo de <em>Roll</em> (rotação da garra em torno do seu próprio eixo Z). A função <code class="docutils literal notranslate"><span class="pre">findBestOrientation</span></code> resolve isso maximizando uma heurística de preferência “Top-Down” (pegar de cima para baixo).</p>
+<section id="id1">
+<h3><a class="toc-backref" href="#id24" role="doc-backlink">Definição do Espaço de Busca</a><a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<p>O algoritmo varre 360 graus em torno do eixo de aproximação.</p>
+<ol class="arabic">
+<li><p><strong>Eixo de Referência:</strong> Define-se o eixo principal da pegada, o vetor que conecta os dois dedos (entrada e saída):</p>
+<div class="math notranslate nohighlight">
+\[\vec{f}_{axis} = \frac{P_{saida} - P_{entrada}}{||P_{saida} - P_{entrada}||}\]</div>
+</li>
+<li><p><strong>Base Ortonormal Arbitrária:</strong> Cria-se um vetor de “abordagem base” (<span class="math notranslate nohighlight">\(\vec{v}_{base}\)</span>) que seja perpendicular a <span class="math notranslate nohighlight">\(\vec{f}_{axis}\)</span>. Isso é feito através de produto vetorial com o eixo do mundo (X ou Z) mais distante do alinhamento atual, garantindo estabilidade numérica.</p></li>
+</ol>
+</section>
+<section id="iteracao-e-pontuacao">
+<h3><a class="toc-backref" href="#id25" role="doc-backlink">Iteração e Pontuação</a><a class="headerlink" href="#iteracao-e-pontuacao" title="Link to this heading"></a></h3>
+<p>Itera-se um ângulo <span class="math notranslate nohighlight">\(\phi\)</span> de 0 a <span class="math notranslate nohighlight">\(2\pi\)</span> com passo definido (ex: 20 graus). Para cada passo:</p>
+<ol class="arabic">
+<li><p><strong>Rotação do Candidato:</strong> Rotaciona-se o vetor <span class="math notranslate nohighlight">\(\vec{v}_{base}\)</span> em torno de <span class="math notranslate nohighlight">\(\vec{f}_{axis}\)</span> pelo ângulo <span class="math notranslate nohighlight">\(\phi\)</span>. Isso gera um candidato a vetor de aproximação <span class="math notranslate nohighlight">\(\vec{app}_{cand}\)</span>.</p></li>
+<li><p><strong>Heurística de Pontuação:</strong> O algoritmo prefere orientações onde o vetor de aproximação esteja alinhado contra a gravidade (ou alinhado com -Z do mundo). A pontuação é calculada pelo produto escalar:</p>
+<div class="math notranslate nohighlight">
+\[Score(\phi) = \vec{app}_{cand} \cdot (-\vec{Z}_{world})\]</div>
+</li>
+<li><p><strong>Construção do Quatérnio:</strong> A orientação que maximiza a pontuação é convertida em uma Matriz de Rotação <span class="math notranslate nohighlight">\(R\)</span> (composta pelas colunas <span class="math notranslate nohighlight">\([\vec{app}_{cand}, \vec{f}_{axis}, \vec{up}_{cand}]\)</span>) e subsequentemente em um Quatérnion para a pose final.</p></li>
+</ol>
+</section>
+</section>
+<section id="verificacao-de-colisao-detalhada">
+<h2><a class="toc-backref" href="#id26" role="doc-backlink">8. Verificação de Colisão Detalhada</a><a class="headerlink" href="#verificacao-de-colisao-detalhada" title="Link to this heading"></a></h2>
+<p>A etapa final e mais custosa é garantir que a geometria da garra não penetre o objeto ou o ambiente. O método <code class="docutils literal notranslate"><span class="pre">check_collision</span></code> utiliza uma abordagem de <strong>Transformação Inversa</strong> otimizada para evitar recalcular a geometria complexa da garra a cada teste.</p>
+<section id="a-otimizacao-espacial-busca-radial-na-kd-tree">
+<h3><a class="toc-backref" href="#id27" role="doc-backlink">A. Otimização Espacial: Busca Radial na KD-Tree</a><a class="headerlink" href="#a-otimizacao-espacial-busca-radial-na-kd-tree" title="Link to this heading"></a></h3>
+<p>Antes de qualquer cálculo matricial, realiza-se uma verificação de proximidade (“Broad Phase”).</p>
+<ol class="arabic simple">
+<li><p><strong>Raio de Busca Dinâmico:</strong> Calcula-se um raio máximo de busca (<span class="math notranslate nohighlight">\(R_{search}\)</span>) baseado na geometria da garra (offset do TCP + tamanho máximo das caixas de colisão).</p></li>
+<li><p><strong>Consulta KD-Tree:</strong> Solicita-se à KD-Tree do ambiente apenas os pontos que estão dentro de uma esfera de raio <span class="math notranslate nohighlight">\(R_{search}\)</span> centrada na pose candidata.</p>
+<ul class="simple">
+<li><p>Se 0 pontos forem retornados, a garra está no espaço livre -&gt; <strong>Válido</strong>.</p></li>
+<li><p>Se pontos forem retornados, prossegue-se para a próxima etapa.</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="b-transformacao-inversa">
+<h3><a class="toc-backref" href="#id28" role="doc-backlink">B. Transformação Inversa</a><a class="headerlink" href="#b-transformacao-inversa" title="Link to this heading"></a></h3>
+<p>Em vez de transformar as caixas de colisão (AABB) da garra para o espaço do mundo a cada iteração, <strong>transforma-se a nuvem de pontos local para o referencial da garra</strong>. Isso permite testar colisão contra caixas alinhadas aos eixos (Axis-Aligned), o que é computacionalmente trivial.</p>
+<ol class="arabic">
+<li><p><strong>Matriz de Transformação da Garra:</strong></p>
+<div class="math notranslate nohighlight">
+\[\begin{split}T_{world \to TCP} = \begin{bmatrix} R_{pose} &amp; P_{pose} \\ 0 &amp; 1 \end{bmatrix}\end{split}\]</div>
+</li>
+<li><p><strong>Offset Geométrico:</strong> Considera-se o deslocamento entre o TCP (Tool Center Point) e a geometria física da malha (.obj), definido pelos parâmetros <code class="docutils literal notranslate"><span class="pre">mesh_offset</span></code> e <code class="docutils literal notranslate"><span class="pre">mesh_rot</span></code>.</p>
+<div class="math notranslate nohighlight">
+\[T_{TCP \to Mesh} = T_{offset}\]</div>
+</li>
+<li><p><strong>Matriz Inversa Combinada:</strong>
+Calcula-se a matriz que leva um ponto do mundo para o sistema de coordenadas local da malha da garra:</p>
+<div class="math notranslate nohighlight">
+\[T_{World \to Mesh} = (T_{world \to TCP} \cdot T_{TCP \to Mesh})^{-1}\]</div>
+</li>
+</ol>
+</section>
+<section id="c-teste-de-pertinencia-em-aabb">
+<h3><a class="toc-backref" href="#id29" role="doc-backlink">C. Teste de Pertinência em AABB</a><a class="headerlink" href="#c-teste-de-pertinencia-em-aabb" title="Link to this heading"></a></h3>
+<p>Para cada ponto vizinho <span class="math notranslate nohighlight">\(P_{env}\)</span> recuperado da KD-Tree:</p>
+<ol class="arabic">
+<li><p><strong>Transformação Local:</strong></p>
+<div class="math notranslate nohighlight">
+\[P_{local} = T_{World \to Mesh} \cdot P_{env}\]</div>
+</li>
+<li><p><strong>Verificação de Limites:</strong>
+Verifica-se se <span class="math notranslate nohighlight">\(P_{local}(x,y,z)\)</span> está dentro de alguma das caixas de colisão pré-calculadas (<span class="math notranslate nohighlight">\(B_k\)</span>). Uma colisão ocorre se e somente se:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}B_{k, min}.x \le P_{local}.x \le B_{k, max}.x \quad \land \\
+B_{k, min}.y \le P_{local}.y \le B_{k, max}.y \quad \land \\
+B_{k, min}.z \le P_{local}.z \le B_{k, max}.z\end{split}\]</div>
+<p>Se a condição for verdadeira para qualquer ponto, o teste falha imediatamente (early exit).</p>
+</li>
+</ol>
+</section>
+<section id="d-estrategia-de-recuperacao-try-rotations">
+<h3><a class="toc-backref" href="#id30" role="doc-backlink">D. Estratégia de Recuperação (Try Rotations)</a><a class="headerlink" href="#d-estrategia-de-recuperacao-try-rotations" title="Link to this heading"></a></h3>
+<p>Se uma colisão for detectada na orientação ideal calculada em <code class="docutils literal notranslate"><span class="pre">findBestOrientation</span></code>, o algoritmo não descarta o grasp imediatamente. Se o parâmetro <code class="docutils literal notranslate"><span class="pre">try_rotations</span></code> estiver ativo:</p>
+<ol class="arabic simple">
+<li><p>Itera-se o ângulo de Roll da garra em passos discretos (ex: 18 passos de 20 graus).</p></li>
+<li><p>Para cada passo, atualiza-se a matriz <span class="math notranslate nohighlight">\(R_{pose}\)</span> aplicando uma rotação local em Z.</p></li>
+<li><p>Recalcula-se a inversa <span class="math notranslate nohighlight">\(T_{World \to Mesh}\)</span> e repete-se o teste de pontos.</p></li>
+<li><p>Se uma janela livre de colisão for encontrada, essa nova orientação é adotada e o grasp é salvo como válido.</p></li>
+</ol>
+</section>
+</section>
+<section id="analise-de-performance-e-custo-computacional">
+<h2><a class="toc-backref" href="#id31" role="doc-backlink">9. Análise de Performance e Custo Computacional</a><a class="headerlink" href="#analise-de-performance-e-custo-computacional" title="Link to this heading"></a></h2>
+<div style="display: flex; flex-direction: column; gap: 40px; margin-bottom: 40px;">
+
+    <div style="text-align: center; border: 1px solid #ccc; padding: 10px; background-color: #fcfcfc;">
+        <p style="margin-bottom: 10px; font-weight: bold;">1. Execução do algoritmo com pontuação mínima de 0.99.</p>
+
+        <video width="100%" height="auto" controls autoplay loop muted>
+            <source src="../../../_static/vision/GenerateGraspPoses/pontuacao099.webm" type="video/webm">
+            Seu navegador não suporta a tag de vídeo.
+        </video>
+
+        <p style="font-size: 0.9em; color: #555; margin-top: 10px; line-height: 1.5; text-align: left;">
+            <strong>Legenda:</strong>
+            O <strong>raio amarelo</strong> indica o raio sendo ajustado dinamicamente para se alinhar à normal (vermelha).
+            Os <strong>pontos vermelhos</strong> são os <em>inliers</em> capturados.
+        </p>
+    </div>
+
+    <div style="text-align: center; border: 1px solid #ccc; padding: 10px; background-color: #fcfcfc;">
+        <p style="margin-bottom: 10px; font-weight: bold;">2. Execução do algoritmo com pontuação mínima de 0.95.</p>
+
+        <video width="100%" height="auto" controls autoplay loop muted>
+            <source src="../../../_static/vision/GenerateGraspPoses/pontuacao095.webm" type="video/webm">
+            Seu navegador não suporta a tag de vídeo.
+        </video>
+
+        <p style="font-size: 0.9em; color: #555; margin-top: 10px; line-height: 1.5; text-align: left;">
+            <strong>Legenda:</strong> Descrição técnica do que está acontecendo no segundo vídeo.
+        </p>
+    </div>
+
+    <div style="text-align: center; border: 1px solid #ccc; padding: 10px; background-color: #fcfcfc;">
+        <p style="margin-bottom: 10px; font-weight: bold;">3. Execução do algoritmo com pontuação mínima de 0.9.</p>
+
+        <video width="100%" height="auto" controls autoplay loop muted>
+            <source src="../../../_static/vision/GenerateGraspPoses/pontuacao090.webm" type="video/webm">
+            Seu navegador não suporta a tag de vídeo.
+        </video>
+
+        <p style="font-size: 0.9em; color: #555; margin-top: 10px; line-height: 1.5; text-align: left;">
+            <strong>Legenda:</strong> Descrição técnica do que está acontecendo no terceiro vídeo.
+        </p>
+    </div>
+
+    <div style="text-align: center; border: 1px solid #ccc; padding: 10px; background-color: #fcfcfc;">
+        <p style="margin-bottom: 10px; font-weight: bold;">4. Execução do algoritmo com pontuação mínima de 0.8.</p>
+
+        <video width="100%" height="auto" controls autoplay loop muted>
+            <source src="../../../_static/vision/GenerateGraspPoses/pontuacao080.webm" type="video/webm">
+            Seu navegador não suporta a tag de vídeo.
+        </video>
+
+        <p style="font-size: 0.9em; color: #555; margin-top: 10px; line-height: 1.5; text-align: left;">
+            <strong>Legenda:</strong> Descrição técnica do que está acontecendo no quarto vídeo.
+        </p>
+    </div>
+
+</div><p>A performance do algoritmo é ditada por inúmeras variáveis, principalmente pelo rigor do <code class="docutils literal notranslate"><span class="pre">Pontuação</span> <span class="pre">alvo</span></code> (qualidade mínima aceitável) e o tempo de busca no espaço de soluções.</p>
+<p>O algoritmo foi executado SEM paralelização e em todas as execuções cerca de 5.2 ms foram gastos para criar a KD-Tree usada na checagem de colisão. A tabela inclui esse tempo.</p>
+<table class="docutils align-default" id="id2">
+<caption><span class="caption-text">Benchmark de Performance (Média de 1000 runs)</span><a class="headerlink" href="#id2" title="Link to this table"></a></caption>
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 25.0%" />
+<col style="width: 25.0%" />
+<col style="width: 25.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Pontuação alvo</p></th>
+<th class="head"><p>Tempo Total (ms)</p></th>
+<th class="head"><p>Pontuação média obtida</p></th>
+<th class="head"><p>Loop de Busca (ms)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>0.99</strong></p></td>
+<td><p>47.72 ms</p></td>
+<td><p>0.9935</p></td>
+<td><p>41.84 ms</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>0.95</strong></p></td>
+<td><p>15.36 ms</p></td>
+<td><p>0.9826</p></td>
+<td><p>9.35 ms</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>0.90</strong></p></td>
+<td><p>13.50 ms</p></td>
+<td><p>0.9782</p></td>
+<td><p>7.57 ms</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>0.80</strong></p></td>
+<td><p>9.92 ms</p></td>
+<td><p>0.9126</p></td>
+<td><p>3.93 ms</p></td>
+</tr>
+</tbody>
+</table>
+<p>O “Loop de Busca” consome a maior parte do tempo de CPU. Para cada candidato a grasp testado, executa-se sequencialmente:</p>
+<ol class="arabic simple">
+<li><p><strong>Busca de Inliers (Memory Bound):</strong> Consulta à Voxel Map.</p></li>
+<li><p><strong>Análise PCA (Compute Bound):</strong> Decomposição de autovalores para normal e curvatura.</p></li>
+<li><p><strong>Colisão (Compute Bound):</strong> Transformações matriciais inversas e verificação de AABB.</p></li>
+</ol>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="GenerateGraspPoses" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../ObjectMapping/index.html" class="btn btn-neutral float-right" title="ObjectMapping" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Lucas Momesso.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

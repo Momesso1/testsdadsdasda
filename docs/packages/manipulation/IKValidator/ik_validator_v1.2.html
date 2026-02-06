@@ -378,6 +378,21 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../../vision/GenerateGraspPoses/index.html">GenerateGraspPoses</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../vision/GenerateGraspPoses/generate_grasp_poses_v1.0.html">Documentação Técnica Completa: GenerateGraspPoses (Algoritmo Geométrico)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../vision/GenerateGraspPoses/generate_grasp_poses_v1.0.html#visao-geral-e-fundamentos">1. Visão Geral e Fundamentos</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../vision/GenerateGraspPoses/generate_grasp_poses_v1.0.html#geracao-de-hipoteses-varredura-ortogonal-6-faces">2. Geração de Hipóteses: Varredura Ortogonal (6-Faces)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../vision/GenerateGraspPoses/generate_grasp_poses_v1.0.html#selecao-de-inliers-e-filtragem-cilindrica">3. Seleção de Inliers e Filtragem Cilíndrica</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../vision/GenerateGraspPoses/generate_grasp_poses_v1.0.html#otimizacao-dinamica-alinhamento-e-correcao-de-pivo">4. Otimização Dinâmica: Alinhamento e Correção de Pivô</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../vision/GenerateGraspPoses/generate_grasp_poses_v1.0.html#analise-matematica-local">5. Análise Matemática Local</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../vision/GenerateGraspPoses/generate_grasp_poses_v1.0.html#sistema-de-pontuacao">6. Sistema de Pontuação</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../vision/GenerateGraspPoses/generate_grasp_poses_v1.0.html#determinacao-da-orientacao-de-roll">7. Determinação da Orientação de Roll</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../vision/GenerateGraspPoses/generate_grasp_poses_v1.0.html#verificacao-de-colisao-detalhada">8. Verificação de Colisão Detalhada</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../vision/GenerateGraspPoses/generate_grasp_poses_v1.0.html#analise-de-performance-e-custo-computacional">9. Análise de Performance e Custo Computacional</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../vision/ObjectMapping/index.html">ObjectMapping</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../vision/ObjectMapping/object_mapping_v1.0.html">Object Mapping (Reconstrução 3D)</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../vision/ObjectMapping/object_mapping_v1.0.html#demonstracao-visual">Demonstração Visual</a></li>
@@ -630,7 +645,7 @@ Ao final do processo, se uma solução é encontrada, ela é <strong>armazenada 
 <p>—</p>
 </section>
 <section id="revalidacao-reativa-is-still-reachable">
-<span id="revalidacao-reativa-v1-1"></span><h2>4. Revalidação Reativa (Is Still Reachable)<a class="headerlink" href="#revalidacao-reativa-is-still-reachable" title="Link to this heading"></a></h2>
+<h2>4. Revalidação Reativa (Is Still Reachable)<a class="headerlink" href="#revalidacao-reativa-is-still-reachable" title="Link to this heading"></a></h2>
 <p>Esta é a função mais crítica para a responsividade do sistema. Projetada para ser executada dentro de um nó <strong>Condition</strong> da Behavior Tree (ex: <code class="docutils literal notranslate"><span class="pre">&lt;IsStillReachable/&gt;</span></code>), ela roda em alta frequência.</p>
 <section id="o-problema-das-variaveis-globais-membros">
 <h3>O Problema das Variáveis Globais (Membros)<a class="headerlink" href="#o-problema-das-variaveis-globais-membros" title="Link to this heading"></a></h3>

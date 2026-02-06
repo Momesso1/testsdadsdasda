@@ -9,4 +9,5 @@ O pacote ``vision`` coordena tudo relacionado a visão do robô.
 
    CombinedSemanticPcl/index
    GenerateScanPoses/index
+   GenerateGraspPoses/index
    ObjectMapping/index

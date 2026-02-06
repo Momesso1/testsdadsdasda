@@ -1,0 +1,506 @@
+=============================================================================
+Documentação Técnica Completa: GenerateGraspPoses (Algoritmo Geométrico)
+=============================================================================
+
+.. contents:: Índice de Navegação
+   :depth: 3
+   :local:
+
+1. Visão Geral e Fundamentos
+============================
+
+O nó ``GenerateGraspPoses`` implementa um motor de inferência geométrica determinística para manipulação robótica. Ao contrário de abordagens estocásticas (amostragem aleatória) ou baseadas em aprendizado profundo (caixas pretas), este sistema fundamenta-se na **Teoria de Intersecção de Raios (Ray Casting)** e na **Análise Estatística Local (PCA)**.
+
+O objetivo consiste em transformar uma nuvem de pontos não estruturada em um conjunto ordenado de poses de 6-DoF (Graus de Liberdade), garantindo matematicamente que a garra esteja:
+
+1.  **Ortogonal** à superfície do objeto (para maximizar atrito).
+2.  **Centralizada** em relação à massa local do objeto.
+3.  **Livre de Colisões** com o ambiente.
+
+2. Geração de Hipóteses: Varredura Ortogonal (6-Faces)
+======================================================
+
+
+
+A primeira etapa consiste na geração de um campo denso de vetores de aproximação ("Raios"). Para garantir a cobertura total de objetos com geometrias complexas, não convexas ou oclusões parciais, realiza-se uma varredura sistemática das superfícies da Caixa Delimitadora (Bounding Box).
+
+
+Definição do Espaço de Busca
+----------------------------
+Sejam :math:`P_{min} = (x_{min}, y_{min}, z_{min})` e :math:`P_{max} = (x_{max}, y_{max}, z_{max})` os vértices extremos da nuvem de pontos processada. O volume de busca é definido por este paralelepípedo.
+
+
+Estratégia de Lançamento (Omnidirecional)
+-----------------------------------------
+Itera-se sobre uma grade de resolução :math:`\delta` (parâmetro ``grid_res``) em cada uma das **6 faces** da Bounding Box, lançando raios normais à face em direção ao interior do volume.
+
+Isso resulta em 6 conjuntos de raios distintos:
+
+1.  **Face Frontal (+X para -X):** A origem varre o plano YZ em :math:`x_{max}`. Direção :math:`\vec{d} = (-1, 0, 0)`.
+2.  **Face Traseira (-X para +X):** A origem varre o plano YZ em :math:`x_{min}`. Direção :math:`\vec{d} = (1, 0, 0)`.
+3.  **Face Esquerda (+Y para -Y):** A origem varre o plano XZ em :math:`y_{max}`. Direção :math:`\vec{d} = (0, -1, 0)`.
+4.  **Face Direita (-Y para +Y):** A origem varre o plano XZ em :math:`y_{min}`. Direção :math:`\vec{d} = (0, 1, 0)`.
+5.  **Face Superior (+Z para -Z):** A origem varre o plano XY em :math:`z_{max}`. Direção :math:`\vec{d} = (0, 0, -1)`.
+6.  **Face Inferior (-Z para +Z):** A origem varre o plano XY em :math:`z_{min}`. Direção :math:`\vec{d} = (0, 0, 1)`.
+
+Essa abordagem garante que, independentemente da pose do objeto, haverá um conjunto de raios incidindo quase ortogonalmente sobre suas superfícies principais.
+
+.. raw:: html
+
+   <div style="display: flex; justify-content: center; gap: 15px; margin-bottom: 20px;">
+       
+       <div style="flex: 1; text-align: center;">
+           <img src="../../../_static/vision/GenerateGraspPoses/Raios da face X.png" alt="Descrição 1" style="width: 100%; border: 0.1px solid #ddd; padding: 0.1px;">
+           <p style="font-size: 0.8em; color: #666; margin-top: 5px;">Raios vistos pela lateral.</p>
+       </div>
+
+       <div style="flex: 1; text-align: center;">
+           <img src="../../../_static/vision/GenerateGraspPoses/Raios da face X_3.png" alt="Descrição 2" style="width: 100%; border: 0.1px solid #ddd; padding: 0.1px;">
+           <p style="font-size: 0.8em; color: #666; margin-top: 5px;">Objeto que está sendo atingido pelos raios.</p>
+       </div>
+
+       <div style="flex: 1; text-align: center;">
+           <img src="../../../_static/vision/GenerateGraspPoses/Raios da face X_2.png" alt="Descrição 3" style="width: 100%; border: 0.1px solid #ddd; padding: 0.1px;">
+           <p style="font-size: 0.8em; color: #666; margin-top: 5px;">Raios vistos por trás.</p>
+       </div>
+
+   </div>
+
+"Na imagem, apenas os raios projetados de +X para -X são exibidos para facilitar a visualização. A distância entre os raios (grade) foi configurada para 0.0075m. 
+Este valor é ajustável: distâncias maiores aumentam a velocidade do algoritmo, mas reduzem a precisão na detecção de superfícies pegáveis."
+
+3. Seleção de Inliers e Filtragem Cilíndrica
+============================================
+
+Para cada raio gerado, deve-se determinar quais pontos da nuvem interagem fisicamente com ele. Testar todos os pontos é computacionalmente proibitivo (:math:`O(N \cdot R)`). Utiliza-se, portanto, uma estratégia de dois estágios.
+
+Estágio 1: Hashing Espacial (Broad Phase)
+-----------------------------------------
+Os pontos da nuvem são pré-processados em um mapa de voxels (Hash Map). O raio percorre matematicamente apenas os voxels que sua linha intercepta. Isso reduz o espaço de busca de :math:`N` (total da nuvem) para :math:`N_{local}` (pontos próximos à linha).
+
+Estágio 2: Teste Cilíndrico Rigoroso
+------------------------------------
+
+.. raw:: html
+
+   <div style="display: flex; justify-content: center; gap: 15px; margin-bottom: 20px;">
+       
+       <div style="flex: 1; text-align: center;">
+           <img src="../../../_static/vision/GenerateGraspPoses/Raio original 1.png" alt="Descrição 1" style="width: 100%; border: 0.1px solid #ddd; padding: 0.1px;">
+           <p style="font-size: 0.8em; color: #666; margin-top: 5px;">Raio original visto pela frente.</p>
+       </div>
+
+       <div style="flex: 1; text-align: center;">
+           <img src="../../../_static/vision/GenerateGraspPoses/Raio original 2.png" alt="Descrição 2" style="width: 100%; border: 0.1px solid #ddd; padding: 0.1px;">
+           <p style="font-size: 0.8em; color: #666; margin-top: 5px;">Raio visto pela diagonal.</p>
+       </div>
+
+
+   </div>
+
+Para cada ponto candidato :math:`P_i` recuperado, aplica-se um teste geométrico para verificar se ele está dentro do "tubo" virtual do raio (o volume que o dedo ocuparia).
+
+Dados:
+* :math:`O`: Origem do raio.
+* :math:`\vec{d}`: Vetor diretor unitário.
+* :math:`r`: Raio do cilindro de análise (parâmetro ``cylinder_radius``).
+
+Cálculos Vetoriais:
+
+1.  **Vetor Relativo:** :math:`\vec{v} = P_i - O`.
+2.  **Projeção Axial (:math:`t`):** A distância escalar do ponto projetada na linha do raio.
+    
+    .. math::
+       t = \vec{v} \cdot \vec{d}
+
+3.  **Vetor de Rejeição Radial:** O componente do vetor :math:`\vec{v}` que é perpendicular ao raio.
+
+    .. math::
+       \vec{v}_{perp} = \vec{v} - (t \cdot \vec{d})
+
+4.  **Critério de Aceitação:**
+    
+    .. math::
+       ||\vec{v}_{perp}||^2 < r^2
+
+Se a condição for verdadeira, o ponto :math:`P_i` é adicionado à lista de **Inliers**.
+
+Definição de Contato (`t_min`, `t_max`)
+---------------------------------------
+A partir do conjunto de inliers ordenados por :math:`t`:
+* :math:`t_{min}`: Representa a "pele" do objeto (ponto de entrada).
+* :math:`t_{max}`: Representa a superfície oposta (ponto de saída).
+* A espessura do objeto no local é :math:`\Delta t = t_{max} - t_{min}`. Se :math:`\Delta t >` abertura máxima da garra, o raio é descartado.
+
+4. Otimização Dinâmica: Alinhamento e Correção de Pivô
+======================================================
+
+A probabilidade de um raio da grade fixa estar perfeitamente alinhado com a normal da superfície é baixa. Executa-se um processo de refinamento iterativo (default: 12 passos) para corrigir o ângulo de ataque.
+
+Lógica do Loop de Otimização (N passos)
+---------------------------------------
+
+.. raw:: html
+
+   <div style="text-align: center; margin-bottom: 20px; border: 1px solid #ccc; padding: 10px;">
+       <p><em>Demonstração do cálculo de poses e cobertura.</em></p>
+       
+       <video width="100%" height="auto" controls autoplay loop muted>
+           <source src="../../../_static/vision/GenerateGraspPoses/Mudança dinâmica de orientação dos raios.webm" type="video/webm">
+           Seu navegador não suporta a tag de vídeo.
+       </video>
+
+       <p style="font-size: 0.9em; color: #555; margin-top: 10px; line-height: 1.5; text-align: left;">
+           O <strong>raio e o cilindro roxos</strong> pertencem ao raio original (hipótese inicial). 
+           O <strong>raio vermelho</strong> representa a normal da superfície calculada pelo PCA no raio original. 
+           O <strong>raio amarelo</strong> indica o raio sendo ajustado dinamicamente para se alinhar à normal. 
+           Os <strong>pontos vermelhos</strong> são os pontos da nuvem (<em>inliers</em>) capturados pelo raio, 
+           enquanto os <strong>dois cilindros</strong> (um em cada ponta) marcam as posições 
+           <span style="font-family: monospace;">t_min</span> e <span style="font-family: monospace;">t_max</span>, 
+           locais onde o cálculo do PCA é executado.
+       </p>
+   </div>
+
+O objetivo é rotacionar a garra para que seu vetor de aproximação :math:`\vec{d}` se torne antiparalelo à normal da superfície :math:`\vec{n}_{surf}`, **sem perder o ponto de contato original**.
+Esse processo será feito até todos os passos acabarem ou até o raio ter pontuação suficiente para encerrar o loop.
+
+
+Passo a Passo Matemático:
+
+1.  **Cálculo da Normal:** Utiliza-se PCA (Autovetores da matriz de covariância) nos inliers locais em torno de :math:`t_{min}` para encontrar a normal :math:`\vec{n}_{surf}`.
+
+2.  **Definição do Pivô:** O ponto de contato físico é fixado no espaço 3D. Este é o ponto em torno do qual a garra irá orbitar.
+
+    .. math::
+       P_{pivo} = O_{atual} + (t_{min} \cdot \vec{d}_{atual})
+
+3.  **Interpolação Vetorial (Linearização):**
+    Evita-se saltar diretamente para a normal para prevenir instabilidades numéricas em superfícies ruidosas. Mistura-se o vetor atual com o vetor alvo. Seja :math:`k` o passo atual e :math:`N` o total de passos:
+
+    .. math::
+       \alpha = \frac{k}{N}
+       \vec{d}_{target} = -\vec{n}_{surf}
+       \vec{d}_{hibrido} = (1 - \alpha)\vec{d}_{inicial} + \alpha(\vec{d}_{target})
+
+4.  **Renormalização:**
+    A soma linear de dois vetores unitários não resulta em um vetor unitário. A normalização é necessária para manter a consistência da direção:
+
+    .. math::
+       \vec{d}_{novo} = \frac{\vec{d}_{hibrido}}{||\vec{d}_{hibrido}||}
+
+5.  **Translação da Origem (Correção de Pivô):**
+    Esta é a etapa mais crítica. Se a direção :math:`\vec{d}` for alterada mantendo a origem :math:`O` fixa, o raio não passará mais pelo objeto. A origem deve ser movida para que o novo raio ainda intercepte :math:`P_{pivo}` na mesma distância :math:`t_{min}`.
+
+    .. math::
+       O_{novo} = P_{pivo} - (t_{min} \cdot \vec{d}_{novo})
+
+5. Análise Matemática Local 
+===========================
+
+Esta função (chamada para os pontos de entrada e saída) atua como um sensor virtual sofisticado. Analisa-se a topologia dentro do cilindro de contato.
+
+A. Construção do Referencial Local
+----------------------------------
+Para analisar a distribuição radial dos pontos, é necessário um sistema de coordenadas 2D :math:`(u, v)` perpendicular ao raio :math:`\vec{d}`.
+
+1.  Calcula-se :math:`\vec{u}`: Um vetor unitário ortogonal arbitrário a :math:`\vec{d}` (usando `unitOrthogonal`).
+2.  Calcula-se :math:`\vec{v}`: O produto vetorial :math:`\vec{d} \times \vec{u}`.
+
+Isso forma uma base ortonormal local.
+
+B. Filtragem Volumétrica
+------------------------
+Refina-se a nuvem local, descartando pontos que, embora sejam inliers do raio infinito, estão longe do ponto de análise atual (centro).
+* **Corte Axial:** :math:`|(P - C) \cdot \vec{d}| < \frac{altura}{2}`
+* **Corte Radial:** :math:`||(P - C) \times \vec{d}|| < raio`
+
+C. Histograma Polar de Simetria (Pontuação de Simetria)
+-------------------------------------------------------
+Esta etapa detecta se o ponto de contato possui suporte material estável.
+
+
+
+1.  Projeta-se cada ponto :math:`P` no plano :math:`uv`:
+    
+    .. math::
+       u_{coord} = (P - C) \cdot \vec{u}
+       v_{coord} = (P - C) \cdot \vec{v}
+
+2.  Calcula-se o ângulo polar :math:`\theta`:
+    
+    .. math::
+       \theta = \text{atan2}(v_{coord}, u_{coord})
+
+3.  **Discretização:** O círculo é dividido em **12 setores** de 30 graus. Preenche-se um vetor de contadores, marcando quais setores contêm pontos.
+
+4.  **Cálculo:** :math:`S_{sym} = \frac{\text{setores ocupados}}{12}`.
+
+D. Curvatura via PCA (Pontuação de Planaridade)
+-----------------------------------------------
+Calcula-se a matriz de covariância dos pontos locais. A razão entre o menor autovalor (:math:`\lambda_0`) e a soma dos autovalores indica a "Surface Variation".
+* :math:`\lambda_0 \approx 0` implica superfície plana (Ideal).
+* :math:`\lambda_0 > 0` implica alta curvatura ou ruído.
+
+
+
+6. Sistema de Pontuação 
+=======================
+
+A qualidade final de um grasp (:math:`Score_{total}`) é uma média ponderada das qualidades dos contatos dos dois dedos. O sistema avalia três métricas fundamentais para cada dedo:
+
+1. Pontuação Angular (:math:`S_{ang}`) - A Orientação
+-----------------------------------------------------
+Mede o **alinhamento** da garra em relação à superfície.
+* **O que avalia:** Penaliza o desvio angular entre o vetor de aproximação da garra (:math:`\vec{d}`) e a normal da superfície (:math:`\vec{n}`).
+* **Diferença Chave:** Refere-se à **posição relativa** entre o robô e o objeto. Ua pontuação angular baixa significa que o robô está tentando pegar o objeto "de raspão" ou obliquamente, o que gera forças de cisalhamento e deslizamento.
+* **Cálculo:** :math:`S_{ang} = 1.0 - \frac{\theta_{erro}}{90^{\circ}}`.
+
+2. Pontuação de Planaridade (:math:`S_{plan}`) - A Topologia
+------------------------------------------------------------
+Mede a **qualidade da superfície** em si, independente de como a garra chega nela.
+* **O que avalia:** Penaliza superfícies que são muito curvas, pontiagudas ou ruidosas (alta variação dos autovalores do PCA local).
+* **Diferença Chave:** Refere-se à **geometria intrínseca** do objeto no ponto de toque. Um objeto pontiagudo (ex: a ponta de uma pirâmide) terá uma pontuação de Planaridade ruim, mesmo que a pontuação Angular seja perfeito (garra alinhada com a bissetriz).
+* **Impacto:** Garras paralelas exigem superfícies planas para maximizar a área de contato.
+
+3. Pontuação de Simetria (:math:`S_{sym}`) - A Estabilidade
+-----------------------------------------------------------
+Mede a **distribuição de suporte** ao redor do ponto central.
+* **O que avalia:** Verifica se há material em todas as direções radiais ao redor do contato.
+* **Cenário:** Pegar na borda extrema de um prato pode ter boa pontuação angular e boa pontuação de planaridade, mas terá péssima pontuação de simetria (metade do cilindro de análise estará vazio), indicando instabilidade rotacional.
+
+Fórmula de Fusão e Penalidade por Curvatura
+-------------------------------------------
+O algoritmo não trata as métricas isoladamente. Existe uma interdependência crítica:
+
+.. math::
+   F_{curv} = \begin{cases} 1.0 & \text{se } S_{plan} > 0.3 \text{ (Superfície Plana)} \\ 0.5 & \text{se } S_{plan} \le 0.3 \text{ (Superfície Curva)} \end{cases}
+
+Se a superfície for muito curva (:math:`S_{plan}` baixo), a confiança na pontuação Angular é reduzida pela metade (:math:`F_{curv} = 0.5`). 
+
+.. math::
+   S_{dedo} = (S_{ang} \cdot W_{ori} \cdot F_{curv}) + (S_{sym} \cdot W_{sym})
+
+.. math::
+   Score_{total} = \frac{S_{entrada} + S_{saida}}{2}
+
+.. raw:: html
+
+   <div style="text-align: center; margin-bottom: 20px;">
+       
+       <div style="display: flex; justify-content: center; gap: 15px;">
+           
+           <div style="flex: 1;">
+               <img src="../../../_static/vision/GenerateGraspPoses/garra pegando objeto 1.png" alt="Grasp 1" style="width: 100%; border: 0.1px solid #ddd; padding: 0.1px;">
+           </div>
+
+           <div style="flex: 1;">
+               <img src="../../../_static/vision/GenerateGraspPoses/garra pegando objeto 2.png" alt="Grasp 2" style="width: 100%; border: 0.1px solid #ddd; padding: 0.1px;">
+           </div>
+
+           <div style="flex: 1;">
+               <img src="../../../_static/vision/GenerateGraspPoses/garra pegando objeto 3.png" alt="Grasp 3" style="width: 100%; border: 0.1px solid #ddd; padding: 0.1px;">
+           </div>
+
+       </div>
+
+       <p style="font-size: 0.8em; color: #666; margin-top: 10px;">
+           Garra se posicionando na melhor pose gerada pelo algoritmo para pegar o objeto.
+       </p>
+
+   </div>
+
+7. Determinação da Orientação de Roll
+=====================================
+
+Até o momento, o algoritmo determinou a **posição** (:math:`P_{centro}`) e o **vetor de aproximação** (:math:`\vec{z}_{garra}`). No entanto, ainda existe um grau de liberdade rotacional livre: o ângulo de *Roll* (rotação da garra em torno do seu próprio eixo Z). A função ``findBestOrientation`` resolve isso maximizando uma heurística de preferência "Top-Down" (pegar de cima para baixo).
+
+Definição do Espaço de Busca
+----------------------------
+O algoritmo varre 360 graus em torno do eixo de aproximação.
+
+1. **Eixo de Referência:** Define-se o eixo principal da pegada, o vetor que conecta os dois dedos (entrada e saída):
+   
+   .. math::
+      \vec{f}_{axis} = \frac{P_{saida} - P_{entrada}}{||P_{saida} - P_{entrada}||}
+
+2. **Base Ortonormal Arbitrária:** Cria-se um vetor de "abordagem base" (:math:`\vec{v}_{base}`) que seja perpendicular a :math:`\vec{f}_{axis}`. Isso é feito através de produto vetorial com o eixo do mundo (X ou Z) mais distante do alinhamento atual, garantindo estabilidade numérica.
+
+Iteração e Pontuação
+--------------------
+Itera-se um ângulo :math:`\phi` de 0 a :math:`2\pi` com passo definido (ex: 20 graus). Para cada passo:
+
+1. **Rotação do Candidato:** Rotaciona-se o vetor :math:`\vec{v}_{base}` em torno de :math:`\vec{f}_{axis}` pelo ângulo :math:`\phi`. Isso gera um candidato a vetor de aproximação :math:`\vec{app}_{cand}`.
+
+2. **Heurística de Pontuação:** O algoritmo prefere orientações onde o vetor de aproximação esteja alinhado contra a gravidade (ou alinhado com -Z do mundo). A pontuação é calculada pelo produto escalar:
+
+   .. math::
+      Score(\phi) = \vec{app}_{cand} \cdot (-\vec{Z}_{world})
+
+3. **Construção do Quatérnio:** A orientação que maximiza a pontuação é convertida em uma Matriz de Rotação :math:`R` (composta pelas colunas :math:`[\vec{app}_{cand}, \vec{f}_{axis}, \vec{up}_{cand}]`) e subsequentemente em um Quatérnion para a pose final.
+
+
+
+8. Verificação de Colisão Detalhada
+===================================
+
+A etapa final e mais custosa é garantir que a geometria da garra não penetre o objeto ou o ambiente. O método ``check_collision`` utiliza uma abordagem de **Transformação Inversa** otimizada para evitar recalcular a geometria complexa da garra a cada teste.
+
+A. Otimização Espacial: Busca Radial na KD-Tree
+-----------------------------------------------
+Antes de qualquer cálculo matricial, realiza-se uma verificação de proximidade ("Broad Phase").
+
+1. **Raio de Busca Dinâmico:** Calcula-se um raio máximo de busca (:math:`R_{search}`) baseado na geometria da garra (offset do TCP + tamanho máximo das caixas de colisão).
+2. **Consulta KD-Tree:** Solicita-se à KD-Tree do ambiente apenas os pontos que estão dentro de uma esfera de raio :math:`R_{search}` centrada na pose candidata.
+   
+   * Se 0 pontos forem retornados, a garra está no espaço livre -> **Válido**.
+   * Se pontos forem retornados, prossegue-se para a próxima etapa.
+
+B. Transformação Inversa
+------------------------
+Em vez de transformar as caixas de colisão (AABB) da garra para o espaço do mundo a cada iteração, **transforma-se a nuvem de pontos local para o referencial da garra**. Isso permite testar colisão contra caixas alinhadas aos eixos (Axis-Aligned), o que é computacionalmente trivial.
+
+1. **Matriz de Transformação da Garra:**
+   
+   .. math::
+      T_{world \to TCP} = \begin{bmatrix} R_{pose} & P_{pose} \\ 0 & 1 \end{bmatrix}
+
+2. **Offset Geométrico:** Considera-se o deslocamento entre o TCP (Tool Center Point) e a geometria física da malha (.obj), definido pelos parâmetros ``mesh_offset`` e ``mesh_rot``.
+   
+   .. math::
+      T_{TCP \to Mesh} = T_{offset}
+
+3. **Matriz Inversa Combinada:**
+   Calcula-se a matriz que leva um ponto do mundo para o sistema de coordenadas local da malha da garra:
+   
+   .. math::
+      T_{World \to Mesh} = (T_{world \to TCP} \cdot T_{TCP \to Mesh})^{-1}
+
+C. Teste de Pertinência em AABB
+-------------------------------
+Para cada ponto vizinho :math:`P_{env}` recuperado da KD-Tree:
+
+1. **Transformação Local:**
+   
+   .. math::
+      P_{local} = T_{World \to Mesh} \cdot P_{env}
+
+2. **Verificação de Limites:**
+   Verifica-se se :math:`P_{local}(x,y,z)` está dentro de alguma das caixas de colisão pré-calculadas (:math:`B_k`). Uma colisão ocorre se e somente se:
+   
+   .. math::
+      B_{k, min}.x \le P_{local}.x \le B_{k, max}.x \quad \land \\
+      B_{k, min}.y \le P_{local}.y \le B_{k, max}.y \quad \land \\
+      B_{k, min}.z \le P_{local}.z \le B_{k, max}.z
+
+   Se a condição for verdadeira para qualquer ponto, o teste falha imediatamente (early exit).
+
+D. Estratégia de Recuperação (Try Rotations)
+--------------------------------------------
+Se uma colisão for detectada na orientação ideal calculada em ``findBestOrientation``, o algoritmo não descarta o grasp imediatamente. Se o parâmetro ``try_rotations`` estiver ativo:
+
+1. Itera-se o ângulo de Roll da garra em passos discretos (ex: 18 passos de 20 graus).
+2. Para cada passo, atualiza-se a matriz :math:`R_{pose}` aplicando uma rotação local em Z.
+3. Recalcula-se a inversa :math:`T_{World \to Mesh}` e repete-se o teste de pontos.
+4. Se uma janela livre de colisão for encontrada, essa nova orientação é adotada e o grasp é salvo como válido.
+
+
+
+9. Análise de Performance e Custo Computacional
+===============================================
+
+.. raw:: html
+
+   <div style="display: flex; flex-direction: column; gap: 40px; margin-bottom: 40px;">
+
+       <div style="text-align: center; border: 1px solid #ccc; padding: 10px; background-color: #fcfcfc;">
+           <p style="margin-bottom: 10px; font-weight: bold;">1. Execução do algoritmo com pontuação mínima de 0.99.</p>
+           
+           <video width="100%" height="auto" controls autoplay loop muted>
+               <source src="../../../_static/vision/GenerateGraspPoses/pontuacao099.webm" type="video/webm">
+               Seu navegador não suporta a tag de vídeo.
+           </video>
+
+           <p style="font-size: 0.9em; color: #555; margin-top: 10px; line-height: 1.5; text-align: left;">
+               <strong>Legenda:</strong> 
+               O <strong>raio amarelo</strong> indica o raio sendo ajustado dinamicamente para se alinhar à normal (vermelha). 
+               Os <strong>pontos vermelhos</strong> são os <em>inliers</em> capturados.
+           </p>
+       </div>
+
+       <div style="text-align: center; border: 1px solid #ccc; padding: 10px; background-color: #fcfcfc;">
+           <p style="margin-bottom: 10px; font-weight: bold;">2. Execução do algoritmo com pontuação mínima de 0.95.</p>
+           
+           <video width="100%" height="auto" controls autoplay loop muted>
+               <source src="../../../_static/vision/GenerateGraspPoses/pontuacao095.webm" type="video/webm">
+               Seu navegador não suporta a tag de vídeo.
+           </video>
+
+           <p style="font-size: 0.9em; color: #555; margin-top: 10px; line-height: 1.5; text-align: left;">
+               <strong>Legenda:</strong> Descrição técnica do que está acontecendo no segundo vídeo.
+           </p>
+       </div>
+
+       <div style="text-align: center; border: 1px solid #ccc; padding: 10px; background-color: #fcfcfc;">
+           <p style="margin-bottom: 10px; font-weight: bold;">3. Execução do algoritmo com pontuação mínima de 0.9.</p>
+           
+           <video width="100%" height="auto" controls autoplay loop muted>
+               <source src="../../../_static/vision/GenerateGraspPoses/pontuacao090.webm" type="video/webm">
+               Seu navegador não suporta a tag de vídeo.
+           </video>
+
+           <p style="font-size: 0.9em; color: #555; margin-top: 10px; line-height: 1.5; text-align: left;">
+               <strong>Legenda:</strong> Descrição técnica do que está acontecendo no terceiro vídeo.
+           </p>
+       </div>
+
+       <div style="text-align: center; border: 1px solid #ccc; padding: 10px; background-color: #fcfcfc;">
+           <p style="margin-bottom: 10px; font-weight: bold;">4. Execução do algoritmo com pontuação mínima de 0.8.</p>
+           
+           <video width="100%" height="auto" controls autoplay loop muted>
+               <source src="../../../_static/vision/GenerateGraspPoses/pontuacao080.webm" type="video/webm">
+               Seu navegador não suporta a tag de vídeo.
+           </video>
+
+           <p style="font-size: 0.9em; color: #555; margin-top: 10px; line-height: 1.5; text-align: left;">
+               <strong>Legenda:</strong> Descrição técnica do que está acontecendo no quarto vídeo.
+           </p>
+       </div>
+
+   </div>
+
+A performance do algoritmo é ditada por inúmeras variáveis, principalmente pelo rigor do ``Pontuação alvo`` (qualidade mínima aceitável) e o tempo de busca no espaço de soluções.
+
+O algoritmo foi executado SEM paralelização e em todas as execuções cerca de 5.2 ms foram gastos para criar a KD-Tree usada na checagem de colisão. A tabela inclui esse tempo.
+
+.. list-table:: Benchmark de Performance (Média de 1000 runs)
+   :widths: 25 25 25 25
+   :header-rows: 1
+
+   * - Pontuação alvo
+     - Tempo Total (ms)
+     - Pontuação média obtida
+     - Loop de Busca (ms)
+   * - **0.99**
+     - 47.72 ms
+     - 0.9935
+     - 41.84 ms
+   * - **0.95**
+     - 15.36 ms
+     - 0.9826
+     - 9.35 ms
+   * - **0.90**
+     - 13.50 ms
+     - 0.9782
+     - 7.57 ms
+   * - **0.80**
+     - 9.92 ms
+     - 0.9126
+     - 3.93 ms
+
+O "Loop de Busca" consome a maior parte do tempo de CPU. Para cada candidato a grasp testado, executa-se sequencialmente:
+
+1. **Busca de Inliers (Memory Bound):** Consulta à Voxel Map.
+
+2. **Análise PCA (Compute Bound):** Decomposição de autovalores para normal e curvatura.
+
+3. **Colisão (Compute Bound):** Transformações matriciais inversas e verificação de AABB.
